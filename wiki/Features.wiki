@@ -1,0 +1,17 @@
+=Framework components=
+  
+  * IVR Server
+  * Deployment server (application storage)
+  * Remote console
+  * Application designer
+
+=Features for v0.1=
+
+==IVR Server==
+    
+  * H.323 protocol (OpenH323 lib)
+  * Run 1 application  
+  * Application files based on VoiceXML
+  * Audio files output only
+  * DTMF grammer only
+  * Mono/Linux platform  
