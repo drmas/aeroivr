@@ -26,4 +26,4 @@ Develop IVR system which will be able:
 *Technologies*
   # IVR server is suggested to implement on Java
   # Web server access is suggested to implement using JSP on Apache Tomcat server with some kind of Java native communication to server (RMI for example)
-  # graphical editor for VoiceXML is suggested to implement on .Net Framework WPF
+  # GUI editor for VoiceXML is suggested to implement on .Net Framework WPF
