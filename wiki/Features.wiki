@@ -14,4 +14,4 @@
   * Application files based on VoiceXML
   * Audio files output only
   * DTMF grammer only
-  * Mono/Linux platform  
+  * .NET/Windows platform  
