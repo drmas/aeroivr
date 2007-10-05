@@ -1,0 +1,26 @@
+#Software Architecture Specification for AeroIVR 
+
+= Software Architecture Specification for AeroIVR =
+
+_Draft version 0.1_
+
+_Created by Andriy Petlyovanyy_
+
+== Introduction ==
+System will consists with the following parts: 
+  * AeroIVR Server
+  * Remote Server Management Console
+  * Application Designer 
+
+
+== AeroIVR Server ==
+Server will be implemented as Windows service. It will accept TCP\IP connections to interact with IP phones. It will also be accessible from PSTN (in this case special hardware is needed). Server will support multiple connections. For each connection new thread will be created which will handle current request.
+
+Server configuration can be changed using Remote Server Management Console (RSMC). New applications which will be running on AeroIVR Server can be designed and uploaded using WYSIWYG Application Designer. 
+
+== Remote Server Management Console == 
+AeroIVR Server configuration can be changed in runtime. For this purposes will be developed Web   Site based on ASP .NET AJAX which will allow easily perform following tasks:
+  # Change any configuration value (some of them will need server restart)
+  # Manage users and roles
+  # Start and stop service (TODO: do we really need it? Possible some security issues)
+AeroIVR Server will detect that configuration file was changed by RSMC and reload configuration.  
