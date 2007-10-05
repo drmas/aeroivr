@@ -23,4 +23,16 @@ AeroIVR Server configuration can be changed in runtime. For this purposes will b
   # Change any configuration value (some of them will need server restart)
   # Manage users and roles
   # Start and stop service (TODO: do we really need it? Possible some security issues)
-AeroIVR Server will detect that configuration file was changed by RSMC and reload configuration.  
+AeroIVR Server will detect that configuration file was changed by RSMC and reload configuration. 
+
+== Application Designer == 
+Desktop application with rich UI will allow to create new IVR applications easily. All applications can be stored on disk as XML files or could be deployed on the server. Also application can edited from AeroIVR server. Special ASP .Net Web Service will be created to make communication between AeroIVR Server and Application Designer possible.
+ 
+Web Service will add, edit and delete appropriate files in special folder of the server. AeroIVR Server will detect those changes and make  on fly change of the appropriate application. All old request will be served by older version of the IVR application and new one will be served by new one.
+
+== Software Requirements ==
+  * Target operation system of the project is Windows. 
+  * All application should be written on .Net Framework 3.0.
+  * Web Applications will be hosted on Cassini Web Server. Though it would be possible to host them on IIS 5.1 and higher as well.
+  * Base language for implementation will be C# 2.0
+ 
