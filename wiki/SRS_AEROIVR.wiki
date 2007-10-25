@@ -2,5 +2,4 @@
 
 = Software Requirements Specification =
 
-Specification can be found here http://docs.google.com/Doc?id=dgrmtqbq_23ffkrr9
-[http://docs.google.com/Doc?id=dgrmtqbq_23ffkrr9]
+Specification can be found here [http://docs.google.com/Doc?id=dgrmtqbq_23ffkrr9]
