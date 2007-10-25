@@ -1,5 +1,6 @@
-
 = C# Code Convention =
 
 Code convention used on this project will soon be added.
 It's suggested to use FxCop to verify some rules related to code convention.
+
+[http://docs.google.com/Doc?id=dgrmtqbq_13fw7334]
