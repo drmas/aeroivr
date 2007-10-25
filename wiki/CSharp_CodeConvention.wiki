@@ -1,6 +1,5 @@
-= C# Code Convention =
+#summary Coding Guidelines
 
-Code convention used on this project will soon be added.
-It's suggested to use FxCop to verify some rules related to code convention.
+= Coding Guidelines  =
 
-[http://docs.google.com/Doc?id=dgrmtqbq_13fw7334]
+Full document can be found here [http://docs.google.com/Doc?id=dgrmtqbq_13fw7334]
