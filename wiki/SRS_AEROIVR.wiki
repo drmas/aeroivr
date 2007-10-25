@@ -1,5 +1,6 @@
-#summary Software Requirements Specification.
+#summary Software Requirements Specification version 0.1.
 
 = Software Requirements Specification =
+== Version 0.1 ==
 
-Specification can be found here [http://docs.google.com/Doc?id=dgrmtqbq_23ffkrr9]
+Full document can be found here [http://docs.google.com/Doc?id=dgrmtqbq_23ffkrr9]
