@@ -9,4 +9,5 @@ Here you find information about AeroIVR project status, new features and planned
 
 Following pages are available:
   * [SRS_v_0_1 Software Requirements Specification v 0.1]
-  * [SAS_v_0_1]
+  * [SAS_v_0_1 Software Architecture Specification v 0.1]
+  * [SAS_v_0_1 Software Architecture Specification v 0.1]
