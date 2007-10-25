@@ -1,5 +1,0 @@
-#summary Coding Guidelines
-
-= Coding Guidelines  =
-
-Full document can be found here [http://docs.google.com/Doc?id=dgrmtqbq_13fw7334]
