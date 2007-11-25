@@ -1,5 +1,5 @@
+#summary Software Architecture Specification v 0.1
 #labels Phase-Design
-s#summary Software Architecture Specification v 0.1
 
 = Software Architecture Specification  =
 == Version 0.1 ==
