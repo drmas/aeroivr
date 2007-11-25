@@ -1,5 +1,5 @@
+#summary Coding Guidelines
 #labels Phase-Implementation
-p#summary Coding Guidelines
 
 = Coding Guidelines  =
 
