@@ -1,4 +1,5 @@
 #summary Welcome
+#labels Featured
 
 = Welcome to AeroIVR Wiki =
 
