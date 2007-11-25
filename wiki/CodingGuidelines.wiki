@@ -3,4 +3,4 @@
 
 = Coding Guidelines  =
 
-Full document can be found here [http://docs.google.com/Doc?id=dgrmtqbq_13fw7334]
+Full document can be found here [http://java.sun.com/docs/codeconv/]
