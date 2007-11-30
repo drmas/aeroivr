@@ -1,5 +1,5 @@
 /*
- * ApplicationConstants.java
+ * H323Application.java
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,17 +16,23 @@
  * USA.
  */
 
-package org.aeroivr.appserver.common;
+package org.aeroivr.appserver.h323;
 
 /**
  *
  * @author Andriy Petlyovanyy
  */
-public class ApplicationConstants {
+public class H323Application {
     
-    public static final int APP_SERVER_ADMIN_RMI_PORT = 3011;
-    public static final String APP_SERVER_ADMIN_RMI_NAME = "AERO_IVR_APP_SERVER";
-    
-    private ApplicationConstants() {
+    public H323Application() {
     }
+
+    public void initialize() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public void start() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+    
 }

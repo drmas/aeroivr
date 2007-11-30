@@ -19,8 +19,10 @@
 package org.aeroivr.appserver.common;
 
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import org.aeroivr.appserver.admin.ServerAdmin;
+import org.aeroivr.appserver.h323.H323Application;
 
 /**
  *
@@ -45,7 +47,12 @@ public class ServiceLocator {
         return new ServerAdmin();
     }
 
-    public Registry getRmiRegistry(int rmiPort) {
-        return null;
+    public Registry getRmiRegistry(int port) throws RemoteException {
+        LocateRegistry.createRegistry(port);
+        return LocateRegistry.getRegistry(port);
+    }
+    
+    public H323Application getH323Application() {
+        return new H323Application();
     }
 }

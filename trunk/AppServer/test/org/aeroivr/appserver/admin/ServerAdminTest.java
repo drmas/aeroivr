@@ -1,5 +1,5 @@
 /*
- * ApplicationServerTest.java
+ * ServerAdminTest.java
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,11 +18,13 @@
 
 package org.aeroivr.appserver.admin;
 
+import java.lang.reflect.Method;
 import java.rmi.RemoteException;
-import java.rmi.registry.Registry;
+import java.rmi.server.ServerNotActiveException;
+import junit.framework.*;
 import org.aeroivr.appserver.common.ApplicationConstants;
 import org.aeroivr.appserver.common.ServiceLocator;
-import junit.framework.*;
+import org.aeroivr.appserver.h323.H323Application;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.expectLastCall;
@@ -30,55 +32,47 @@ import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
 import static org.easymock.classextension.EasyMock.createStrictControl;
 import static org.easymock.classextension.EasyMock.eq;
-import java.lang.reflect.Method;
 import org.easymock.classextension.IMocksControl;
+
 
 /**
  *
  * @author Andriy Petlyovanyy
  */
-public class ApplicationServerTest extends TestCase {
+public class ServerAdminTest extends TestCase {
     
-    public ApplicationServerTest(String testName) {
+    public ServerAdminTest(String testName) {
         super(testName);
     }
     
-    public void testMain() throws NoSuchMethodException, RemoteException {
+    public void testStartApplicationServer() throws NoSuchMethodException,
+            RemoteException {
         
         IMocksControl control = createStrictControl();
-        ServerAdmin serverAdminMock = control.createMock(ServerAdmin.class);
-        Registry rmiRegistryMock = control.createMock(Registry.class);
+        H323Application h323AppMock = control.createMock(H323Application.class);
         ServiceLocator serviceLocatorMock = control.createMock(
-                ServiceLocator.class,
-                new Method[]{ServiceLocator.class.getMethod("getServerAdmin"),
-                ServiceLocator.class.getMethod("getRmiRegistry", 
-                        Integer.TYPE)});
+                ServiceLocator.class, new Method[] {
+            ServiceLocator.class.getMethod("getH323Application")});
         
-        control.checkOrder(false);
+        serviceLocatorMock.getH323Application();
+        expectLastCall().andReturn(h323AppMock).once();
         
-        serviceLocatorMock.getServerAdmin();
-        expectLastCall().andReturn(serverAdminMock).once();
-        
-        expect(serviceLocatorMock.getRmiRegistry(
-                eq(ApplicationConstants.APP_SERVER_ADMIN_RMI_PORT))).andReturn(
-                    rmiRegistryMock).once();
-        
-        control.checkOrder(true);
-
-        rmiRegistryMock.rebind(
-                eq(ApplicationConstants.APP_SERVER_ADMIN_RMI_NAME),
-                eq(serverAdminMock));
+        h323AppMock.initialize();
         expectLastCall().once();
         
-        serverAdminMock.startApplicationServer();
+        h323AppMock.start();
         expectLastCall().once();
         
         control.replay();
         
         ServiceLocator.load(serviceLocatorMock);
-        ApplicationServer.main(new String[0]);
+        ServerAdmin serverAdmin = new ServerAdmin();
+        serverAdmin.startApplicationServer();
         
         control.verify();
+        
+        assertTrue("Port number check failed", serverAdmin.toString().indexOf(
+                Integer.toString(
+                ApplicationConstants.APP_SERVER_ADMIN_RMI_PORT)) >= 0);
     }
-    
 }
