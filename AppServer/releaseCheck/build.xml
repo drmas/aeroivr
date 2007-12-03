@@ -17,6 +17,12 @@
                         <include name="*.jar" />
                 </fileset>
         </path>
+        <path id="checkstyle.classpath">
+                <fileset dir="${checkstyle.dir}">
+                        <include name="checkstyle-all-4.3.jar" />
+                        <include name="*.jar" />
+                </fileset>
+        </path>
         <path id="test.lib.classpath">
                 <fileset dir="${easymock.dir}">
                         <include name="*.jar" />
@@ -30,6 +36,8 @@
         </path>
 
         <taskdef classpathref="cobertura.classpath" resource="tasks.properties"/>
+        <taskdef classpathref="checkstyle.classpath" resource="checkstyletask.properties"/>
+
 
         <target name="init">
                 <mkdir dir="${classes.dir}" />
@@ -37,7 +45,25 @@
                 <mkdir dir="${reports.xml.dir}" />
                 <mkdir dir="${reports.html.dir}" />
                 <mkdir dir="${coverage.html.dir}" />
+                <mkdir dir="${checkstyle.xml.dir}" />
+                <mkdir dir="${checkstyle.html.dir}" />
         </target>
+
+        <target name="checkstyle" depends="init" 
+                description="Generates a report of code convention violations.">
+
+
+                <checkstyle config="${checkstyle.settings}" failureProperty="checkstyle.failure"
+                	failOnViolation="false">
+
+			<formatter type="xml" tofile="${checkstyle.xml.dir}/checkstyle_report.xml"/>
+			<fileset dir="${src.dir}" includes="**/*.java"/>
+			<fileset dir="${test.dir}" includes="**/*.java"/>
+		</checkstyle>
+
+		<style in="${checkstyle.xml.dir}/checkstyle_report.xml" out="${checkstyle.html.dir}/checkstyle_report.html" 
+			style="${checkstyle.dir}/checkstyle-simple.xsl"/>
+	</target>
 
         <target name="compile" depends="init">
                 <javac srcdir="${src.dir}" destdir="${classes.dir}" debug="yes">
@@ -117,7 +143,7 @@
         </target>
 
         <target name="coverage-check">
-                <cobertura-check branchrate="34" totallinerate="100" />
+                <cobertura-check branchrate="0" totallinerate="80" />
         </target>
 
         <target name="coverage-report">
@@ -141,6 +167,7 @@
                 <delete file="cobertura.ser" />
         </target>
 
-        <target name="coverage" depends="compile,instrument,test,coverage-report" description="Compile, instrument ourself, run the tests and generate JUnit and coverage reports."/>
+        <target name="coverage" depends="compile,instrument,test,coverage-report,checkstyle" 
+		description="Compile, instrument ourself, run the tests and generate JUnit and coverage reports."/>
 
 </project>
