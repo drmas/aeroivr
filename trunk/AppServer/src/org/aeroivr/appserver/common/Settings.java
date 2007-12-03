@@ -26,5 +26,4 @@ public class Settings {
     
     private Settings() {
     }
-    
 }

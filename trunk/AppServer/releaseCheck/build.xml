@@ -23,12 +23,10 @@
                 </fileset>
                 <fileset dir="${easymock.classextension.dir}">
                         <include name="*.jar" />
-                </fileset>
+                </fileset>         
         </path>
         <path id="junit.classpath">
-                <fileset dir="${junit.dir}">
-                        <include name="*.jar" />
-                </fileset>
+                <pathelement path="${junit.dir}/junit-3.8.1.jar" />
         </path>
 
         <taskdef classpathref="cobertura.classpath" resource="tasks.properties"/>
@@ -48,6 +46,7 @@
                 <javac srcdir="${test.dir}" destdir="${classes.dir}" debug="yes">
                         <classpath refid="cobertura.classpath" />
                         <classpath refid="test.lib.classpath" />
+                        <classpath refid="junit.classpath"  />
                 </javac>
         </target>
 
@@ -76,6 +75,7 @@
                                         don't instrument the test classes.
                                 -->
                                 <include name="**/*.class" />
+                                <exclude name="**/ApplicationConstants.class" />
                                 <exclude name="**/*Test.class" />
                         </fileset>
                 </cobertura-instrument>
@@ -97,7 +97,7 @@
                         -->
                         <classpath refid="cobertura.classpath" />
                         <classpath refid="test.lib.classpath" />
-
+                        <classpath refid="junit.classpath" />
 
                         <formatter type="xml" />
                         <test name="${testcase}" todir="${reports.xml.dir}" if="testcase" />
@@ -128,6 +128,7 @@
                 <cobertura-report destdir="${coverage.html.dir}">
                         <fileset dir="${src.dir}">
                                 <include name="**/*.java"/>
+                                <exclude name="**/ApplicationConstants.java" />
                         </fileset>
                 </cobertura-report>
         </target>
