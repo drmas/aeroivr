@@ -22,7 +22,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
 import org.aeroivr.appserver.common.ApplicationConstants;
 import org.aeroivr.appserver.common.ServiceLocator;
-import junit.framework.*;
+import junit.framework.TestCase;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.expectLastCall;
@@ -39,7 +39,7 @@ import org.easymock.classextension.IMocksControl;
  */
 public class ApplicationServerTest extends TestCase {
     
-    public ApplicationServerTest(String testName) {
+    public ApplicationServerTest(final String testName) {
         super(testName);
     }
     

@@ -23,10 +23,11 @@ package org.aeroivr.appserver.common;
  * @author Andriy Petlyovanyy
  */
 public final class ApplicationConstants {
-    
+
     public static final int APP_SERVER_ADMIN_RMI_PORT = 3011;
-    public static final String APP_SERVER_ADMIN_RMI_NAME = "AERO_IVR_APP_SERVER";
-    
+    public static final String APP_SERVER_ADMIN_RMI_NAME =
+            "AERO_IVR_APP_SERVER";
+
     private ApplicationConstants() {
     }
 }
