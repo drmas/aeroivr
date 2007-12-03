@@ -29,14 +29,14 @@ import org.aeroivr.appserver.h323.H323Application;
  * @author Andriy Petlyovanyy
  */
 public class ServerAdmin extends UnicastRemoteObject {
-    
+
     private H323Application h323Application;
-    
+
     public ServerAdmin() throws RemoteException {
         super(ApplicationConstants.APP_SERVER_ADMIN_RMI_PORT);
     }
-    
-    void startApplicationServer() {
+
+    public void startApplicationServer() {
         if (null == h323Application) {
             h323Application = ServiceLocator.getInstance().getH323Application();
             h323Application.initialize();

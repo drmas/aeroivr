@@ -23,7 +23,7 @@ package org.aeroivr.appserver.h323;
  * @author Andriy Petlyovanyy
  */
 public class H323Application {
-    
+
     public H323Application() {
     }
 
@@ -34,5 +34,4 @@ public class H323Application {
     public void start() {
         throw new UnsupportedOperationException("Not yet implemented");
     }
-    
 }

@@ -21,7 +21,7 @@ package org.aeroivr.appserver.admin;
 import java.lang.reflect.Method;
 import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
-import junit.framework.*;
+import junit.framework.TestCase;
 import org.aeroivr.appserver.common.ApplicationConstants;
 import org.aeroivr.appserver.common.ServiceLocator;
 import org.aeroivr.appserver.h323.H323Application;

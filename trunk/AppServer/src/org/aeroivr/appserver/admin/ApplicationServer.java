@@ -2,9 +2,9 @@
  * ApplicationServer.java
  *
  * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 
+ * modify it under the terms of the GNU General Public License
  * version 2 as published by the Free Software Foundation.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -12,7 +12,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, 
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
  * USA.
  */
 
@@ -27,14 +27,17 @@ import org.aeroivr.appserver.common.ServiceLocator;
  *
  * @author Andriy Petlyovanyy
  */
-public class ApplicationServer {
-    
-    public static void main(String[] args) throws RemoteException {
-        Registry registry = ServiceLocator.getInstance().getRmiRegistry(
+public final class ApplicationServer {
+
+    private ApplicationServer() {
+    }
+
+    public static void main(final String[] args) throws RemoteException {
+        final Registry registry = ServiceLocator.getInstance().getRmiRegistry(
                 ApplicationConstants.APP_SERVER_ADMIN_RMI_PORT);
-        ServerAdmin serverAdmin = 
+        final ServerAdmin serverAdmin =
                 ServiceLocator.getInstance().getServerAdmin();
-        registry.rebind(ApplicationConstants.APP_SERVER_ADMIN_RMI_NAME, 
+        registry.rebind(ApplicationConstants.APP_SERVER_ADMIN_RMI_NAME,
                 serverAdmin);
         serverAdmin.startApplicationServer();
     }
