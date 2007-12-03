@@ -29,9 +29,6 @@ import org.aeroivr.appserver.common.ServiceLocator;
  */
 public final class ApplicationServer {
 
-    private ApplicationServer() {
-    }
-
     public static void main(final String[] args) throws RemoteException {
         final Registry registry = ServiceLocator.getInstance().getRmiRegistry(
                 ApplicationConstants.APP_SERVER_ADMIN_RMI_PORT);

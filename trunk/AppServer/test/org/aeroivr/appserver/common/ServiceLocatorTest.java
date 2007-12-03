@@ -19,15 +19,12 @@
 package org.aeroivr.appserver.common;
 
 import java.rmi.RemoteException;
-import java.rmi.registry.Registry;
 import junit.framework.TestCase;
-import org.aeroivr.appserver.admin.ServerAdmin;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.expectLastCall;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
 import static org.easymock.classextension.EasyMock.createStrictControl;
-import java.rmi.registry.LocateRegistry;
 
 /**
  *

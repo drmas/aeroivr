@@ -28,7 +28,7 @@ import org.aeroivr.appserver.h323.H323Application;
  *
  * @author Andriy Petlyovanyy
  */
-public final class ServiceLocator {
+public class ServiceLocator {
 
     private static volatile ServiceLocator serviceLocator =
             new ServiceLocator();
