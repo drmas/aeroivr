@@ -21,29 +21,25 @@ package org.aeroivr.appserver.common;
 import java.rmi.RemoteException;
 import junit.framework.TestCase;
 import static org.easymock.classextension.EasyMock.createMock;
-import static org.easymock.classextension.EasyMock.expectLastCall;
-import static org.easymock.classextension.EasyMock.replay;
-import static org.easymock.classextension.EasyMock.verify;
-import static org.easymock.classextension.EasyMock.createStrictControl;
 
 /**
  *
  * @author Andriy Petlyovanyy
  */
 public class ServiceLocatorTest extends TestCase {
-    
+
     private ServiceLocator serviceLocator;
-    
-    public ServiceLocatorTest(String testName) {
+
+    public ServiceLocatorTest(final String testName) {
         super(testName);
         serviceLocator = ServiceLocator.getInstance();
     }
-    
+
     public void testLoadAndGetInstance() {
         try {
             ServiceLocator serviceLocatorMock = createMock(
                     ServiceLocator.class);
-            
+
             ServiceLocator.load(serviceLocatorMock);
             ServiceLocator currentServiceLocator = ServiceLocator.getInstance();
             assertTrue("References should be equal",
@@ -52,18 +48,18 @@ public class ServiceLocatorTest extends TestCase {
             ServiceLocator.load(serviceLocator);
         }
     }
-    
+
     public void testGetServerAdmin() throws RemoteException {
         assertTrue("ServerAdmin object should not be null",
                 serviceLocator.getServerAdmin() != null);
     }
-    
+
     public void testGetRmiRegistry() throws RemoteException {
         assertTrue("Rmi Registry object should not be null",
                 serviceLocator.getRmiRegistry(
                 ApplicationConstants.APP_SERVER_ADMIN_RMI_PORT) != null);
     }
-    
+
     public void testGetH323Application() {
         assertTrue("H323 Application object should not be null",
                 serviceLocator.getH323Application() != null);
