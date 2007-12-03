@@ -45,11 +45,17 @@ public class ApplicationServerTest extends TestCase {
         IMocksControl control = createStrictControl();
         ServerAdmin serverAdminMock = control.createMock(ServerAdmin.class);
         Registry rmiRegistryMock = control.createMock(Registry.class);
+        Runtime runtimeMock = control.createMock(Runtime.class);
+        AppServerShutdownThread appServerShutdownMock =
+                control.createMock(AppServerShutdownThread.class);
         ServiceLocator serviceLocatorMock = control.createMock(
-                ServiceLocator.class,
-                new Method[]{ServiceLocator.class.getMethod("getServerAdmin"),
+                ServiceLocator.class, new Method[]{
+                ServiceLocator.class.getMethod("getServerAdmin"),
                 ServiceLocator.class.getMethod("getRmiRegistry",
-                        Integer.TYPE)});
+                        Integer.TYPE),
+                ServiceLocator.class.getMethod("getRuntime"),
+                ServiceLocator.class.getMethod(
+                        "getAppServerShutdownThread", ServerAdmin.class)});
 
         control.checkOrder(false);
 
@@ -58,7 +64,7 @@ public class ApplicationServerTest extends TestCase {
 
         expect(serviceLocatorMock.getRmiRegistry(
                 eq(ApplicationConstants.APP_SERVER_ADMIN_RMI_PORT))).andReturn(
-                    rmiRegistryMock).once();
+                rmiRegistryMock).once();
 
         control.checkOrder(true);
 
@@ -68,6 +74,17 @@ public class ApplicationServerTest extends TestCase {
         expectLastCall().once();
 
         serverAdminMock.startApplicationServer();
+        expectLastCall().once();
+
+        control.checkOrder(false);
+        serviceLocatorMock.getRuntime();
+        expectLastCall().andReturn(runtimeMock).once();
+
+        serviceLocatorMock.getAppServerShutdownThread(serverAdminMock);
+        expectLastCall().andReturn(appServerShutdownMock).once();
+
+        control.checkOrder(true);
+        runtimeMock.addShutdownHook(appServerShutdownMock);
         expectLastCall().once();
 
         control.replay();

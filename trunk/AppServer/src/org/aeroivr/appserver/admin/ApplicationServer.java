@@ -37,5 +37,12 @@ public final class ApplicationServer {
         registry.rebind(ApplicationConstants.APP_SERVER_ADMIN_RMI_NAME,
                 serverAdmin);
         serverAdmin.startApplicationServer();
+
+        final Runtime runtime = ServiceLocator.getInstance(
+                ).getRuntime();
+        final AppServerShutdownThread appShutdownThread =
+                ServiceLocator.getInstance().getAppServerShutdownThread(
+                serverAdmin);
+        runtime.addShutdownHook(appShutdownThread);
     }
 }

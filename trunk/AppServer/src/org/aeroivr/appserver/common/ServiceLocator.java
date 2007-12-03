@@ -21,6 +21,7 @@ package org.aeroivr.appserver.common;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import org.aeroivr.appserver.admin.AppServerShutdownThread;
 import org.aeroivr.appserver.admin.ServerAdmin;
 import org.aeroivr.appserver.h323.H323Application;
 
@@ -55,5 +56,14 @@ public class ServiceLocator {
 
     public H323Application getH323Application() {
         return new H323Application();
+    }
+
+    public Runtime getRuntime() {
+        return Runtime.getRuntime();
+    }
+
+    public AppServerShutdownThread getAppServerShutdownThread(
+            final ServerAdmin serverAdmin) {
+        return new AppServerShutdownThread(serverAdmin);
     }
 }
