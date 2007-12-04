@@ -25,23 +25,44 @@ package org.aeroivr.appserver.h323;
  */
 public class OpenH323 {
 
+//    static {
+//        System.loadLibrary("PTLib");
+//        System.loadLibrary("OpenH323");
+//        System.loadLibrary("OpenH323JNI");
+//    }
+
+    private GetFileNameEventListener getFileNameEventListener;
+
     public OpenH323() {
     }
 
-    void initialize() {
-        throw new UnsupportedOperationException("Not yet implemented");
+    protected native void init();
+    protected native void startListening();
+    protected native void shutdown();
+
+    protected String getWavFileName()
+        throws NotSetGetFileNameEventListenerException {
+
+        if (null == getFileNameEventListener) {
+            throw new NotSetGetFileNameEventListenerException();
+        }
+        return getFileNameEventListener.getWavFileName();
     }
 
-    void addEventsListener(OpenH323EventsListener openH323EventsListener) {
-        throw new UnsupportedOperationException("Not yet implemented");
+    public void initialize() {
+        this.init();
     }
 
-    void start() {
-        throw new UnsupportedOperationException("Not yet implemented");
+    public void setGetFileNameEventListener(
+            final GetFileNameEventListener evtListener) {
+        getFileNameEventListener = evtListener;
     }
 
-    void stop() {
-        throw new UnsupportedOperationException("Not yet implemented");
+    public void start() {
+        startListening();
     }
 
+    public void stop() {
+        shutdown();
+    }
 }

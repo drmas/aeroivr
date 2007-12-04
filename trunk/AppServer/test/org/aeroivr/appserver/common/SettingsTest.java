@@ -1,5 +1,5 @@
 /*
- * Settings.java
+ * SettingsTest.java
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,22 +18,25 @@
 
 package org.aeroivr.appserver.common;
 
+import junit.framework.TestCase;
+
 /**
- * Class provides persistense and access tp system wide settings from 
- * the settings file.
  *
  * @author Andriy Petlyovanyy
  */
-public class Settings {
-
-    private Settings() {
+public class SettingsTest extends TestCase {
+    
+    public SettingsTest(final String testName) {
+        super(testName);
     }
 
-    public String getWavFileName() {
-        return null;
+    public void testGetWavFileName() {
+        
     }
 
-    public static Settings getInstance() {
-        return null;
+    public void testGetInstance() {
+        assertTrue("Settings object should nto be null",
+                null != Settings.getInstance());
     }
+    
 }

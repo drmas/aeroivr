@@ -18,21 +18,39 @@
 
 package org.aeroivr.appserver.h323;
 
+import org.aeroivr.appserver.common.ServiceLocator;
+import org.aeroivr.appserver.common.Settings;
+
 /**
  * H323 connections management class
  *
  * @author Andriy Petlyovanyy
  */
-public class H323Application implements OpenH323EventsListener  {
+public class H323Application implements GetFileNameEventListener  {
+
+    private OpenH323 openH323;
 
     public H323Application() {
     }
 
     public void start() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        if (null == openH323) {
+            openH323 = ServiceLocator.getInstance().getOpenH323();
+            openH323.initialize();
+            openH323.setGetFileNameEventListener(this);
+            openH323.start();
+        }
     }
 
     public void stop() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        if (null != openH323) {
+            openH323.stop();
+            openH323 = null;
+        }
+    }
+
+    public String getWavFileName() {
+        Settings settings = ServiceLocator.getInstance().getSettings();
+        return settings.getWavFileName();
     }
 }
