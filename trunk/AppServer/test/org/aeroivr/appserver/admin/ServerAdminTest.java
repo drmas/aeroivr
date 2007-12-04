@@ -22,45 +22,53 @@ import java.lang.reflect.Method;
 import java.rmi.RemoteException;
 import junit.framework.TestCase;
 import org.aeroivr.appserver.common.ApplicationConstants;
+import org.aeroivr.appserver.common.BaseTestWithServiceLocator;
 import org.aeroivr.appserver.common.ServiceLocator;
 import org.aeroivr.appserver.h323.H323Application;
 import static org.easymock.classextension.EasyMock.expectLastCall;
 import static org.easymock.classextension.EasyMock.createStrictControl;
 import org.easymock.classextension.IMocksControl;
 
-
 /**
  *
  * @author Andriy Petlyovanyy
  */
-public class ServerAdminTest extends TestCase {
+public class ServerAdminTest extends BaseTestWithServiceLocator {
+
+    private IMocksControl control;
+    private H323Application h323AppMock;
+    private ServiceLocator serviceLocatorMock;
 
     public ServerAdminTest(final String testName) {
         super(testName);
     }
 
-    public void testStartApplicationServer() throws NoSuchMethodException,
-            RemoteException {
-
-        IMocksControl control = createStrictControl();
-        H323Application h323AppMock = control.createMock(H323Application.class);
-        ServiceLocator serviceLocatorMock = control.createMock(
+    protected void setUp() throws Exception {
+        control = createStrictControl();
+        h323AppMock = control.createMock(H323Application.class);
+        serviceLocatorMock = control.createMock(
                 ServiceLocator.class, new Method[] {
             ServiceLocator.class.getMethod("getH323Application")});
+    }
+
+    private void startApplicationServerSequence() {
 
         serviceLocatorMock.getH323Application();
         expectLastCall().andReturn(h323AppMock).once();
 
-        h323AppMock.initialize();
-        expectLastCall().once();
-
         h323AppMock.start();
         expectLastCall().once();
+
+    }
+
+    public void testStartApplicationServer() throws RemoteException {
+
+        startApplicationServerSequence();
 
         control.replay();
 
         ServiceLocator.load(serviceLocatorMock);
-        ServerAdmin serverAdmin = new ServerAdmin();
+        final ServerAdmin serverAdmin = new ServerAdmin();
         serverAdmin.startApplicationServer();
 
         control.verify();
@@ -68,5 +76,51 @@ public class ServerAdminTest extends TestCase {
         assertTrue("Port number check failed", serverAdmin.toString().indexOf(
                 Integer.toString(
                 ApplicationConstants.APP_SERVER_ADMIN_RMI_PORT)) >= 0);
+    }
+
+    public void testStartApplicationServer2() throws RemoteException {
+
+        startApplicationServerSequence();
+
+        control.replay();
+
+        ServiceLocator.load(serviceLocatorMock);
+        final ServerAdmin serverAdmin = new ServerAdmin();
+        serverAdmin.startApplicationServer();
+        serverAdmin.startApplicationServer();
+
+        control.verify();
+
+        assertTrue("Port number check failed", serverAdmin.toString().indexOf(
+                Integer.toString(
+                ApplicationConstants.APP_SERVER_ADMIN_RMI_PORT)) >= 0);
+    }
+
+    public void testStopApplicationServer() throws RemoteException {
+
+        startApplicationServerSequence();
+
+        h323AppMock.stop();
+        expectLastCall().once();
+
+        control.replay();
+
+        ServiceLocator.load(serviceLocatorMock);
+        final ServerAdmin serverAdmin = new ServerAdmin();
+        serverAdmin.startApplicationServer();
+        serverAdmin.stopApplicationServer();
+
+        control.verify();
+    }
+
+    public void testStopApplicationServer2() throws RemoteException {
+
+        control.replay();
+
+        ServiceLocator.load(serviceLocatorMock);
+        final ServerAdmin serverAdmin = new ServerAdmin();
+        serverAdmin.stopApplicationServer();
+
+        control.verify();
     }
 }

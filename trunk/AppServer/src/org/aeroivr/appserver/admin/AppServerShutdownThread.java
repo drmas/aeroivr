@@ -1,5 +1,5 @@
 /*
- * H323Application.java
+ * AppServerShutdownThread.java
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,23 +16,25 @@
  * USA.
  */
 
-package org.aeroivr.appserver.h323;
+package org.aeroivr.appserver.admin;
 
 /**
- * H323 connections management class
+ *
+ * Special thread to shutdown application server
  *
  * @author Andriy Petlyovanyy
  */
-public class H323Application implements OpenH323EventsListener  {
+public class AppServerShutdownThread extends Thread {
 
-    public H323Application() {
+    private ServerAdmin serverAdmin;
+
+    public AppServerShutdownThread(final ServerAdmin srvAdmin) {
+        this.serverAdmin = srvAdmin;
     }
 
-    public void start() {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-
-    public void stop() {
-        throw new UnsupportedOperationException("Not yet implemented");
+    public void run() {
+        if (null != serverAdmin) {
+            serverAdmin.stopApplicationServer();
+        }
     }
 }

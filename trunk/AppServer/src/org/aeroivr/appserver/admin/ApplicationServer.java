@@ -24,6 +24,8 @@ import org.aeroivr.appserver.common.ApplicationConstants;
 import org.aeroivr.appserver.common.ServiceLocator;
 
 /**
+ * Entry point of application. RMI Server Admin object is created here and
+ * application server is starting.
  *
  * @author Andriy Petlyovanyy
  */
