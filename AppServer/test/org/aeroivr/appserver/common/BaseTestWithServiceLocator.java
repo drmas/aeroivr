@@ -1,5 +1,5 @@
 /*
- * H323Application.java
+ * BaseTestWithServiceLocator.java
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,23 +16,27 @@
  * USA.
  */
 
-package org.aeroivr.appserver.h323;
+package org.aeroivr.appserver.common;
+
+import junit.framework.TestCase;
 
 /**
- * H323 connections management class
+ * Base test class which will be able to restore service locator after
+ * each test.
  *
  * @author Andriy Petlyovanyy
  */
-public class H323Application implements OpenH323EventsListener  {
+public abstract class BaseTestWithServiceLocator extends TestCase {
 
-    public H323Application() {
+    private ServiceLocator savedServiceLocator;
+
+    public BaseTestWithServiceLocator(final String testName) {
+        super(testName);
+        savedServiceLocator = ServiceLocator.getInstance();
     }
 
-    public void start() {
-        throw new UnsupportedOperationException("Not yet implemented");
+    protected void tearDown() {
+        ServiceLocator.load(savedServiceLocator);
     }
 
-    public void stop() {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
 }

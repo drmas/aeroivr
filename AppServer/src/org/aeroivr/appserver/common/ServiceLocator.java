@@ -24,6 +24,7 @@ import java.rmi.registry.Registry;
 import org.aeroivr.appserver.admin.AppServerShutdownThread;
 import org.aeroivr.appserver.admin.ServerAdmin;
 import org.aeroivr.appserver.h323.H323Application;
+import org.aeroivr.appserver.h323.OpenH323;
 
 /**
  *
@@ -65,5 +66,9 @@ public class ServiceLocator {
     public AppServerShutdownThread getAppServerShutdownThread(
             final ServerAdmin serverAdmin) {
         return new AppServerShutdownThread(serverAdmin);
+    }
+
+    public OpenH323 getOpenH323() {
+        return null;
     }
 }

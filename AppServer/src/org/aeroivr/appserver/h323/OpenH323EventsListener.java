@@ -1,5 +1,5 @@
 /*
- * H323Application.java
+ * OpenH323EventsListener.java
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,20 +19,10 @@
 package org.aeroivr.appserver.h323;
 
 /**
- * H323 connections management class
+ * Events for OpenH323 library.
  *
  * @author Andriy Petlyovanyy
  */
-public class H323Application implements OpenH323EventsListener  {
+public interface OpenH323EventsListener {
 
-    public H323Application() {
-    }
-
-    public void start() {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-
-    public void stop() {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
 }

@@ -21,12 +21,7 @@ package org.aeroivr.appserver.common;
 import java.rmi.RemoteException;
 import junit.framework.TestCase;
 import static org.easymock.classextension.EasyMock.createMock;
-import junit.framework.*;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import org.aeroivr.appserver.admin.AppServerShutdownThread;
 import org.aeroivr.appserver.admin.ServerAdmin;
-import org.aeroivr.appserver.h323.H323Application;
 
 /**
  *

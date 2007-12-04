@@ -25,6 +25,7 @@ import org.aeroivr.appserver.common.ServiceLocator;
 import org.aeroivr.appserver.h323.H323Application;
 
 /**
+ * Remote administrative object to manage H323 application.
  *
  * @author Andriy Petlyovanyy
  */
@@ -39,8 +40,14 @@ public class ServerAdmin extends UnicastRemoteObject {
     public void startApplicationServer() {
         if (null == h323Application) {
             h323Application = ServiceLocator.getInstance().getH323Application();
-            h323Application.initialize();
             h323Application.start();
+        }
+    }
+
+    public void stopApplicationServer() {
+        if (null != h323Application) {
+            h323Application.stop();
+            h323Application = null;
         }
     }
 }
