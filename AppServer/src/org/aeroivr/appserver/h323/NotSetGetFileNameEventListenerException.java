@@ -1,5 +1,5 @@
 /*
- * OpenH323EventsListener.java
+ * NotSetGetFileNameEventListenerException.java
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,10 +19,15 @@
 package org.aeroivr.appserver.h323;
 
 /**
- * Events for OpenH323 library.
+ * Special exception which indicates that appropriate event listener
+ * was not set in OpenH323 object.
  *
  * @author Andriy Petlyovanyy
  */
-public interface OpenH323EventsListener {
+public class NotSetGetFileNameEventListenerException extends Exception {
+
+    public NotSetGetFileNameEventListenerException() {
+        super("GetFileNameEventListener was not set");
+    }
 
 }

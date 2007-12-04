@@ -22,6 +22,11 @@ import java.rmi.RemoteException;
 import junit.framework.TestCase;
 import static org.easymock.classextension.EasyMock.createMock;
 import org.aeroivr.appserver.admin.ServerAdmin;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import org.aeroivr.appserver.admin.AppServerShutdownThread;
+import org.aeroivr.appserver.h323.H323Application;
+import org.aeroivr.appserver.h323.OpenH323;
 
 /**
  *
@@ -76,5 +81,15 @@ public class ServiceLocatorTest extends TestCase {
         assertTrue("AppServerShutdownThread should not be null",
                 serviceLocator.getAppServerShutdownThread(
                 serverAdminMock) != null);
+    }
+
+    public void testGetOpenH323() {
+        assertTrue("OpenH323 should not be null",
+                serviceLocator.getOpenH323() != null);
+    }
+
+    public void testGetSettings() {
+        assertTrue("Settings should not be null",
+                serviceLocator.getSettings() != null);
     }
 }

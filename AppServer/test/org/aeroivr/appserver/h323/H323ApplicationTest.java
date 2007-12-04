@@ -21,9 +21,11 @@ package org.aeroivr.appserver.h323;
 import java.lang.reflect.Method;
 import org.aeroivr.appserver.common.BaseTestWithServiceLocator;
 import org.aeroivr.appserver.common.ServiceLocator;
+import org.aeroivr.appserver.common.Settings;
 import static org.easymock.classextension.EasyMock.createStrictControl;
 import static org.easymock.classextension.EasyMock.expectLastCall;
 import org.easymock.classextension.IMocksControl;
+import junit.framework.TestCase;
 
 /**
  *
@@ -57,7 +59,7 @@ public class H323ApplicationTest extends BaseTestWithServiceLocator {
         openH323Mock.initialize();
         expectLastCall().once();
 
-        openH323Mock.addEventsListener(h323Application);
+        openH323Mock.setGetFileNameEventListener(h323Application);
         expectLastCall().once();
 
         control.checkOrder(true);
@@ -75,6 +77,7 @@ public class H323ApplicationTest extends BaseTestWithServiceLocator {
 
         control.replay();
 
+        ServiceLocator.load(serviceLocatorMock);
         h323Application.start();
 
         control.verify();
@@ -92,8 +95,36 @@ public class H323ApplicationTest extends BaseTestWithServiceLocator {
 
         control.replay();
 
+        ServiceLocator.load(serviceLocatorMock);
         h323Application.start();
         h323Application.stop();
+
+        control.verify();
+    }
+
+    public void testGetWavFileName() throws NoSuchMethodException {
+
+        final String wavFileName = "test.wav";
+        final ServiceLocator serviceLocatorSettingsMock = control.createMock(
+                ServiceLocator.class,
+                new Method[] {ServiceLocator.class.getMethod(
+                        "getSettings")});
+        final Settings settingsMock = control.createMock(Settings.class);
+
+        serviceLocatorSettingsMock.getSettings();
+        expectLastCall().andReturn(settingsMock).once();
+
+        settingsMock.getWavFileName();
+        expectLastCall().andReturn(wavFileName).once();
+
+        control.replay();
+
+        ServiceLocator.load(serviceLocatorSettingsMock);
+        H323Application h323Application = ServiceLocator.getInstance(
+                ).getH323Application();
+        final String result = h323Application.getWavFileName();
+        assertEquals("Wav file name should be read from settings",
+                wavFileName, result);
 
         control.verify();
     }

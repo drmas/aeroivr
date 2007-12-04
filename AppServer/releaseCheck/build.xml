@@ -103,6 +103,7 @@
                                 <include name="**/*.class" />
                                 <exclude name="**/ApplicationConstants.class" />
                                 <exclude name="**/*Test.class" />
+				<exclude name="**/BaseTestWithServiceLocator.class" />
                         </fileset>
                 </cobertura-instrument>
         </target>

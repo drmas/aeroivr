@@ -69,6 +69,10 @@ public class ServiceLocator {
     }
 
     public OpenH323 getOpenH323() {
-        return null;
+        return new OpenH323();
+    }
+
+    public Settings getSettings() {
+        return Settings.getInstance();
     }
 }

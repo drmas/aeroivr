@@ -1,5 +1,5 @@
 /*
- * Settings.java
+ * GetFileNameEventListener.java
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,24 +16,13 @@
  * USA.
  */
 
-package org.aeroivr.appserver.common;
+package org.aeroivr.appserver.h323;
 
 /**
- * Class provides persistense and access tp system wide settings from 
- * the settings file.
+ * Events for OpenH323 library.
  *
  * @author Andriy Petlyovanyy
  */
-public class Settings {
-
-    private Settings() {
-    }
-
-    public String getWavFileName() {
-        return null;
-    }
-
-    public static Settings getInstance() {
-        return null;
-    }
+public interface GetFileNameEventListener {
+    public String getWavFileName();
 }
