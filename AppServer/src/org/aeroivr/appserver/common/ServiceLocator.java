@@ -18,6 +18,9 @@
 
 package org.aeroivr.appserver.common;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.rmi.RemoteException;
@@ -79,15 +82,19 @@ public class ServiceLocator {
         return Settings.getInstance();
     }
 
-    public InputStream getFileAsInputStream(String fileName) {
-        return null;
+    public InputStream getFileAsInputStream(final String fileName) 
+        throws FileNotFoundException {
+        
+        return new FileInputStream(fileName);
     }
 
     public Properties getProperties() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        return new Properties();
     }
 
-    public OutputStream getFileAsOutputStream(String fileName) {
-        return null;
+    public OutputStream getFileAsOutputStream(String fileName) 
+        throws FileNotFoundException {
+
+        return new FileOutputStream(fileName);
     }
 }

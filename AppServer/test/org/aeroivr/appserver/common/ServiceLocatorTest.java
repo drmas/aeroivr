@@ -18,6 +18,8 @@
 
 package org.aeroivr.appserver.common;
 
+import java.io.File;
+import java.io.IOException;
 import java.rmi.RemoteException;
 import junit.framework.TestCase;
 import static org.easymock.classextension.EasyMock.createMock;
@@ -27,6 +29,10 @@ import java.rmi.registry.Registry;
 import org.aeroivr.appserver.admin.AppServerShutdownThread;
 import org.aeroivr.appserver.h323.H323Application;
 import org.aeroivr.appserver.h323.OpenH323;
+import junit.framework.*;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Properties;
 
 /**
  *
@@ -56,40 +62,67 @@ public class ServiceLocatorTest extends TestCase {
     }
 
     public void testGetServerAdmin() throws RemoteException {
-        assertTrue("ServerAdmin object should not be null",
-                serviceLocator.getServerAdmin() != null);
+        assertNotNull("ServerAdmin object should not be null",
+                serviceLocator.getServerAdmin());
     }
 
     public void testGetRmiRegistry() throws RemoteException {
-        assertTrue("Rmi Registry object should not be null",
+        assertNotNull("Rmi Registry object should not be null",
                 serviceLocator.getRmiRegistry(
-                ApplicationConstants.APP_SERVER_ADMIN_RMI_PORT) != null);
+                ApplicationConstants.APP_SERVER_ADMIN_RMI_PORT));
     }
 
     public void testGetH323Application() {
-        assertTrue("H323 Application object should not be null",
-                serviceLocator.getH323Application() != null);
+        assertNotNull("H323 Application object should not be null",
+                serviceLocator.getH323Application());
     }
 
     public void testGetRuntime() {
-        assertTrue("Runtime object should not be null",
-                serviceLocator.getRuntime() != null);
+        assertNotNull("Runtime object should not be null",
+                serviceLocator.getRuntime());
     }
 
     public void testGetAppServerShutdownThread() {
         ServerAdmin serverAdminMock = createMock(ServerAdmin.class);
-        assertTrue("AppServerShutdownThread should not be null",
+        assertNotNull("AppServerShutdownThread should not be null",
                 serviceLocator.getAppServerShutdownThread(
-                serverAdminMock) != null);
+                serverAdminMock));
     }
 
     public void testGetOpenH323() {
-        assertTrue("OpenH323 should not be null",
-                serviceLocator.getOpenH323() != null);
+        assertNotNull("OpenH323 should not be null",
+                serviceLocator.getOpenH323());
     }
 
     public void testGetSettings() {
-        assertTrue("Settings should not be null",
-                serviceLocator.getSettings() != null);
+        assertNotNull("Settings should not be null",
+                serviceLocator.getSettings());
+    }
+
+    public void testGetFileAsInputStream() throws IOException {
+        File tempFile = File.createTempFile("tmp", ".tmp");
+        try {
+            assertNotNull("FileStream should be created",
+                    serviceLocator.getFileAsInputStream(
+                        tempFile.getAbsolutePath()));
+        } finally {
+            tempFile.delete();
+        }
+    }
+
+    public void testGetProperties() {
+        assertNotNull("Properties object could not be null",
+                serviceLocator.getProperties());
+    }
+
+    public void testGetFileAsOutputStream() throws IOException {
+        File tempFile = File.createTempFile("tmp", ".tmp");
+        try {
+            assertNotNull("FileStream should be created",
+                    serviceLocator.getFileAsOutputStream(
+                        tempFile.getAbsolutePath()));
+        } finally {
+            tempFile.delete();
+        }
     }
 }

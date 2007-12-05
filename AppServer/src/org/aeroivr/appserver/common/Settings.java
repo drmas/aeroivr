@@ -26,9 +26,14 @@ package org.aeroivr.appserver.common;
  */
 public class Settings {
 
+    private static final Settings instance = new Settings();
+    
+    protected static final String SETTINGS_FILE_NAME = "settings.properties";
+            
     protected static final String WAV_FILE_NAME = "WavFileName";
 
     private Settings() {
+        this.loadSettings();
     }
 
     public String getWavFileName() {
@@ -36,11 +41,12 @@ public class Settings {
     }
 
     public static Settings getInstance() {
-        return null;
+        return instance;
     }
 
     protected String getSettingsFileName() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        return FileUtils.concatenatePath(FileUtils.getApplicationDirectory(), 
+                SETTINGS_FILE_NAME);
     }
 
     protected void loadSettings() {
