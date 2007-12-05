@@ -19,12 +19,14 @@
 package org.aeroivr.appserver.common;
 
 /**
- * Class provides persistense and access tp system wide settings from 
+ * Class provides persistense and access tp system wide settings from
  * the settings file.
  *
  * @author Andriy Petlyovanyy
  */
 public class Settings {
+
+    protected static final String WAV_FILE_NAME = "WavFileName";
 
     private Settings() {
     }
@@ -35,5 +37,17 @@ public class Settings {
 
     public static Settings getInstance() {
         return null;
+    }
+
+    protected String getSettingsFileName() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    protected void loadSettings() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public void saveSettings() {
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 }

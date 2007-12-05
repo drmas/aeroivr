@@ -18,9 +18,12 @@
 
 package org.aeroivr.appserver.common;
 
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.Properties;
 import org.aeroivr.appserver.admin.AppServerShutdownThread;
 import org.aeroivr.appserver.admin.ServerAdmin;
 import org.aeroivr.appserver.h323.H323Application;
@@ -74,5 +77,17 @@ public class ServiceLocator {
 
     public Settings getSettings() {
         return Settings.getInstance();
+    }
+
+    public InputStream getFileAsInputStream(String fileName) {
+        return null;
+    }
+
+    public Properties getProperties() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public OutputStream getFileAsOutputStream(String fileName) {
+        return null;
     }
 }
