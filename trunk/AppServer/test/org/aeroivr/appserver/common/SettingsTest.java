@@ -104,12 +104,8 @@ public class SettingsTest extends BaseTestWithServiceLocator {
         settingsMock.getSettingsFileName();
         expectLastCall().andReturn(fileName).once();
 
-        control.checkOrder(false);
-
         expect(serviceLocatorMock.getFileAsOutputStream(eq(fileName))
             ).andReturn(outputStream).once();
-
-        control.checkOrder(true);
 
         propertiesMock.store(eq(outputStream), eq(""));
         expectLastCall().once();
