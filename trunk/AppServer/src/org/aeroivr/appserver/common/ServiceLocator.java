@@ -18,6 +18,7 @@
 
 package org.aeroivr.appserver.common;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -82,9 +83,9 @@ public class ServiceLocator {
         return Settings.getInstance();
     }
 
-    public InputStream getFileAsInputStream(final String fileName) 
+    public InputStream getFileAsInputStream(final String fileName)
         throws FileNotFoundException {
-        
+
         return new FileInputStream(fileName);
     }
 
@@ -92,9 +93,13 @@ public class ServiceLocator {
         return new Properties();
     }
 
-    public OutputStream getFileAsOutputStream(String fileName) 
+    public OutputStream getFileAsOutputStream(final String fileName)
         throws FileNotFoundException {
 
         return new FileOutputStream(fileName);
+    }
+
+    public File getFile(final String fileName) {
+        return new File(fileName);
     }
 }

@@ -20,6 +20,7 @@ package org.aeroivr.appserver.common;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -40,6 +41,7 @@ public class SettingsTest extends BaseTestWithServiceLocator {
     private IMocksControl control;
     private Properties propertiesMock;
     private Settings settingsMock;
+    private File fileMock;
     private ServiceLocator serviceLocatorMock;
 
     public SettingsTest(final String testName) {
@@ -49,16 +51,19 @@ public class SettingsTest extends BaseTestWithServiceLocator {
     protected void setUp() throws NoSuchMethodException {
         control = createStrictControl();
         propertiesMock = control.createMock(Properties.class);
+        fileMock = control.createMock(File.class);
 
         settingsMock = control.createMock(Settings.class,
-                new Method[] {Settings.class.getDeclaredMethod("getSettingsFileName")});
+                new Method[] {Settings.class.getDeclaredMethod(
+                        "getSettingsFileName")});
         serviceLocatorMock = control.createMock(
                 ServiceLocator.class, new Method[] {
                     ServiceLocator.class.getMethod("getFileAsInputStream",
                             String.class),
                     ServiceLocator.class.getMethod("getFileAsOutputStream",
                             String.class),
-                    ServiceLocator.class.getMethod("getProperties")});
+                    ServiceLocator.class.getMethod("getProperties"),
+                    ServiceLocator.class.getMethod("getFile", String.class)});
     }
 
     private void loadSequence() throws IOException {
@@ -66,16 +71,25 @@ public class SettingsTest extends BaseTestWithServiceLocator {
 
         final InputStream inputStream = new ByteArrayInputStream(new byte[0]);
 
+        serviceLocatorMock.getProperties();
+        expectLastCall().andReturn(propertiesMock).once();
+
         settingsMock.getSettingsFileName();
         expectLastCall().andReturn(fileName).once();
 
+        serviceLocatorMock.getFile(eq(fileName));
+        expectLastCall().andReturn(fileMock).once();
+
+        fileMock.exists();
+        expectLastCall().andReturn(true).once();
+
         control.checkOrder(false);
+
+        settingsMock.getSettingsFileName();
+        expectLastCall().andReturn(fileName).once();
 
         expect(serviceLocatorMock.getFileAsInputStream(eq(fileName))
             ).andReturn(inputStream).once();
-
-        serviceLocatorMock.getProperties();
-        expectLastCall().andReturn(propertiesMock).once();
 
         control.checkOrder(true);
 
@@ -104,6 +118,18 @@ public class SettingsTest extends BaseTestWithServiceLocator {
         settingsMock.getSettingsFileName();
         expectLastCall().andReturn(fileName).once();
 
+        serviceLocatorMock.getFile(eq(fileName));
+        expectLastCall().andReturn(fileMock).once();
+
+        fileMock.exists();
+        expectLastCall().andReturn(false).once();
+
+        fileMock.createNewFile();
+        expectLastCall().andReturn(null).once();
+
+        settingsMock.getSettingsFileName();
+        expectLastCall().andReturn(fileName).once();
+
         expect(serviceLocatorMock.getFileAsOutputStream(eq(fileName))
             ).andReturn(outputStream).once();
 
@@ -117,7 +143,6 @@ public class SettingsTest extends BaseTestWithServiceLocator {
         settingsMock.saveSettings();
 
         control.verify();
-
     }
 
     public void testGetWavFileName() throws IOException {

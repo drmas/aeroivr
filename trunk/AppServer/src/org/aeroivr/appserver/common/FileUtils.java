@@ -18,18 +18,38 @@
 
 package org.aeroivr.appserver.common;
 
+import java.io.File;
+import java.net.URL;
+
 /**
  * Utility functions for file system.
  *
  * @author Andriy Petlyovanyy
  */
 public final class FileUtils {
-    
+
     public static String getApplicationDirectory() {
-        return null;
+        final URL url = FileUtils.class.getResource(".");
+        final Package currentPackage = FileUtils.class.getPackage();
+        String packagePath = currentPackage.getName();
+        packagePath = packagePath.replace('.', File.separatorChar);
+        String fullPath = url.getPath();
+        fullPath = fullPath.substring(0,
+                fullPath.length() - packagePath.length() - 1);
+        return fullPath;
     }
-    
-    public static String concatenatePath(String parentDir, String child) {
-        return null;
-    } 
+
+    public static String concatenatePath(final String parentDir,
+            final String child) {
+
+        if ((null == parentDir) || parentDir.isEmpty()) {
+            return child;
+        } else {
+            if (parentDir.endsWith(File.separator)) {
+                return parentDir + child;
+            } else {
+                return parentDir + File.separator + child;
+            }
+        }
+    }
 }

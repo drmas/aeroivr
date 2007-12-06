@@ -24,15 +24,6 @@ import java.rmi.RemoteException;
 import junit.framework.TestCase;
 import static org.easymock.classextension.EasyMock.createMock;
 import org.aeroivr.appserver.admin.ServerAdmin;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import org.aeroivr.appserver.admin.AppServerShutdownThread;
-import org.aeroivr.appserver.h323.H323Application;
-import org.aeroivr.appserver.h323.OpenH323;
-import junit.framework.*;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Properties;
 
 /**
  *
@@ -121,6 +112,16 @@ public class ServiceLocatorTest extends TestCase {
             assertNotNull("FileStream should be created",
                     serviceLocator.getFileAsOutputStream(
                         tempFile.getAbsolutePath()));
+        } finally {
+            tempFile.delete();
+        }
+    }
+
+    public void testGetFile() throws IOException {
+        File tempFile = File.createTempFile("tmp", ".tmp");
+        try {
+            assertNotNull("FileStream should be created",
+                    serviceLocator.getFile(tempFile.getAbsolutePath()));
         } finally {
             tempFile.delete();
         }

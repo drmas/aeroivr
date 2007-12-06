@@ -20,7 +20,6 @@ package org.aeroivr.appserver.admin;
 
 import java.lang.reflect.Method;
 import java.rmi.RemoteException;
-import junit.framework.TestCase;
 import org.aeroivr.appserver.common.ApplicationConstants;
 import org.aeroivr.appserver.common.BaseTestWithServiceLocator;
 import org.aeroivr.appserver.common.ServiceLocator;

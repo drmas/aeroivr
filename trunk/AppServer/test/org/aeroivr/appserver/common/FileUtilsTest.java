@@ -18,6 +18,7 @@
 
 package org.aeroivr.appserver.common;
 
+import java.io.File;
 import junit.framework.TestCase;
 
 /**
@@ -25,17 +26,32 @@ import junit.framework.TestCase;
  * @author Andriy Petlyovanyy
  */
 public class FileUtilsTest extends TestCase {
-    
+
     public FileUtilsTest(final String testName) {
         super(testName);
     }
 
     public void testGetApplicationDirectory() {
-        fail("The test case is a prototype.");
+        final File file = new File(FileUtils.getApplicationDirectory());
+        assertTrue("Directory should exists", file.exists());
+        assertTrue("It should be directory", file.isDirectory());
+        assertTrue("Directory path should be absolute", file.isAbsolute());
     }
 
     public void testConcatenatePath() {
-        fail("The test case is a prototype.");
+        final String parent1 = "parent";
+        final String parent2 = "parent" + File.separator;
+        final String child = "child";
+
+        final String result1 = FileUtils.concatenatePath(parent1, child);
+        final String result2 = FileUtils.concatenatePath(parent2, child);
+        final String result3 = FileUtils.concatenatePath("", child);
+
+        assertEquals("Paths should be equal",
+                parent1 + File.separator + child, result1);
+        assertEquals("Paths should be equal",
+                parent2 + child, result2);
+        assertEquals("Paths should be equal",
+                child, result3);
     }
-    
 }
