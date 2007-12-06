@@ -24,5 +24,5 @@ package org.aeroivr.appserver.h323;
  * @author Andriy Petlyovanyy
  */
 public interface GetFileNameEventListener {
-    public String getWavFileName();
+    String getWavFileName();
 }

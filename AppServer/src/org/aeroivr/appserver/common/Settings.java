@@ -18,26 +18,36 @@
 
 package org.aeroivr.appserver.common;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Properties;
+
 /**
- * Class provides persistense and access tp system wide settings from
+ * Class provides persistense and access to system wide settings from
  * the settings file.
  *
  * @author Andriy Petlyovanyy
  */
 public class Settings {
 
-    private static final Settings instance = new Settings();
-    
+    private Properties properties;
+
+    private static Settings instance = new Settings();
     protected static final String SETTINGS_FILE_NAME = "settings.properties";
-            
     protected static final String WAV_FILE_NAME = "WavFileName";
 
-    private Settings() {
-        this.loadSettings();
+    protected Settings() {
+        try {
+            this.loadSettings();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     public String getWavFileName() {
-        return null;
+        return properties.getProperty(WAV_FILE_NAME, "");
     }
 
     public static Settings getInstance() {
@@ -45,15 +55,31 @@ public class Settings {
     }
 
     protected String getSettingsFileName() {
-        return FileUtils.concatenatePath(FileUtils.getApplicationDirectory(), 
+        return FileUtils.concatenatePath(FileUtils.getApplicationDirectory(),
                 SETTINGS_FILE_NAME);
     }
 
-    protected void loadSettings() {
-        throw new UnsupportedOperationException("Not yet implemented");
+    protected void loadSettings() throws IOException {
+        properties = ServiceLocator.getInstance().getProperties();
+        File settingsFile = ServiceLocator.getInstance().getFile(
+                getSettingsFileName());
+        if (settingsFile.exists()) {
+            InputStream fileStream = ServiceLocator.getInstance(
+                    ).getFileAsInputStream(getSettingsFileName());
+            properties.load(fileStream);
+        }
     }
 
-    public void saveSettings() {
-        throw new UnsupportedOperationException("Not yet implemented");
+    public void saveSettings() throws IOException {
+        File settingsFile = ServiceLocator.getInstance().getFile(
+                getSettingsFileName());
+        if (!settingsFile.exists()) {
+            settingsFile.createNewFile();
+        }
+        OutputStream outputFile = ServiceLocator.getInstance(
+                ).getFileAsOutputStream(getSettingsFileName());
+        if (null != properties) {
+            properties.store(outputFile, "");
+        }
     }
 }

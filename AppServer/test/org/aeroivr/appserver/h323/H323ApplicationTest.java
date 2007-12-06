@@ -25,7 +25,6 @@ import org.aeroivr.appserver.common.Settings;
 import static org.easymock.classextension.EasyMock.createStrictControl;
 import static org.easymock.classextension.EasyMock.expectLastCall;
 import org.easymock.classextension.IMocksControl;
-import junit.framework.TestCase;
 
 /**
  *
