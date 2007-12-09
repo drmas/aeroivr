@@ -18,6 +18,8 @@
 #define _OPENH323JNIPROCESS_H
 
 #include <h323.h>
+#include "OpenH323JNIConstants.h"
+
 
 class OpenH323JNIProcess :
 	public PProcess

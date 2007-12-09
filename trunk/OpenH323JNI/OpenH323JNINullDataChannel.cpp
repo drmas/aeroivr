@@ -14,26 +14,36 @@
  * USA.
  */
 
-#include <ptlib.h>
-#include "OpenH323JNIApplication.h"
-#include "OpenH323JNIConstants.h"
-#include "OpenH323JNIEndPoint.h"
+#include "OpenH323JNINullDataChannel.h"
 
-OpenH323JNIApplication::OpenH323JNIApplication()
+OpenH323JNINullDataChannel::OpenH323JNINullDataChannel()
 {
-	PTrace::SetLevel(TRACE_DETAILS);
-	m_pOpenH323JNIEndPoint = new OpenH323JNIEndPoint();
+	isOpen = true;
 }
 
-OpenH323JNIApplication::~OpenH323JNIApplication()
+BOOL OpenH323JNINullDataChannel::Close()
 {
-	if (NULL != m_pOpenH323JNIEndPoint)
-	{
-		delete m_pOpenH323JNIEndPoint;
-	}
+	isOpen = false;
+	return true;
 }
 
-OpenH323JNIEndPoint* OpenH323JNIApplication::GetH323EndPoint() const
+BOOL OpenH323JNINullDataChannel::IsOpen() const 
+{ 
+	return isOpen; 
+}
+
+BOOL OpenH323JNINullDataChannel::Read(void * buffer, PINDEX length)
 {
-	return m_pOpenH323JNIEndPoint;
+	memset(buffer, 0, length);
+    lastReadCount = length;
+	readDataDelay.Delay(length/2/8);
+    return true;    
+}
+
+BOOL OpenH323JNINullDataChannel::Write(const void * buffer, PINDEX length)
+{
+	lastWriteCount = length;
+	writeDataDelay.Delay(length/2/8);
+    return true;
+
 }

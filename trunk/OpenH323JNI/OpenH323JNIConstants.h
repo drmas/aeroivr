@@ -17,6 +17,8 @@
 #ifndef _OPENH323JNICONSTANTS_H
 #define _OPENH323JNICONSTANTS_H
 
+#define new PNEW
+
 #define TRACE_ERROR        1
 #define TRACE_WARNING      2
 #define TRACE_INFORMATION  3

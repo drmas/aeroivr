@@ -17,8 +17,9 @@
 #ifndef _OPENH323JNIAPPLICATION_H
 #define _OPENH323JNIAPPLICATION_H
 
-#include "OpenH323JNIProcess.h";
-#include "OpenH323JNIEndPoint.h";
+#include "OpenH323JNIProcess.h"
+#include "OpenH323JNIEndPoint.h"
+#include "OpenH323JNIConstants.h"
 
 class OpenH323JNIApplication
 {

@@ -14,8 +14,11 @@
  * USA.
  */
 
-
+#include <ptlib.h>
 #include "OpenH323JNIEndPoint.h"
+#include "OpenH323JavaObject.h"
+#include "OpenH323JNIWavFileChannel.h"
+#include "OpenH323JNINullDataChannel.h"
 
 OpenH323JNIEndPoint::OpenH323JNIEndPoint()
 {
@@ -23,4 +26,49 @@ OpenH323JNIEndPoint::OpenH323JNIEndPoint()
 
 OpenH323JNIEndPoint::~OpenH323JNIEndPoint()
 {
+}
+
+BOOL OpenH323JNIEndPoint::Initialise()
+{
+	SetSilenceDetectionMode(H323AudioCodec::AdaptiveSilenceDetection);
+	DisableFastStart(false);
+	DisableH245Tunneling(false);
+
+	AddAllCapabilities(0, 0, "*");
+	AddAllUserInputCapabilities(0, 1);
+
+	return true;
+}
+
+H323Connection * OpenH323JNIEndPoint::CreateConnection(unsigned callReference)
+{
+	return new H323Connection(*this, callReference);
+}
+
+H323Connection::AnswerCallResponse OpenH323JNIEndPoint::OnAnswerCall(
+	H323Connection &, const PString &, const H323SignalPDU &, H323SignalPDU &)
+{
+	return H323Connection::AnswerCallNow;
+}
+
+BOOL OpenH323JNIEndPoint::OpenAudioChannel(H323Connection & connection, 
+										   BOOL isEncoding, 
+										   unsigned bufferSize,
+										   H323AudioCodec & codec)
+{
+	codec.SetSilenceDetectionMode(H323AudioCodec::NoSilenceDetection); 
+	if (isEncoding)
+	{
+		PString wavFileName = OpenH323JavaObject::GetFileNameForConnection();
+		OpenH323JNIWavFileChannel *wavFileChannel = new OpenH323JNIWavFileChannel(
+			wavFileName, connection);
+		return codec.AttachChannel(wavFileChannel, true); 
+	}
+	else
+	{
+		OpenH323JNINullDataChannel *nullDataChannel = new OpenH323JNINullDataChannel();
+		return codec.AttachChannel(nullDataChannel, true);
+	}
+
+	return false;
 }

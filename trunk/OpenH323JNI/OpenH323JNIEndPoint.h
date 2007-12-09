@@ -18,6 +18,7 @@
 #define _OPENH323JNIENDPOINT_H_
 
 #include <h323.h>
+#include "OpenH323JNIConstants.h"
 
 class OpenH323JNIEndPoint : public H323EndPoint
 {
@@ -27,22 +28,14 @@ public:
 	OpenH323JNIEndPoint();
 	~OpenH323JNIEndPoint();
 
+	BOOL Initialise();
+
 	// Overrides from H323EndPoint
 	virtual H323Connection * CreateConnection(unsigned callReference);
-	virtual BOOL OnIncomingCall(H323Connection &, const H323SignalPDU &, 
-		H323SignalPDU &);
 	virtual H323Connection::AnswerCallResponse OnAnswerCall(H323Connection &, 
 		const PString &, const H323SignalPDU &, H323SignalPDU &);
-	virtual void OnConnectionEstablished(H323Connection & connection, 
-		const PString & token);
-	virtual void OnConnectionCleared(H323Connection & connection, 
-		const PString & clearedCallToken);
 	virtual BOOL OpenAudioChannel(H323Connection &, BOOL, unsigned, 
 		H323AudioCodec &);
-
-	// New functions
-	BOOL Initialise();
-	PString GetFileNameForConnection(const PString & callToken);
 };
 
 #endif; // _OPENH323JNIENDPOINT_H_
