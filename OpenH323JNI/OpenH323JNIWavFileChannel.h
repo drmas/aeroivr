@@ -14,26 +14,31 @@
  * USA.
  */
 
+#ifndef _OPENH323JNIWAVFILECHANNEL_H_
+#define _OPENH323JNIWAVFILECHANNEL_H_
+
 #include <ptlib.h>
-#include "OpenH323JNIApplication.h"
+#include <h323.h>
+#include <ptclib/pwavfile.h>
+#include <ptclib/delaychan.h>
 #include "OpenH323JNIConstants.h"
-#include "OpenH323JNIEndPoint.h"
 
-OpenH323JNIApplication::OpenH323JNIApplication()
+class OpenH323JNIWavFileChannel: public PIndirectChannel 
 {
-	PTrace::SetLevel(TRACE_DETAILS);
-	m_pOpenH323JNIEndPoint = new OpenH323JNIEndPoint();
-}
+	PCLASSINFO(OpenH323JNIWavFileChannel, PIndirectChannel);
 
-OpenH323JNIApplication::~OpenH323JNIApplication()
-{
-	if (NULL != m_pOpenH323JNIEndPoint)
-	{
-		delete m_pOpenH323JNIEndPoint;
-	}
-}
+	H323Connection &connection;
+	PWAVFile wavFile;
+	PAdaptiveDelay writeDataDelay;
+	PAdaptiveDelay readDataDelay;
 
-OpenH323JNIEndPoint* OpenH323JNIApplication::GetH323EndPoint() const
-{
-	return m_pOpenH323JNIEndPoint;
-}
+public:
+	OpenH323JNIWavFileChannel(const PString &, H323Connection &);
+
+	virtual BOOL Close(); 
+	virtual BOOL IsOpen() const;
+	virtual BOOL Read(void *, PINDEX);
+	virtual BOOL Write(const void *, PINDEX); 
+};
+
+#endif // _OPENH323JNIWAVFILECHANNEL_H_

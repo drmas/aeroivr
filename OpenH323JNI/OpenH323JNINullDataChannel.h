@@ -14,26 +14,29 @@
  * USA.
  */
 
+#ifndef _OPENH323JNINULLDATACHANNEL_H_
+#define _OPENH323JNINULLDATACHANNEL_H_
+
 #include <ptlib.h>
-#include "OpenH323JNIApplication.h"
+#include <h323.h>
+#include <ptclib/delaychan.h>
 #include "OpenH323JNIConstants.h"
-#include "OpenH323JNIEndPoint.h"
 
-OpenH323JNIApplication::OpenH323JNIApplication()
+class OpenH323JNINullDataChannel: public PIndirectChannel
 {
-	PTrace::SetLevel(TRACE_DETAILS);
-	m_pOpenH323JNIEndPoint = new OpenH323JNIEndPoint();
-}
+  PCLASSINFO(OpenH323JNINullDataChannel, PIndirectChannel);
+  
+  PAdaptiveDelay readDataDelay;
+  PAdaptiveDelay writeDataDelay;
+  bool isOpen;
 
-OpenH323JNIApplication::~OpenH323JNIApplication()
-{
-	if (NULL != m_pOpenH323JNIEndPoint)
-	{
-		delete m_pOpenH323JNIEndPoint;
-	}
-}
+public:
+    OpenH323JNINullDataChannel();
 
-OpenH323JNIEndPoint* OpenH323JNIApplication::GetH323EndPoint() const
-{
-	return m_pOpenH323JNIEndPoint;
-}
+    virtual BOOL Close(); 
+    virtual BOOL IsOpen() const;
+    virtual BOOL Read(void *, PINDEX);
+    virtual BOOL Write(const void *, PINDEX); 
+};
+
+#endif // _OPENH323JNINULLDATACHANNEL_H_

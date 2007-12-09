@@ -14,26 +14,21 @@
  * USA.
  */
 
-#include <ptlib.h>
-#include "OpenH323JNIApplication.h"
-#include "OpenH323JNIConstants.h"
-#include "OpenH323JNIEndPoint.h"
+#include "OpenH323JavaObject.h"
 
-OpenH323JNIApplication::OpenH323JNIApplication()
+
+JavaVM * OpenH323JavaObject::javaVM;
+jobject  OpenH323JavaObject::thisObject;
+
+void OpenH323JavaObject::SetJvmAndThisPointers(JavaVM * jvm, 
+											   jobject thisObj)
 {
-	PTrace::SetLevel(TRACE_DETAILS);
-	m_pOpenH323JNIEndPoint = new OpenH323JNIEndPoint();
+	javaVM = jvm;
+	thisObject = thisObj;
 }
 
-OpenH323JNIApplication::~OpenH323JNIApplication()
+const char* OpenH323JavaObject::GetFileNameForConnection()
 {
-	if (NULL != m_pOpenH323JNIEndPoint)
-	{
-		delete m_pOpenH323JNIEndPoint;
-	}
+	return "test"; // TODO: Implement code
 }
 
-OpenH323JNIEndPoint* OpenH323JNIApplication::GetH323EndPoint() const
-{
-	return m_pOpenH323JNIEndPoint;
-}
