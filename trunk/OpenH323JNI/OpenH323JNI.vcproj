@@ -90,6 +90,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				Description="Coping debug OpenH323 &amp; PWLib DLLs"
+				CommandLine="xcopy /Y $(ProjectDir)..\Libraries\Cpp\OpenH323\Lib\openh323d.dll  $(OutDir)\*.dll&#x0D;&#x0A;xcopy /Y $(ProjectDir)..\Libraries\Cpp\pwlib\Lib\ptlibd.dll $(OutDir)\*.dll"
 			/>
 		</Configuration>
 		<Configuration
@@ -163,6 +165,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				Description="Coping release OpenH323 &amp; PWLib DLLs"
+				CommandLine="xcopy /Y $(ProjectDir)..\Libraries\Cpp\OpenH323\Lib\openh323.dll  $(OutDir)\*.dll&#x0D;&#x0A;xcopy /Y $(ProjectDir)..\Libraries\Cpp\pwlib\Lib\ptlib.dll $(OutDir)\*.dll"
 			/>
 		</Configuration>
 	</Configurations>
