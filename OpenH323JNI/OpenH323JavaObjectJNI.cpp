@@ -15,14 +15,14 @@
  */
 
 #include <jni.h>
+#include <ptlib.h>
+#include "OpenH323JavaObjectJNI.h"
 #include "OpenH323JavaObject.h"
-
-/*
 #include "OpenH323JNIApplication.h"
 
 OpenH323JNIApplication * g_H323Application;
 
-JNIEXPORT void JNICALL Java_org_aeroivr_appserver_h323_OpenH323_init 
+JNIEXPORT jboolean JNICALL Java_org_aeroivr_appserver_h323_OpenH323_init 
   (JNIEnv * envinronment, jobject object)
 {
 	g_H323Application = new OpenH323JNIApplication();
@@ -37,7 +37,7 @@ JNIEXPORT void JNICALL Java_org_aeroivr_appserver_h323_OpenH323_init
 		jobject thisObject;
 
         envinronment->GetJavaVM(&jvm);
-        thisObject = env->NewGlobalRef(obj);
+        thisObject = envinronment->NewGlobalRef(object);
         if (NULL == thisObject) 
         {
 			return JNI_FALSE;
@@ -53,7 +53,7 @@ JNIEXPORT void JNICALL Java_org_aeroivr_appserver_h323_OpenH323_init
     return JNI_TRUE;
 }
 
-JNIEXPORT void JNICALL Java_org_aeroivr_appserver_h323_OpenH323_startListening
+JNIEXPORT jboolean JNICALL Java_org_aeroivr_appserver_h323_OpenH323_startListening
   (JNIEnv * envinronment, jobject object)
 {
     if (NULL != g_H323Application) 
@@ -71,7 +71,7 @@ JNIEXPORT void JNICALL Java_org_aeroivr_appserver_h323_OpenH323_startListening
     return JNI_TRUE;
 }
 
-JNIEXPORT void JNICALL Java_org_aeroivr_appserver_h323_OpenH323_shutdown
+JNIEXPORT jboolean JNICALL Java_org_aeroivr_appserver_h323_OpenH323_shutdown
   (JNIEnv * envinronment, jobject object)
 {
     if (NULL != g_H323Application)
@@ -84,4 +84,3 @@ JNIEXPORT void JNICALL Java_org_aeroivr_appserver_h323_OpenH323_shutdown
         return JNI_FALSE;
     }
 }
-*/

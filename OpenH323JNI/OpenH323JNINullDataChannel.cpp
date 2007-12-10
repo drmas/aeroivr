@@ -14,6 +14,7 @@
  * USA.
  */
 
+#include <ptlib.h>
 #include "OpenH323JNINullDataChannel.h"
 
 OpenH323JNINullDataChannel::OpenH323JNINullDataChannel()

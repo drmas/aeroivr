@@ -10,25 +10,25 @@ extern "C" {
 /*
  * Class:     org_aeroivr_appserver_h323_OpenH323
  * Method:    init
- * Signature: ()V
+ * Signature: ()Z
  */
-JNIEXPORT void JNICALL Java_org_aeroivr_appserver_h323_OpenH323_init
+JNIEXPORT jboolean JNICALL Java_org_aeroivr_appserver_h323_OpenH323_init
   (JNIEnv *, jobject);
 
 /*
  * Class:     org_aeroivr_appserver_h323_OpenH323
  * Method:    startListening
- * Signature: ()V
+ * Signature: ()Z
  */
-JNIEXPORT void JNICALL Java_org_aeroivr_appserver_h323_OpenH323_startListening
+JNIEXPORT jboolean JNICALL Java_org_aeroivr_appserver_h323_OpenH323_startListening
   (JNIEnv *, jobject);
 
 /*
  * Class:     org_aeroivr_appserver_h323_OpenH323
  * Method:    shutdown
- * Signature: ()V
+ * Signature: ()Z
  */
-JNIEXPORT void JNICALL Java_org_aeroivr_appserver_h323_OpenH323_shutdown
+JNIEXPORT jboolean JNICALL Java_org_aeroivr_appserver_h323_OpenH323_shutdown
   (JNIEnv *, jobject);
 
 #ifdef __cplusplus

@@ -14,6 +14,7 @@
  * USA.
  */
 
+#include <ptlib.h>
 #include "OpenH323JNIWavFileChannel.h"
 
 OpenH323JNIWavFileChannel::OpenH323JNIWavFileChannel(
