@@ -14,21 +14,31 @@
  * USA.
  */
 
+#include <ptlib.h>
 #include "OpenH323JavaObject.h"
 
-
-JavaVM * OpenH323JavaObject::javaVM;
-jobject  OpenH323JavaObject::thisObject;
+JavaVM * OpenH323JavaObject::m_javaVM;
+jobject  OpenH323JavaObject::m_thisObject;
 
 void OpenH323JavaObject::SetJvmAndThisPointers(JavaVM * jvm, 
 											   jobject thisObj)
 {
-	javaVM = jvm;
-	thisObject = thisObj;
+	m_javaVM = jvm;
+	m_thisObject = thisObj;
 }
 
 const char* OpenH323JavaObject::GetFileNameForConnection()
 {
-	return "test"; // TODO: Implement code
+	JNIEnv * oEnvinronment;
+	m_javaVM->AttachCurrentThread((void **)&oEnvinronment, NULL);
+
+	jclass cls = oEnvinronment->GetObjectClass(m_thisObject);
+	jmethodID methodId = oEnvinronment->GetMethodID(cls, 
+		"getWavFileName", "()Ljava/lang/String;");
+
+	jstring result = (jstring) oEnvinronment->CallObjectMethod(
+		m_thisObject, methodId);
+
+	return oEnvinronment->GetStringUTFChars(result, NULL);
 }
 

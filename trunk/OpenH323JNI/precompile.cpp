@@ -14,20 +14,4 @@
  * USA.
  */
 
-#ifndef _OPENH323JAVAOBJECT_H_
-#define _OPENH323JAVAOBJECT_H_
-
-#include <jni.h>
-
-class OpenH323JavaObject
-{
-private:
-	static JavaVM * m_javaVM;
-	static jobject m_thisObject;
-
-public:
-	static void SetJvmAndThisPointers(JavaVM * jvm, jobject thisObj);
-	static const char* GetFileNameForConnection();
-};
-
-#endif // _OPENH323JAVAOBJECT_H_
+#include <ptlib.h>

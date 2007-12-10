@@ -25,20 +25,20 @@ package org.aeroivr.appserver.h323;
  */
 public class OpenH323 {
 
-//    static {
-//        System.loadLibrary("PTLib");
-//        System.loadLibrary("OpenH323");
-//        System.loadLibrary("OpenH323JNI");
-//    }
+    static {
+        System.loadLibrary("PTLibd");
+        System.loadLibrary("OpenH323d");
+        System.loadLibrary("OpenH323JNI");
+    }
 
     private GetFileNameEventListener getFileNameEventListener;
 
     public OpenH323() {
     }
 
-    protected native void init();
-    protected native void startListening();
-    protected native void shutdown();
+    protected native boolean init();
+    protected native boolean startListening();
+    protected native boolean shutdown();
 
     protected String getWavFileName()
         throws NotSetGetFileNameEventListenerException {
