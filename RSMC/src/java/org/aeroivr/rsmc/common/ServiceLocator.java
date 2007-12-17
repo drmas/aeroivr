@@ -29,15 +29,25 @@ import org.aeroivr.rsmc.web.view.LogonView;
  */
 public class ServiceLocator {
     
-    public ServiceLocator() {
+    private static volatile ServiceLocator instance = 
+            new ServiceLocator();
+    
+    private ServiceLocator() {
+    }
+    
+    public static ServiceLocator getInstance() {
+        return instance;
+    }
+    
+    public static void load(final ServiceLocator value) {
+        instance = value;
     }
 
     public LogonView getLogonView(final String viewsFolder) {
-        return null;
+        return new LogonView(viewsFolder);
     }
 
     public WebSecurityManager getWebSecurityManager(HttpSession session) {
-        return null;
+        return new WebSecurityManager(session);
     }
-    
 }

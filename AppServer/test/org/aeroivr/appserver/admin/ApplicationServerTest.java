@@ -20,7 +20,7 @@ package org.aeroivr.appserver.admin;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
-import org.aeroivr.appserver.common.ApplicationConstants;
+import org.aeroivr.appserver.common.AppServerAdminConstants;
 import org.aeroivr.appserver.common.ServiceLocator;
 import junit.framework.TestCase;
 import static org.easymock.classextension.EasyMock.expect;
@@ -63,13 +63,13 @@ public class ApplicationServerTest extends TestCase {
         expectLastCall().andReturn(serverAdminMock).once();
 
         expect(serviceLocatorMock.getRmiRegistry(
-                eq(ApplicationConstants.APP_SERVER_ADMIN_RMI_PORT))).andReturn(
+                eq(AppServerAdminConstants.APP_SERVER_ADMIN_RMI_PORT))).andReturn(
                 rmiRegistryMock).once();
 
         control.checkOrder(true);
 
         rmiRegistryMock.rebind(
-                eq(ApplicationConstants.APP_SERVER_ADMIN_RMI_NAME),
+                eq(AppServerAdminConstants.APP_SERVER_ADMIN_RMI_NAME),
                 eq(serverAdminMock));
         expectLastCall().once();
 

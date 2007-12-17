@@ -25,7 +25,7 @@ package org.aeroivr.rsmc.web.view;
  */
 public class LogonView extends AbstractView {
     
-    public LogonView() {
+    public LogonView(final String viewsFolder) {
     }
 
     public void setUsername(final String username) {

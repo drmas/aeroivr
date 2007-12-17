@@ -53,9 +53,9 @@ public class LogonPageControllerTest extends TestCase {
                 HttpServletResponse.class);
         final LogonPageController logonPageControllerMock = control.createMock(
                 LogonPageController.class,
-                new Method[] {LogonPageController.class.getDeclaredMethod(
+                new Method[] {BasePageController.class.getDeclaredMethod(
                         "getViewsFolder"),
-                LogonPageController.class.getDeclaredMethod("renderView",
+                BasePageController.class.getDeclaredMethod("renderView",
                         HttpServletRequest.class, HttpServletResponse.class,
                         AbstractView.class)});
         final LogonView logonViewMock = control.createMock(LogonView.class,
@@ -74,7 +74,7 @@ public class LogonPageControllerTest extends TestCase {
         expectLastCall().once();
         
         logonPageControllerMock.renderView(eq(requestMock), eq(responseMock),
-                logonViewMock);
+                eq(logonViewMock));
         expectLastCall().once();
         
         control.replay();
@@ -105,7 +105,7 @@ public class LogonPageControllerTest extends TestCase {
                 control.createMock(AppServerAdminClient.class);
         final LogonPageController logonPageControllerMock = control.createMock(
                 LogonPageController.class,
-                new Method[] {LogonPageController.class.getDeclaredMethod(
+                new Method[] {BasePageController.class.getDeclaredMethod(
                         "getViewsFolder"),
                 LogonPageController.class.getDeclaredMethod("renderView",
                         HttpServletRequest.class, HttpServletResponse.class,
