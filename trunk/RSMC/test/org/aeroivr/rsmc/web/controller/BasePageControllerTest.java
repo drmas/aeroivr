@@ -18,11 +18,13 @@
 
 package org.aeroivr.rsmc.web.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Method;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import junit.framework.TestCase;
-import java.io.*;
-import java.net.*;
-import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.easymock.classextension.IMocksControl;
@@ -39,17 +41,17 @@ public class BasePageControllerTest extends TestCase {
         super(testName);
     }
 
-    public void testDoGet() throws Exception {
+    public void testPageGet() throws Exception {
 
-        IMocksControl control = createStrictControl();
-        BasePageController basePageControllerMock = control.createMock(
+        final IMocksControl control = createStrictControl();
+        final BasePageController basePageControllerMock = control.createMock(
                 BasePageController.class,
                 new Method[] {BasePageController.class.getDeclaredMethod(
                         "pageGet", HttpServletRequest.class,
                             HttpServletResponse.class)});
-        HttpServletRequest requestMock = control.createMock(
+        final HttpServletRequest requestMock = control.createMock(
                 HttpServletRequest.class);
-        HttpServletResponse responseMock = control.createMock(
+        final HttpServletResponse responseMock = control.createMock(
                 HttpServletResponse.class);
 
         basePageControllerMock.pageGet(eq(requestMock), eq(responseMock));
@@ -62,17 +64,17 @@ public class BasePageControllerTest extends TestCase {
         control.verify();
     }
 
-    public void testDoPost() throws Exception {
+    public void testPagePost() throws Exception {
 
-        IMocksControl control = createStrictControl();
-        BasePageController basePageControllerMock = control.createMock(
+        final IMocksControl control = createStrictControl();
+        final BasePageController basePageControllerMock = control.createMock(
                 BasePageController.class,
                 new Method[] {BasePageController.class.getDeclaredMethod(
                         "pagePost", HttpServletRequest.class,
                             HttpServletResponse.class)});
-        HttpServletRequest requestMock = control.createMock(
+        final HttpServletRequest requestMock = control.createMock(
                 HttpServletRequest.class);
-        HttpServletResponse responseMock = control. createMock(
+        final HttpServletResponse responseMock = control. createMock(
                 HttpServletResponse.class);
 
         basePageControllerMock.pagePost(eq(requestMock), eq(responseMock));
@@ -85,4 +87,21 @@ public class BasePageControllerTest extends TestCase {
         control.verify();
     }
 
+    public void testGetViewsFolder() throws NoSuchMethodException {
+        final IMocksControl control = createStrictControl();
+        final BasePageController basePageControllerMock = control.createMock(
+                BasePageController.class,
+                new Method[] {HttpServlet.class.getDeclaredMethod(
+                        "doGet", HttpServletRequest.class, 
+                        HttpServletResponse.class)});
+        
+        final String folder = basePageControllerMock.getViewsFolder();
+        final File file = new File(folder);
+        assertTrue("Folder should exists", file.exists());
+        assertTrue("It should be folder", file.isDirectory());
+    }
+
+    public void testRenderView() {
+        fail("Not implemented yet");
+    }
 }

@@ -18,6 +18,8 @@
 
 package org.aeroivr.rsmc.web.security;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * Main security manager.
  *
@@ -25,7 +27,7 @@ package org.aeroivr.rsmc.web.security;
  */
 public class WebSecurityManager {
     
-    public WebSecurityManager() {
+    public WebSecurityManager(final HttpSession session) {
     }
 
     public void setLoggedInUsername(final String username) {

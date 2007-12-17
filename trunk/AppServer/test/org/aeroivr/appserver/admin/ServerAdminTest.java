@@ -20,7 +20,7 @@ package org.aeroivr.appserver.admin;
 
 import java.lang.reflect.Method;
 import java.rmi.RemoteException;
-import org.aeroivr.appserver.common.ApplicationConstants;
+import org.aeroivr.appserver.common.AppServerAdminConstants;
 import org.aeroivr.appserver.common.BaseTestWithServiceLocator;
 import org.aeroivr.appserver.common.ServiceLocator;
 import org.aeroivr.appserver.h323.H323Application;
@@ -74,7 +74,7 @@ public class ServerAdminTest extends BaseTestWithServiceLocator {
 
         assertTrue("Port number check failed", serverAdmin.toString().indexOf(
                 Integer.toString(
-                ApplicationConstants.APP_SERVER_ADMIN_RMI_PORT)) >= 0);
+                AppServerAdminConstants.APP_SERVER_ADMIN_RMI_PORT)) >= 0);
     }
 
     public void testStartApplicationServer2() throws RemoteException {
@@ -92,7 +92,7 @@ public class ServerAdminTest extends BaseTestWithServiceLocator {
 
         assertTrue("Port number check failed", serverAdmin.toString().indexOf(
                 Integer.toString(
-                ApplicationConstants.APP_SERVER_ADMIN_RMI_PORT)) >= 0);
+                AppServerAdminConstants.APP_SERVER_ADMIN_RMI_PORT)) >= 0);
     }
 
     public void testStopApplicationServer() throws RemoteException {

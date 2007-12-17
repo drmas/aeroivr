@@ -1,5 +1,5 @@
 /*
- * ApplicationConstants.java
+ * AppServerAdminConstants.java
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,15 +19,17 @@
 package org.aeroivr.appserver.common;
 
 /**
+ * Constants of the application server administration. Shared between projects.
  *
  * @author Andriy Petlyovanyy
  */
-public final class ApplicationConstants {
+public final class AppServerAdminConstants {
 
     public static final int APP_SERVER_ADMIN_RMI_PORT = 3011;
     public static final String APP_SERVER_ADMIN_RMI_NAME =
             "AERO_IVR_APP_SERVER";
+    public static final String ADMIN_USERNAME = "admin";
 
-    private ApplicationConstants() {
+    private AppServerAdminConstants() {
     }
 }

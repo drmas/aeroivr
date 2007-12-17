@@ -60,7 +60,7 @@ public class ServiceLocatorTest extends TestCase {
     public void testGetRmiRegistry() throws RemoteException {
         assertNotNull("Rmi Registry object should not be null",
                 serviceLocator.getRmiRegistry(
-                ApplicationConstants.APP_SERVER_ADMIN_RMI_PORT));
+                AppServerAdminConstants.APP_SERVER_ADMIN_RMI_PORT));
     }
 
     public void testGetH323Application() {

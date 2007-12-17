@@ -23,6 +23,8 @@ import java.net.*;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
+import org.aeroivr.appserver.common.AppServerAdminConstants;
+import org.aeroivr.rsmc.common.ServiceLocator;
 import org.aeroivr.rsmc.web.view.LogonView;
 
 /**
@@ -34,6 +36,11 @@ public class LogonPageController extends BasePageController {
     
     protected void pageGet(HttpServletRequest request, 
             HttpServletResponse response) throws ServletException, IOException {
+        
+        LogonView view = ServiceLocator.getInstance().getLogonView(
+                getViewsFolder());
+        view.setUsername(AppServerAdminConstants.ADMIN_USERNAME);
+        renderView(request, response, view);
     }
 
     protected void pagePost(HttpServletRequest request, 

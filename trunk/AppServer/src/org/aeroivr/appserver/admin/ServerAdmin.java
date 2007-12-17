@@ -20,7 +20,7 @@ package org.aeroivr.appserver.admin;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import org.aeroivr.appserver.common.ApplicationConstants;
+import org.aeroivr.appserver.common.AppServerAdminConstants;
 import org.aeroivr.appserver.common.ServiceLocator;
 import org.aeroivr.appserver.h323.H323Application;
 
@@ -34,7 +34,7 @@ public class ServerAdmin extends UnicastRemoteObject {
     private H323Application h323Application;
 
     public ServerAdmin() throws RemoteException {
-        super(ApplicationConstants.APP_SERVER_ADMIN_RMI_PORT);
+        super(AppServerAdminConstants.APP_SERVER_ADMIN_RMI_PORT);
     }
 
     public void startApplicationServer() {
