@@ -16,7 +16,7 @@
  * USA.
  */
 
-package org.aeroivr.appserver.common;
+package org.aeroivr.common.utils;
 
 import java.io.File;
 import java.net.URL;
@@ -27,17 +27,6 @@ import java.net.URL;
  * @author Andriy Petlyovanyy
  */
 public final class FileUtils {
-
-    public static String getApplicationDirectory() {
-        final URL url = FileUtils.class.getResource(".");
-        final Package currentPackage = FileUtils.class.getPackage();
-        String packagePath = currentPackage.getName();
-        packagePath = packagePath.replace('.', File.separatorChar);
-        String fullPath = url.getPath();
-        fullPath = fullPath.substring(0,
-                fullPath.length() - packagePath.length() - 1);
-        return fullPath;
-    }
 
     public static String concatenatePath(final String parentDir,
             final String child) {

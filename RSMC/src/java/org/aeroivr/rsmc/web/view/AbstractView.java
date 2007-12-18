@@ -18,14 +18,62 @@
 
 package org.aeroivr.rsmc.web.view;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import org.aeroivr.common.utils.FileUtils;
+import org.aeroivr.rsmc.web.render.ViewRenderer;
+
 /**
  * Base class for all views.
  *
  * @author Andriy Petlyovanyy
  */
-public class AbstractView {
+public abstract class AbstractView {
     
-    public AbstractView() {
+    private HashMap pageParameters = new HashMap();
+    private String viewsFolder;
+
+    public AbstractView(final String vwsFolder) {
+        this.viewsFolder = vwsFolder;
     }
-    
+
+    public AbstractView(final String vwsFolder, final Map parameters,
+            final String... paramNames) {
+
+        this.viewsFolder = vwsFolder;
+
+        for(String paramName: paramNames) {
+            if (parameters.containsKey(paramName)) {
+                Object value = parameters.get(paramName);
+                if (value instanceof String[]) {
+                    pageParameters.put(paramName, ((String[])value)[0]);
+                } else {
+                    pageParameters.put(paramName, value);
+                }
+            }
+        }
+    }
+
+    protected Object getValue(final String key) {
+        return pageParameters.get(key);
+    }
+
+    protected void setValue(final String key, final Object value) {
+        pageParameters.put(key, value);
+    }
+
+    protected boolean containsKey(final String key) {
+        return pageParameters.containsKey(key);
+    }
+
+    protected abstract String getHtmlFileName();
+
+    public String getContent() throws FileNotFoundException, IOException {
+
+        ViewRenderer renderer = new ViewRenderer(pageParameters,
+                FileUtils.concatenatePath(viewsFolder, getHtmlFileName()));
+        return renderer.renderContent();
+    }
 }

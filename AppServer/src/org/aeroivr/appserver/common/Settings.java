@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
+import org.aeroivr.common.utils.FileUtils;
 
 /**
  * Class provides persistense and access to system wide settings from
@@ -55,8 +56,7 @@ public class Settings {
     }
 
     protected String getSettingsFileName() {
-        return FileUtils.concatenatePath(FileUtils.getApplicationDirectory(),
-                SETTINGS_FILE_NAME);
+        return SETTINGS_FILE_NAME;
     }
 
     protected void loadSettings() throws IOException {

@@ -1,5 +1,5 @@
 /*
- * AppServerAdminClient.java
+ * PageRenderer.java
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,21 +16,24 @@
  * USA.
  */
 
-package org.aeroivr.rsmc.admin;
+package org.aeroivr.rsmc.web.render;
+
+import org.aeroivr.rsmc.web.view.AbstractView;
+import org.aeroivr.rsmc.web.view.MasterPageView;
 
 /**
- * Client of the application server.
+ * Render view and insert its content into master page view. 
  *
  * @author Andriy Petlyovanyy
  */
-public class AppServerAdminClient {
+public class PageRenderer {
     
-    public AppServerAdminClient() {
+    public PageRenderer(final MasterPageView masterPageView, 
+            final AbstractView view) {
     }
 
-    public boolean areCredentialsValid(final String username, 
-            final String password) {
-        
-        throw new UnsupportedOperationException("Not yet implemented");
+    public String renderContent() {
+        return null;
     }
+    
 }

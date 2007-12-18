@@ -1,5 +1,5 @@
 /*
- * AppServerAdminClient.java
+ * TestConstants.java
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,21 +16,21 @@
  * USA.
  */
 
-package org.aeroivr.rsmc.admin;
+package org.aeroivr.rsmc.common;
+
+import java.io.File;
+import org.aeroivr.common.utils.FileUtils;
 
 /**
- * Client of the application server.
+ * Constans for tests.
  *
  * @author Andriy Petlyovanyy
  */
-public class AppServerAdminClient {
+public final class TestConstants {
     
-    public AppServerAdminClient() {
-    }
-
-    public boolean areCredentialsValid(final String username, 
-            final String password) {
-        
-        throw new UnsupportedOperationException("Not yet implemented");
+    public static final String VIEWS_FOLDER = ".." + File.separator + "web";
+    public static final String SERVLET_CONTEXT_PATH = "/RSMC/";
+    
+    protected TestConstants() {
     }
 }

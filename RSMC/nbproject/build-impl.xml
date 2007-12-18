@@ -277,9 +277,11 @@
                 COMPILATION SECTION
             -->
     <target name="deps-module-jar" depends="init" if="no.dist.ear.dir" unless="no.deps">
+        <ant target="jar" inheritall="false" antfile="${project.AeroIVRCommon}/build.xml"/>
         <ant target="jar" inheritall="false" antfile="${project.AppServerAdminInterface}/build.xml"/>
     </target>
     <target name="deps-ear-jar" depends="init" if="dist.ear.dir" unless="no.deps">
+        <ant target="jar" inheritall="false" antfile="${project.AeroIVRCommon}/build.xml"/>
         <ant target="jar" inheritall="false" antfile="${project.AppServerAdminInterface}/build.xml"/>
     </target>
     <target name="deps-jar" depends="init, deps-module-jar, deps-ear-jar" unless="no.deps"/>
@@ -400,14 +402,17 @@
     <target name="library-inclusion-in-manifest" depends="init" if="dist.ear.dir">
         <basename property="included.lib.reference.AppServerAdminInterface.jar" file="${reference.AppServerAdminInterface.jar}"/>
         <copy-ear-war file="${reference.AppServerAdminInterface.jar}" propname="included.lib.reference.AppServerAdminInterface.jar.X"/>
+        <basename property="included.lib.reference.AeroIVRCommon.jar" file="${reference.AeroIVRCommon.jar}"/>
+        <copy-ear-war file="${reference.AeroIVRCommon.jar}" propname="included.lib.reference.AeroIVRCommon.jar.X"/>
         <mkdir dir="${build.web.dir.real}/META-INF"/>
         <manifest file="${build.web.dir.real}/META-INF/MANIFEST.MF" mode="update">
-            <attribute name="Class-Path" value="${included.lib.reference.AppServerAdminInterface.jar} "/>
+            <attribute name="Class-Path" value="${included.lib.reference.AppServerAdminInterface.jar} ${included.lib.reference.AeroIVRCommon.jar} "/>
         </manifest>
         <delete dir="${dist.ear.dir}/temp"/>
     </target>
     <target name="library-inclusion-in-archive" depends="init" unless="dist.ear.dir">
         <copy file="${reference.AppServerAdminInterface.jar}" todir="${build.web.dir.real}/WEB-INF/lib"/>
+        <copy file="${reference.AeroIVRCommon.jar}" todir="${build.web.dir.real}/WEB-INF/lib"/>
     </target>
     <target name="do-ear-dist" depends="init,compile,compile-jsps,-pre-dist,library-inclusion-in-manifest">
         <dirname property="dist.jar.dir" file="${dist.ear.war}"/>
@@ -675,6 +680,7 @@
                 CLEANUP SECTION
             -->
     <target name="deps-clean" depends="init" if="no.dist.ear.dir" unless="no.deps">
+        <ant target="clean" inheritall="false" antfile="${project.AeroIVRCommon}/build.xml"/>
         <ant target="clean" inheritall="false" antfile="${project.AppServerAdminInterface}/build.xml"/>
     </target>
     <target name="do-clean" depends="init">

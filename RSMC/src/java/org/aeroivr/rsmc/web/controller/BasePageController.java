@@ -19,10 +19,15 @@
 package org.aeroivr.rsmc.web.controller;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
+import org.aeroivr.rsmc.common.ServiceLocator;
+import org.aeroivr.rsmc.web.render.PageRenderer;
 import org.aeroivr.rsmc.web.view.AbstractView;
+import org.aeroivr.rsmc.web.view.MasterPageView;
 
 /**
  * Base class for all controllers.
@@ -31,13 +36,51 @@ import org.aeroivr.rsmc.web.view.AbstractView;
  */
 public abstract class BasePageController extends HttpServlet {
     
-    protected String getViewsFolder() {
-        throw new UnsupportedOperationException("Not yet implemented");
+    private List<String> errors = new ArrayList<String>();
+
+    protected void configureMasterPage(MasterPageView masterPageView) {
+        masterPageView.setShowMenu(false);
+        masterPageView.setHeader(getHeader());
     }
-    
-    protected void renderView(HttpServletRequest request, 
-            HttpServletResponse response, AbstractView view) {
-        throw new UnsupportedOperationException("Not yet implemented");
+
+    protected abstract String getHeader();
+
+    protected String getViewsFolder() {
+        return getServletContext().getRealPath("/");
+    }
+
+    protected String getWavFilesFolder() {
+        return getServletContext().getRealPath("/WAV");
+    }
+
+    protected void renderView(HttpServletRequest request,
+            HttpServletResponse response, AbstractView view)
+            throws IOException {
+        
+        MasterPageView masterPageView = ServiceLocator.getMasterPageView(
+                getViewsFolder(), request.getContextPath());
+        configureMasterPage(masterPageView);
+        masterPageView.setErrors(errors);
+
+        PageRenderer renderer = ServiceLocator.getPageRenderer(masterPageView,
+                view);
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        out.print(renderer.renderContent());
+        out.close();
+        clearErrors();
+    }
+
+    protected void setError(String errorMessage) {
+        errors.add(errorMessage);
+    }
+
+    private void clearErrors() {
+        errors.clear();
+    }
+
+    private boolean wereErrors() {
+        return (0 < errors.size());
     }
 
     protected abstract void pageGet(HttpServletRequest request,

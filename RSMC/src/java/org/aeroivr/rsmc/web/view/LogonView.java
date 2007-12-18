@@ -18,30 +18,45 @@
 
 package org.aeroivr.rsmc.web.view;
 
+import java.util.Map;
+
 /**
  * View for logon page.
  *
  * @author Andriy Petlyovanyy
  */
 public class LogonView extends AbstractView {
+
+    public static final String USERNAME = "username";
+    public static final String PASSWORD = "password";
+    public static final String LOGON_BUTTON = "logon";
     
     public LogonView(final String viewsFolder) {
+        super(viewsFolder);
     }
+    
+    public LogonView(final String viewsFolder, final Map parameters) {
+        super(viewsFolder, parameters, USERNAME, PASSWORD, LOGON_BUTTON);
+    }  
 
-    public void setUsername(final String username) {
-        throw new UnsupportedOperationException("Not yet implemented");
+    public void setUsername(final String value) {
+        setValue(USERNAME, value);
     }
 
     public boolean wasLogonButtonPressed() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        return containsKey(LOGON_BUTTON);
     }
 
     public String getUsername() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        return (String) getValue(USERNAME);
     }
 
     public String getPassword() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        return (String) getValue(PASSWORD);
+    }
+
+    protected String getHtmlFileName() {
+        return "logon.html";
     }
     
 }
