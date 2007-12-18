@@ -16,10 +16,11 @@
  * USA.
  */
 
-package org.aeroivr.appserver.common;
+package org.aeroivr.common.utils;
 
 import java.io.File;
 import junit.framework.TestCase;
+import org.aeroivr.common.utils.FileUtils;
 
 /**
  *
@@ -29,13 +30,6 @@ public class FileUtilsTest extends TestCase {
 
     public FileUtilsTest(final String testName) {
         super(testName);
-    }
-
-    public void testGetApplicationDirectory() {
-        final File file = new File(FileUtils.getApplicationDirectory());
-        assertTrue("Directory should exists", file.exists());
-        assertTrue("It should be directory", file.isDirectory());
-        assertTrue("Directory path should be absolute", file.isAbsolute());
     }
 
     public void testConcatenatePath() {

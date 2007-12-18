@@ -1,5 +1,5 @@
 /*
- * AppServerAdminClient.java
+ * ViewRenderer.java
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,21 +16,21 @@
  * USA.
  */
 
-package org.aeroivr.rsmc.admin;
+package org.aeroivr.rsmc.web.render;
+
+import java.util.Map;
 
 /**
- * Client of the application server.
+ * Render view according to its parameters.
  *
  * @author Andriy Petlyovanyy
  */
-public class AppServerAdminClient {
+public class ViewRenderer {
     
-    public AppServerAdminClient() {
+    public ViewRenderer(final Map parameters, final String htmlFile) {
     }
 
-    public boolean areCredentialsValid(final String username, 
-            final String password) {
-        
-        throw new UnsupportedOperationException("Not yet implemented");
+    public String renderContent() {
+        return null;
     }
 }

@@ -18,18 +18,24 @@
 
 package org.aeroivr.rsmc.web.controller;
 
+import java.io.PrintWriter;
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.Map;
 import junit.framework.TestCase;
 import javax.servlet.http.*;
+import org.aeroivr.appserver.common.AppServerAdminConstants;
+import org.aeroivr.common.utils.FileUtils;
 import org.aeroivr.rsmc.admin.AppServerAdminClient;
 import org.aeroivr.rsmc.common.ServiceLocator;
+import org.aeroivr.rsmc.common.TestConstants;
 import org.aeroivr.rsmc.web.security.WebSecurityManager;
 import org.aeroivr.rsmc.web.view.AbstractView;
 import org.aeroivr.rsmc.web.view.LogonView;
 import static org.easymock.classextension.EasyMock.createStrictControl;
 import static org.easymock.classextension.EasyMock.expectLastCall;
 import static org.easymock.classextension.EasyMock.eq;
+import static org.easymock.classextension.EasyMock.matches;
 import org.easymock.classextension.IMocksControl;
 
 /**
@@ -37,106 +43,136 @@ import org.easymock.classextension.IMocksControl;
  */
 public class LogonPageControllerTest extends TestCase {
     
+    private final ServiceLocator serviceLocator;
+    
     public LogonPageControllerTest(final String testName) {
         super(testName);
+        serviceLocator = ServiceLocator.getInstance();
+    }
+
+    protected void tearDown() throws Exception {
+        ServiceLocator.load(serviceLocator);
     }
     
     public void testPageGet() throws Exception {
+        
         final IMocksControl control = createStrictControl();
-        final ServiceLocator serviceLocatorMock = control.createMock(
-                ServiceLocator.class,
-                new Method[] {ServiceLocator.class.getDeclaredMethod(
-                        "getLogonView", String.class)});
         final HttpServletRequest requestMock = control.createMock(
                 HttpServletRequest.class);
         final HttpServletResponse responseMock = control.createMock(
                 HttpServletResponse.class);
+        final PrintWriter printWriterMock = control.createMock(
+                PrintWriter.class);
         final LogonPageController logonPageControllerMock = control.createMock(
-                LogonPageController.class,
-                new Method[] {BasePageController.class.getDeclaredMethod(
-                        "getViewsFolder"),
-                BasePageController.class.getDeclaredMethod("renderView",
-                        HttpServletRequest.class, HttpServletResponse.class,
-                        AbstractView.class)});
-        final LogonView logonViewMock = control.createMock(LogonView.class,
-                new Method[] {LogonView.class.getMethod("setUsername",
-                        String.class)});
-        final String viewsFolder = "views";
-        final String adminUsername = "admin";
+                LogonPageController.class, 
+                new Method[] {
+                    BasePageController.class.getDeclaredMethod(
+                            "getViewsFolder")});
         
         logonPageControllerMock.getViewsFolder();
-        expectLastCall().andReturn(viewsFolder).once();
+        expectLastCall().andReturn(TestConstants.VIEWS_FOLDER).atLeastOnce();
         
-        serviceLocatorMock.getLogonView(eq(viewsFolder));
-        expectLastCall().andReturn(logonViewMock).once();
+        requestMock.getContextPath();
+        expectLastCall().andReturn(
+                TestConstants.SERVLET_CONTEXT_PATH).atLeastOnce();
         
-        logonViewMock.setUsername(adminUsername);
-        expectLastCall().once();
+        responseMock.getWriter();
+        expectLastCall().andReturn(printWriterMock).once();
         
-        logonPageControllerMock.renderView(eq(requestMock), eq(responseMock),
-                eq(logonViewMock));
+        printWriterMock.print(matches("<html> .* <form .* </form> .* </html>"));
         expectLastCall().once();
         
         control.replay();
         
-        logonPageControllerMock.pageGet(requestMock, responseMock);
+        logonPageControllerMock.doGet(requestMock, responseMock);
         
         control.verify();
     }
     
-    public void testPagePost() throws Exception {
+    class ParametersForTestPagePost {
+
+        final HashMap parameters = new HashMap();
         final IMocksControl control = createStrictControl();
-        final ServiceLocator serviceLocatorMock = control.createMock(
-                ServiceLocator.class,
-                new Method[] {ServiceLocator.class.getMethod(
-                        "getLogonView", String.class, Map.class),
-                    ServiceLocator.class.getMethod("getWebSecurityManager",
-                        HttpSession.class)});
         final HttpServletRequest requestMock = control.createMock(
                 HttpServletRequest.class);
         final HttpServletResponse responseMock = control.createMock(
                 HttpServletResponse.class);
-        final HttpSession sessionMock = control.createMock(
-                HttpSession.class);
-        final WebSecurityManager webSecurityManagerMock = control.createMock(
-                WebSecurityManager.class);
-        final LogonView logonViewMock = control.createMock(LogonView.class);
-        final AppServerAdminClient appServerAdminClientMock = 
-                control.createMock(AppServerAdminClient.class);
-        final LogonPageController logonPageControllerMock = control.createMock(
-                LogonPageController.class,
-                new Method[] {BasePageController.class.getDeclaredMethod(
-                        "getViewsFolder"),
-                LogonPageController.class.getDeclaredMethod("renderView",
-                        HttpServletRequest.class, HttpServletResponse.class,
-                        AbstractView.class)});
-        final String username = "admin";
-        final String password = "admin";
+        final PrintWriter printWriterMock = control.createMock(
+                PrintWriter.class);
+        final LogonPageController logonPageController = 
+                new LogonPageController();
+        final ServiceLocator serviceLocatorMock;
+        final AppServerAdminClient appServerClientAdminMock = control.createMock(
+                AppServerAdminClient.class);
         
-        logonViewMock.wasLogonButtonPressed();
-        expectLastCall().andReturn(true).once();
+        public ParametersForTestPagePost() throws NoSuchMethodException {
+
+            serviceLocatorMock = control.createMock(
+                ServiceLocator.class, 
+                new Method[] {ServiceLocator.class.getMethod(
+                        "getAppServerAdminClient")});
+        }
+    }
+    
+    private void checkPagePost(final ParametersForTestPagePost testParams, 
+            final boolean validationResult) throws Exception {
         
-        logonViewMock.getUsername();
-        expectLastCall().andReturn(username).atLeastOnce();
+        testParams.parameters.put(LogonView.USERNAME, 
+                AppServerAdminConstants.ADMIN_USERNAME);
+        testParams.parameters.put(LogonView.PASSWORD, 
+                AppServerAdminConstants.ADMIN_USERNAME);
+        testParams.parameters.put(LogonView.LOGON_BUTTON, 
+                LogonView.LOGON_BUTTON);
         
-        logonViewMock.getPassword();
-        expectLastCall().andReturn(password).once();
+        testParams.requestMock.getParameterMap();
+        expectLastCall().andReturn(testParams.parameters).atLeastOnce();
         
-        appServerAdminClientMock.areCredentialsValid(eq(username), 
-                eq(password));
-        expectLastCall().andReturn(true).once();
+        testParams.serviceLocatorMock.getAppServerAdminClient();
+        expectLastCall().andReturn(testParams.appServerClientAdminMock).once();
         
-        serviceLocatorMock.getWebSecurityManager(sessionMock);
-        expectLastCall().andReturn(webSecurityManagerMock).once();
+        testParams.appServerClientAdminMock.areCredentialsValid(
+                eq(AppServerAdminConstants.ADMIN_USERNAME),
+                eq(AppServerAdminConstants.ADMIN_USERNAME));
+        expectLastCall().andReturn(validationResult).once();
+    }
+    
+    public void testPagePostWithSuccessfulLogon() throws Exception {
+
+        final ParametersForTestPagePost testParams = 
+                new ParametersForTestPagePost(); 
+        checkPagePost(testParams, true);
         
-        webSecurityManagerMock.setLoggedInUsername(eq(username));
+        testParams.responseMock.sendRedirect(eq("startStopServer.html"));
+        expectLastCall().once();
+
+        testParams.control.replay();
+        
+        ServiceLocator.load(testParams.serviceLocatorMock);
+        testParams.logonPageController.doPost(testParams.requestMock, 
+                testParams.responseMock);
+        
+        testParams.control.verify();
+    }
+    
+    public void testPagePostWithUnsuccessfulLogon() throws Exception {
+        
+        final ParametersForTestPagePost testParams = 
+                new ParametersForTestPagePost(); 
+        checkPagePost(testParams, false);
+        
+        testParams.responseMock.getWriter();
+        expectLastCall().andReturn(testParams.printWriterMock).once();
+        
+        testParams.printWriterMock.print(matches("<html> .* errors .* <form " + 
+                " .* </form> .* </html>"));
         expectLastCall().once();
         
-        responseMock.sendRedirect("startStopServer.html");
-        control.replay();
+        testParams.control.replay();
         
-        logonPageControllerMock.pagePost(requestMock, responseMock);
+        ServiceLocator.load(testParams.serviceLocatorMock);
+        testParams.logonPageController.doPost(testParams.requestMock, 
+                testParams.responseMock);
         
-        control.verify();
+        testParams.control.verify();
     }
 }

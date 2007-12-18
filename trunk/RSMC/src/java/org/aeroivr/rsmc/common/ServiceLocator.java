@@ -19,8 +19,12 @@
 package org.aeroivr.rsmc.common;
 
 import javax.servlet.http.HttpSession;
+import org.aeroivr.rsmc.admin.AppServerAdminClient;
+import org.aeroivr.rsmc.web.render.PageRenderer;
 import org.aeroivr.rsmc.web.security.WebSecurityManager;
+import org.aeroivr.rsmc.web.view.AbstractView;
 import org.aeroivr.rsmc.web.view.LogonView;
+import org.aeroivr.rsmc.web.view.MasterPageView;
 
 /**
  * Service Locator for all classes.
@@ -47,7 +51,24 @@ public class ServiceLocator {
         return new LogonView(viewsFolder);
     }
 
-    public WebSecurityManager getWebSecurityManager(HttpSession session) {
+    public WebSecurityManager getWebSecurityManager(final HttpSession session) {
         return new WebSecurityManager(session);
+    }
+
+    public AppServerAdminClient getAppServerAdminClient() {
+        return new AppServerAdminClient();
+    }
+
+    public static MasterPageView getMasterPageView(final String viewsFolder, 
+            final String rootDirUrl) {
+        
+        return new MasterPageView(viewsFolder, rootDirUrl);
+    }
+
+    public static PageRenderer getPageRenderer(
+            final MasterPageView masterPageView, 
+            final AbstractView view) {
+        
+        return new PageRenderer(masterPageView, view);
     }
 }

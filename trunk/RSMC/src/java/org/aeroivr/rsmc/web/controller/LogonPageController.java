@@ -46,4 +46,8 @@ public class LogonPageController extends BasePageController {
     protected void pagePost(HttpServletRequest request, 
             HttpServletResponse response) throws ServletException, IOException {
     }
+
+    protected String getHeader() {
+        return "Please provide credentials";
+    }
 }

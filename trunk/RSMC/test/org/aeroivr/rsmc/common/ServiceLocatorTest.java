@@ -24,6 +24,9 @@ import org.aeroivr.rsmc.web.security.WebSecurityManager;
 import org.aeroivr.rsmc.web.view.LogonView;
 import static org.easymock.classextension.EasyMock.createMock;
 import junit.framework.*;
+import org.aeroivr.rsmc.web.render.PageRenderer;
+import org.aeroivr.rsmc.web.view.AbstractView;
+import org.aeroivr.rsmc.web.view.MasterPageView;
 
 /**
  *
@@ -61,5 +64,21 @@ public class ServiceLocatorTest extends TestCase {
         HttpSession sessionMock = createMock(HttpSession.class);
         assertNotNull("LogonView object should not be null",
                 serviceLocator.getWebSecurityManager(sessionMock));
+    }
+
+    public void testGetAppServerAdminClient() {
+        assertNotNull("AppServerAdminClient should not be null ",
+                serviceLocator.getAppServerAdminClient());
+    }
+
+    public void testGetMasterPageView() {
+        assertNotNull("MasterPageView should not be null",
+                serviceLocator.getMasterPageView(TestConstants.VIEWS_FOLDER,
+                "/"));
+    }
+
+    public void testGetPageRenderer() {
+        assertNotNull("PageRenderer should not be null",
+                serviceLocator.getPageRenderer(null, null));
     }
 }
