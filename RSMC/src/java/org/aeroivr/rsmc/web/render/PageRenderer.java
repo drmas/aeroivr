@@ -18,6 +18,8 @@
 
 package org.aeroivr.rsmc.web.render;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import org.aeroivr.rsmc.web.view.AbstractView;
 import org.aeroivr.rsmc.web.view.MasterPageView;
 
@@ -28,12 +30,19 @@ import org.aeroivr.rsmc.web.view.MasterPageView;
  */
 public class PageRenderer {
     
-    public PageRenderer(final MasterPageView masterPageView, 
-            final AbstractView view) {
+    private MasterPageView masterPageView;
+    private AbstractView innerView;
+    
+    public PageRenderer(final MasterPageView mstrPageView, 
+            final AbstractView innrView) {
+        
+        this.masterPageView = mstrPageView;
+        this.innerView = innrView;
     }
 
-    public String renderContent() {
-        return null;
+    public String renderContent() throws FileNotFoundException, IOException {
+        masterPageView.setInnerContent(innerView.getContent());
+        return masterPageView.getContent();
     }
     
 }

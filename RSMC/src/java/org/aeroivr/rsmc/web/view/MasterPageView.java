@@ -31,7 +31,7 @@ public class MasterPageView extends AbstractView {
     private static final String SHOW_MENU = "showMenu";
     private static final String WERE_ERRORS = "wereErrors";
     private static final String ERRORS = "errors";
-    private static final String CONTENT = "content";
+    private static final String INNER_CONTENT = "innerContent";
     private static final String ROOT_DIR_URL = "rootDirUrl";
     private static final String HEADER = "header";
     
@@ -52,8 +52,8 @@ public class MasterPageView extends AbstractView {
         setValue(HEADER, value);
     }
     
-    public void setContent(final String value) {
-        setValue(CONTENT, value);
+    public void setInnerContent(final String value) {
+        setValue(INNER_CONTENT, value);
     }
 
     public void setShowMenu(final boolean value) {

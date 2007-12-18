@@ -18,6 +18,8 @@
 
 package org.aeroivr.rsmc.common;
 
+import java.io.File;
+import java.io.IOException;
 import junit.framework.TestCase;
 import javax.servlet.http.HttpSession;
 import org.aeroivr.rsmc.web.security.WebSecurityManager;
@@ -27,6 +29,8 @@ import junit.framework.*;
 import org.aeroivr.rsmc.web.render.PageRenderer;
 import org.aeroivr.rsmc.web.view.AbstractView;
 import org.aeroivr.rsmc.web.view.MasterPageView;
+import java.io.BufferedReader;
+import org.aeroivr.rsmc.admin.AppServerAdminClient;
 
 /**
  *
@@ -80,5 +84,18 @@ public class ServiceLocatorTest extends TestCase {
     public void testGetPageRenderer() {
         assertNotNull("PageRenderer should not be null",
                 serviceLocator.getPageRenderer(null, null));
+    }
+
+    public void testGetBufferedReaderForFile() throws IOException {
+        File file = File.createTempFile("test", "test");
+        try {
+            BufferedReader buffReader = 
+                    serviceLocator.getBufferedReaderForFile(file.getPath());
+            assertNotNull("Buffered Reader for file should not be null", 
+                    buffReader);
+            buffReader.close();
+        } finally {
+            file.delete();
+        }
     }
 }

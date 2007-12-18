@@ -28,7 +28,10 @@ import org.aeroivr.common.utils.FileUtils;
  */
 public final class TestConstants {
     
-    public static final String VIEWS_FOLDER = ".." + File.separator + "web";
+    // TODO: Fix problem with the relative paths
+//    public static final String VIEWS_FOLDER = ".." + File.separator + "web";
+    public static final String VIEWS_FOLDER = "H:\\Projects\\AeroIVR\\" +
+            "Sources\\trunk\\RSMC\\web";
     public static final String SERVLET_CONTEXT_PATH = "/RSMC/";
     
     protected TestConstants() {

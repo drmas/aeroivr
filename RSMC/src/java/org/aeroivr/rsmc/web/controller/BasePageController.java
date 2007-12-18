@@ -75,11 +75,11 @@ public abstract class BasePageController extends HttpServlet {
         errors.add(errorMessage);
     }
 
-    private void clearErrors() {
+    protected void clearErrors() {
         errors.clear();
     }
 
-    private boolean wereErrors() {
+    protected boolean wereErrors() {
         return (0 < errors.size());
     }
 
