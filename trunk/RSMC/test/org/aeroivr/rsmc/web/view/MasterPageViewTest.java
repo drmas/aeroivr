@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 import junit.framework.TestCase;
 import org.aeroivr.rsmc.common.TestConstants;
+import junit.framework.*;
+import java.util.Map;
 
 /**
  *
@@ -128,6 +130,22 @@ public class MasterPageViewTest extends TestCase {
                 -1 == content.indexOf(error2));
         assertTrue("Should contain not error text",
                 -1 == content.indexOf(error3));
+    }
+
+    public void testSetInnerContent() 
+        throws FileNotFoundException, IOException {
+        
+        final MasterPageView masterPageView = new MasterPageView(
+                TestConstants.VIEWS_FOLDER,
+                TestConstants.SERVLET_CONTEXT_PATH);
+        final String testInnerContent = "<b>my test inner content</b>";
+        masterPageView.setInnerContent(testInnerContent);
+        
+        final String content = masterPageView.getContent();
+        assertNotNull("Content should not be null",
+                content);
+        assertTrue("Content should contain inner content",
+                -1 < content.indexOf(testInnerContent));
     }
     
 }
