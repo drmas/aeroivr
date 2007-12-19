@@ -27,11 +27,16 @@ import javax.servlet.http.HttpSession;
  */
 public class WebSecurityManager {
     
+    private HttpSession httpSession;
+    
+    public static final String USERNAME = "username";
+    
     public WebSecurityManager(final HttpSession session) {
+        httpSession = session;
     }
 
     public void setLoggedInUsername(final String username) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        httpSession.setAttribute(USERNAME, username);
     }
     
 }

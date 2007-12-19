@@ -1,5 +1,5 @@
 /*
- * AppServerAdminClient.java
+ * BaseSecurePageController.java
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,25 +16,13 @@
  * USA.
  */
 
-package org.aeroivr.rsmc.admin;
+package org.aeroivr.rsmc.web.controller;
 
 /**
- * Client of the application server.
+ * Base class for all secure page controllers.
  *
  * @author Andriy Petlyovanyy
  */
-public class AppServerAdminClient {
+public abstract class BaseSecurePageController extends BasePageController {
     
-    public AppServerAdminClient() {
-    }
-
-    public boolean areCredentialsValid(final String username, 
-            final String password) {
-        
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-
-    public boolean isAppServerRunning() {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
 }

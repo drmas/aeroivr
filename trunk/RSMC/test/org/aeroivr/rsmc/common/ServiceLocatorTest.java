@@ -20,6 +20,7 @@ package org.aeroivr.rsmc.common;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import junit.framework.TestCase;
 import javax.servlet.http.HttpSession;
 import org.aeroivr.rsmc.web.security.WebSecurityManager;
@@ -31,6 +32,9 @@ import org.aeroivr.rsmc.web.view.AbstractView;
 import org.aeroivr.rsmc.web.view.MasterPageView;
 import java.io.BufferedReader;
 import org.aeroivr.rsmc.admin.AppServerAdminClient;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.Map;
 
 /**
  *
@@ -62,6 +66,11 @@ public class ServiceLocatorTest extends TestCase {
     public void testGetLogonView() {
         assertNotNull("LogonView object should not be null",
                 serviceLocator.getLogonView("temp"));
+    }
+    
+    public void testGetLogonViewWithParameters() {
+        assertNotNull("LogonView object should not be null",
+                serviceLocator.getLogonView("temp", new HashMap()));
     }
 
     public void testGetWebSecurityManager() {
