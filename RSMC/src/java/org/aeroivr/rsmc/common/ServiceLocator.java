@@ -21,6 +21,7 @@ package org.aeroivr.rsmc.common;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.Map;
 import javax.servlet.http.HttpSession;
 import org.aeroivr.rsmc.admin.AppServerAdminClient;
 import org.aeroivr.rsmc.web.render.PageRenderer;
@@ -79,5 +80,11 @@ public class ServiceLocator {
         throws FileNotFoundException {
         
         return new BufferedReader(new FileReader(fileName));
+    }
+
+    public LogonView getLogonView(final String viewsFolder, 
+            final Map parameters) {
+        
+        return new LogonView(viewsFolder, parameters);
     }
 }

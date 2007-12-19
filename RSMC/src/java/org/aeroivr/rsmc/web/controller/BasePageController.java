@@ -79,10 +79,6 @@ public abstract class BasePageController extends HttpServlet {
         errors.clear();
     }
 
-    protected boolean wereErrors() {
-        return (0 < errors.size());
-    }
-
     protected abstract void pageGet(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException;
 

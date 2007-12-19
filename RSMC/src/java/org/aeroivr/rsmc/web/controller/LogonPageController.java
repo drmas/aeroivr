@@ -23,7 +23,9 @@ import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import org.aeroivr.appserver.common.AppServerAdminConstants;
+import org.aeroivr.rsmc.admin.AppServerAdminClient;
 import org.aeroivr.rsmc.common.ServiceLocator;
+import org.aeroivr.rsmc.web.security.WebSecurityManager;
 import org.aeroivr.rsmc.web.view.LogonView;
 
 /**
@@ -36,7 +38,7 @@ public class LogonPageController extends BasePageController {
     protected void pageGet(HttpServletRequest request, 
             HttpServletResponse response) throws ServletException, IOException {
         
-        LogonView view = ServiceLocator.getInstance().getLogonView(
+        final LogonView view = ServiceLocator.getInstance().getLogonView(
                 getViewsFolder());
         view.setUsername(AppServerAdminConstants.ADMIN_USERNAME);
         renderView(request, response, view);
@@ -44,6 +46,31 @@ public class LogonPageController extends BasePageController {
 
     protected void pagePost(HttpServletRequest request, 
             HttpServletResponse response) throws ServletException, IOException {
+        
+        final LogonView logonView = ServiceLocator.getInstance().getLogonView(
+                getViewsFolder(), request.getParameterMap());
+        boolean areCredentialsValid = false;
+        AppServerAdminClient appServerClient = ServiceLocator.getInstance(
+                ).getAppServerAdminClient();
+        
+        if (logonView.wasLogonButtonPressed()) {
+            if (appServerClient.areCredentialsValid(logonView.getUsername(), 
+                    logonView.getPassword())) {
+
+                areCredentialsValid = true;
+                WebSecurityManager webSecurity = ServiceLocator.getInstance(
+                        ).getWebSecurityManager(request.getSession());
+                webSecurity.setLoggedInUsername(logonView.getUsername());
+
+                response.sendRedirect("startStopServer.html");
+            } else {
+                setError("Invalid credentials supplied");
+            }
+        }
+        
+        if (!areCredentialsValid) {
+            renderView(request, response, logonView);
+        }
     }
 
     protected String getHeader() {
