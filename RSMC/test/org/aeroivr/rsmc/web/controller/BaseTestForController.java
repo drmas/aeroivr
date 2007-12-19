@@ -20,9 +20,12 @@ package org.aeroivr.rsmc.web.controller;
 
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import junit.framework.TestCase;
+import org.aeroivr.rsmc.admin.AppServerAdminClient;
 import org.aeroivr.rsmc.common.*;
 import org.easymock.classextension.IMocksControl;
 import static org.easymock.classextension.EasyMock.createNiceControl;
@@ -76,5 +79,63 @@ public class BaseTestForController extends TestCase {
 
         testParams.responseMock.getWriter();
         expectLastCall().andReturn(testParams.printWriterMock).once();
+    }
+    
+    public class PagePostTestParameters<T> {
+        public HashMap parameters;
+        public IMocksControl control;
+        public HttpServletRequest requestMock;
+        public HttpServletResponse responseMock;
+        public HttpSession sessionMock;
+        public T controllerMock;
+        public PrintWriter printWriterMock;
+        public ServiceLocator serviceLocatorMock;
+        public AppServerAdminClient appServerClientAdminMock;
+    }
+    
+    public <T extends BasePageController> void pagePostInitTest(
+            Class<T> controllerClass, PagePostTestParameters<T> testParams) throws NoSuchMethodException {
+        
+        testParams.parameters = new HashMap();
+        testParams.control = createNiceControl();
+        testParams.requestMock = testParams.control.createMock(
+                HttpServletRequest.class);
+        testParams.responseMock = testParams.control.createMock(
+                HttpServletResponse.class);
+        testParams.sessionMock = testParams.control.createMock(
+                HttpSession.class);
+        testParams.printWriterMock = testParams.control.createMock(
+                PrintWriter.class);
+        testParams.controllerMock = testParams.control.createMock(
+                controllerClass,
+                new Method[] {
+                    BasePageController.class.getDeclaredMethod(
+                            "getViewsFolder"),
+                    BasePageController.class.getDeclaredMethod("clearErrors"),
+                    BasePageController.class.getDeclaredMethod("setError",
+                            String.class)});
+        testParams.serviceLocatorMock = testParams.control.createMock(
+                ServiceLocator.class,
+                new Method[] {ServiceLocator.class.getMethod(
+                        "getAppServerAdminClient")});
+        testParams.appServerClientAdminMock = testParams.control.createMock(
+                AppServerAdminClient.class);
+        
+        testParams.controllerMock.getViewsFolder();
+        expectLastCall().andReturn(TestConstants.VIEWS_FOLDER).atLeastOnce();
+
+        testParams.requestMock.getContextPath();
+        expectLastCall().andReturn(
+                TestConstants.SERVLET_CONTEXT_PATH).anyTimes();
+
+        testParams.requestMock.getParameterMap();
+        expectLastCall().andReturn(testParams.parameters).atLeastOnce();
+
+        testParams.requestMock.getSession();
+        expectLastCall().andReturn(testParams.sessionMock).anyTimes();
+
+        testParams.serviceLocatorMock.getAppServerAdminClient();
+        expectLastCall().andReturn(testParams.appServerClientAdminMock).once();
+        
     }
 }
