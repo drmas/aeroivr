@@ -22,6 +22,9 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.aeroivr.rsmc.admin.AppServerAdminClient;
+import org.aeroivr.rsmc.common.ServiceLocator;
+import org.aeroivr.rsmc.web.view.StartStopServerView;
 
 /**
  * Start \ Stop application server page controller.
@@ -34,15 +37,44 @@ public class StartStopServerPageController extends BaseSecurePageController {
     }
 
     protected String getHeader() {
-        return null;
+        return "Manage application server";
     }
 
     protected void pageGet(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
+
+        StartStopServerView view = ServiceLocator.getInstance(
+                ).getStartStopServerView(getViewsFolder());
+        AppServerAdminClient client = ServiceLocator.getInstance(
+                ).getAppServerAdminClient();
+        view.setServerStarted(client.isAppServerRunning());
+        renderView(request, response, view);
     }
 
     protected void pagePost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
+
+        StartStopServerView view = ServiceLocator.getInstance(
+                ).getStartStopServerView(getViewsFolder(),
+                request.getParameterMap());
+        AppServerAdminClient client = ServiceLocator.getInstance(
+                ).getAppServerAdminClient();
+        if (view.wasStartButtonPressed()) {
+            client.startAppServer();
+            view.setServerStarted(client.isAppServerRunning());
+        } else {
+            if (view.wasStopButtonPressed()) {
+                client.stopAppServer();
+                view.setServerStarted(client.isAppServerRunning());
+            } else {
+                if (view.wasRestartButtonPressed()) {
+                    client.stopAppServer();
+                    client.startAppServer();
+                    view.setServerStarted(client.isAppServerRunning());
+                }
+            }
+        }
+        renderView(request, response, view);
     }
 
 }

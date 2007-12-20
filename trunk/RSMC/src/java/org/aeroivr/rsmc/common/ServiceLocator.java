@@ -29,6 +29,7 @@ import org.aeroivr.rsmc.web.security.WebSecurityManager;
 import org.aeroivr.rsmc.web.view.AbstractView;
 import org.aeroivr.rsmc.web.view.LogonView;
 import org.aeroivr.rsmc.web.view.MasterPageView;
+import org.aeroivr.rsmc.web.view.StartStopServerView;
 
 /**
  * Service Locator for all classes.
@@ -36,17 +37,17 @@ import org.aeroivr.rsmc.web.view.MasterPageView;
  * @author Andriy Petlyovanyy
  */
 public class ServiceLocator {
-    
-    private static volatile ServiceLocator instance = 
+
+    private static volatile ServiceLocator instance =
             new ServiceLocator();
-    
+
     private ServiceLocator() {
     }
-    
+
     public static ServiceLocator getInstance() {
         return instance;
     }
-    
+
     public static void load(final ServiceLocator value) {
         instance = value;
     }
@@ -63,28 +64,40 @@ public class ServiceLocator {
         return new AppServerAdminClient();
     }
 
-    public static MasterPageView getMasterPageView(final String viewsFolder, 
+    public static MasterPageView getMasterPageView(final String viewsFolder,
             final String rootDirUrl) {
-        
+
         return new MasterPageView(viewsFolder, rootDirUrl);
     }
 
     public static PageRenderer getPageRenderer(
-            final MasterPageView masterPageView, 
+            final MasterPageView masterPageView,
             final AbstractView view) {
-        
+
         return new PageRenderer(masterPageView, view);
     }
 
-    public BufferedReader getBufferedReaderForFile(final String fileName) 
+    public BufferedReader getBufferedReaderForFile(final String fileName)
         throws FileNotFoundException {
-        
+
         return new BufferedReader(new FileReader(fileName));
     }
 
-    public LogonView getLogonView(final String viewsFolder, 
+    public LogonView getLogonView(final String viewsFolder,
             final Map parameters) {
-        
+
         return new LogonView(viewsFolder, parameters);
+    }
+
+    public StartStopServerView getStartStopServerView(
+            final String viewsFolder) {
+
+        return new StartStopServerView(viewsFolder);
+    }
+
+    public StartStopServerView getStartStopServerView(final String viewsFolder,
+            final Map parameters) {
+
+        return new StartStopServerView(viewsFolder, parameters);
     }
 }

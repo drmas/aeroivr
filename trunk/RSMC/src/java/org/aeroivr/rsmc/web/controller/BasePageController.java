@@ -35,10 +35,10 @@ import org.aeroivr.rsmc.web.view.MasterPageView;
  * @author Andriy Petlyovanyy
  */
 public abstract class BasePageController extends HttpServlet {
-    
+
     private List<String> errors = new ArrayList<String>();
 
-    protected void configureMasterPage(MasterPageView masterPageView) {
+    protected void configureMasterPage(final MasterPageView masterPageView) {
         masterPageView.setShowMenu(false);
         masterPageView.setHeader(getHeader());
     }
@@ -56,7 +56,7 @@ public abstract class BasePageController extends HttpServlet {
     protected void renderView(HttpServletRequest request,
             HttpServletResponse response, AbstractView view)
             throws IOException {
-        
+
         MasterPageView masterPageView = ServiceLocator.getMasterPageView(
                 getViewsFolder(), request.getContextPath());
         configureMasterPage(masterPageView);
@@ -87,13 +87,13 @@ public abstract class BasePageController extends HttpServlet {
 
     protected void doGet(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
-        
+
         pageGet(request, response);
     }
 
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
-        
+
         pagePost(request, response);
     }
 }

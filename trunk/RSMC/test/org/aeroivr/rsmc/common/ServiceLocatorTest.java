@@ -35,6 +35,7 @@ import org.aeroivr.rsmc.admin.AppServerAdminClient;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Map;
+import org.aeroivr.rsmc.web.view.StartStopServerView;
 
 /**
  *
@@ -106,5 +107,17 @@ public class ServiceLocatorTest extends TestCase {
         } finally {
             file.delete();
         }
+    }
+
+    public void testGetStartStopServerView() {
+        assertNotNull("StartStopServerView should not be null",
+                serviceLocator.getStartStopServerView(
+                    TestConstants.VIEWS_FOLDER));
+    }
+    
+    public void testGetStartStopServerViewWithParameters() {
+        assertNotNull("StartStopServerView should not be null",
+                serviceLocator.getStartStopServerView(
+                    TestConstants.VIEWS_FOLDER, new HashMap()));
     }
 }

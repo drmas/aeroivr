@@ -23,6 +23,7 @@ import junit.framework.*;
 import javax.servlet.http.HttpSession;
 import org.easymock.IMocksControl;
 import static org.easymock.classextension.EasyMock.createNiceControl;
+import static org.easymock.classextension.EasyMock.expectLastCall;
 import static org.easymock.classextension.EasyMock.eq;
 
 /**
@@ -49,5 +50,25 @@ public class WebSecurityManagerTest extends TestCase {
         
         control.verify();
     }
-    
+
+    public void testIsLoggedIn() {
+        final IMocksControl control = createNiceControl();
+        final HttpSession sessionMock = control.createMock(HttpSession.class);
+        final String username = "testUserName";
+        
+        sessionMock.getAttribute(eq(WebSecurityManager.USERNAME));
+        expectLastCall().andReturn(username).once()
+            .andReturn(null).once();
+        
+        control.replay();
+        
+        WebSecurityManager securityManager = new WebSecurityManager(
+                sessionMock);
+        assertTrue("User should be logged in", 
+                securityManager.isLoggedIn());
+        assertFalse("User should not be logged in", 
+                securityManager.isLoggedIn());
+        
+        control.verify();
+    }
 }

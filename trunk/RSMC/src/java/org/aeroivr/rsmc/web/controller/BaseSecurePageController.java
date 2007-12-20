@@ -18,11 +18,47 @@
 
 package org.aeroivr.rsmc.web.controller;
 
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.aeroivr.rsmc.common.ServiceLocator;
+import org.aeroivr.rsmc.web.security.WebSecurityManager;
+import org.aeroivr.rsmc.web.view.MasterPageView;
+
 /**
  * Base class for all secure page controllers.
  *
  * @author Andriy Petlyovanyy
  */
 public abstract class BaseSecurePageController extends BasePageController {
-    
+
+    protected void configureMasterPage(final MasterPageView masterPageView) {
+        super.configureMasterPage(masterPageView);
+        masterPageView.setShowMenu(true);
+    }
+
+    protected void doGet(HttpServletRequest request,
+            HttpServletResponse response) throws ServletException, IOException {
+
+        WebSecurityManager securityManager = ServiceLocator.getInstance(
+                ).getWebSecurityManager(request.getSession());
+        if (securityManager.isLoggedIn()) {
+            pageGet(request, response);
+        } else {
+            response.sendError(403);
+        }
+    }
+
+    protected void doPost(HttpServletRequest request,
+            HttpServletResponse response) throws ServletException, IOException {
+
+        WebSecurityManager securityManager = ServiceLocator.getInstance(
+                ).getWebSecurityManager(request.getSession());
+        if (securityManager.isLoggedIn()) {
+            pagePost(request, response);
+        } else {
+            response.sendError(403);
+        }
+    }
 }
