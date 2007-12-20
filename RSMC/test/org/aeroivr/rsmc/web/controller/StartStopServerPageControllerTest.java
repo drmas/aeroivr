@@ -18,13 +18,12 @@
 
 package org.aeroivr.rsmc.web.controller;
 
-import junit.framework.TestCase;
-import junit.framework.*;
-import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.lang.reflect.Method;
 import org.aeroivr.rsmc.admin.AppServerAdminClient;
+import org.aeroivr.rsmc.common.ServiceLocator;
+import org.aeroivr.rsmc.web.controller.BaseTestForPageController.PageGetTestParameters;
+import org.aeroivr.rsmc.web.controller.BaseTestForPageController.PagePostTestParameters;
+import org.aeroivr.rsmc.web.view.StartStopServerView;
 import static org.easymock.classextension.EasyMock.createNiceControl;
 import static org.easymock.classextension.EasyMock.expectLastCall;
 import static org.easymock.classextension.EasyMock.eq;
@@ -35,7 +34,8 @@ import static org.easymock.classextension.EasyMock.and;
  *
  * @author Andriy Petlyovanyy
  */
-public class StartStopServerPageControllerTest extends BaseTestForController {
+public class StartStopServerPageControllerTest
+        extends BaseTestForSecurePageController {
 
     public StartStopServerPageControllerTest(final String testName) {
         super(testName);
@@ -57,8 +57,16 @@ public class StartStopServerPageControllerTest extends BaseTestForController {
 
         pageGetInitTest(StartStopServerPageController.class, testParams);
 
+        ServiceLocator serviceLocatorMock =
+                testParams.control.createMock(ServiceLocator.class,
+                    new Method[] {ServiceLocator.class.getMethod(
+                            "getAppServerAdminClient")});
+
         AppServerAdminClient appServerClientMock =
                 testParams.control.createMock(AppServerAdminClient.class);
+
+        serviceLocatorMock.getAppServerAdminClient();
+        expectLastCall().andReturn(appServerClientMock).once();
 
         appServerClientMock.isAppServerRunning();
         expectLastCall().andReturn(running).once();
@@ -69,6 +77,7 @@ public class StartStopServerPageControllerTest extends BaseTestForController {
 
         testParams.control.replay();
 
+        ServiceLocator.load(serviceLocatorMock);
         testParams.controllerMock.doGet(testParams.requestMock,
                 testParams.responseMock);
 
@@ -83,8 +92,79 @@ public class StartStopServerPageControllerTest extends BaseTestForController {
         pageGetTestWithServerState(true, "stopServer", "restartServer");
     }
 
-    public void testPagePost() throws Exception {
-        fail();
+    public void testPagePostWithStartServerCommand() throws Exception {
+
+        PagePostTestParameters<StartStopServerPageController> testParams =
+                new PagePostTestParameters<StartStopServerPageController>();
+        pagePostInitTest(StartStopServerPageController.class, testParams);
+
+        testParams.responseMock.getWriter();
+        expectLastCall().andReturn(testParams.printWriterMock).once();
+
+        testParams.parameters.put(StartStopServerView.START_SERVER_BUTTON,
+                StartStopServerView.START_SERVER_BUTTON);
+
+        testParams.appServerClientAdminMock.startAppServer();
+        expectLastCall().once();
+
+        testParams.control.replay();
+
+        ServiceLocator.load(testParams.serviceLocatorMock);
+        testParams.controllerMock.doPost(testParams.requestMock,
+                testParams.responseMock);
+
+        testParams.control.verify();
+    }
+
+    public void testPagePostWithStopServerCommand() throws Exception {
+
+        PagePostTestParameters<StartStopServerPageController> testParams =
+                new PagePostTestParameters<StartStopServerPageController>();
+        pagePostInitTest(StartStopServerPageController.class, testParams);
+
+        testParams.responseMock.getWriter();
+        expectLastCall().andReturn(testParams.printWriterMock).once();
+
+        testParams.parameters.put(StartStopServerView.STOP_SERVER_BUTTON,
+                StartStopServerView.START_SERVER_BUTTON);
+
+        testParams.appServerClientAdminMock.stopAppServer();
+        expectLastCall().once();
+
+        testParams.control.replay();
+
+        ServiceLocator.load(testParams.serviceLocatorMock);
+        testParams.controllerMock.doPost(testParams.requestMock,
+                testParams.responseMock);
+
+        testParams.control.verify();
+    }
+
+    public void testPagePostWithRestartServerCommand() throws Exception {
+
+        PagePostTestParameters<StartStopServerPageController> testParams =
+                new PagePostTestParameters<StartStopServerPageController>();
+        pagePostInitTest(StartStopServerPageController.class, testParams);
+
+        testParams.responseMock.getWriter();
+        expectLastCall().andReturn(testParams.printWriterMock).once();
+
+        testParams.parameters.put(StartStopServerView.RESTART_SERVER_BUTTON,
+                StartStopServerView.START_SERVER_BUTTON);
+
+        testParams.appServerClientAdminMock.stopAppServer();
+        expectLastCall().once();
+
+        testParams.appServerClientAdminMock.startAppServer();
+        expectLastCall().once();
+
+        ServiceLocator.load(testParams.serviceLocatorMock);
+        testParams.control.replay();
+
+        testParams.controllerMock.doPost(testParams.requestMock,
+                testParams.responseMock);
+
+        testParams.control.verify();
     }
 
 }

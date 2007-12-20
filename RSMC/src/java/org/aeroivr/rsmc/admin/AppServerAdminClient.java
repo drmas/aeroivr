@@ -30,11 +30,18 @@ public class AppServerAdminClient {
 
     public boolean areCredentialsValid(final String username, 
             final String password) {
-        
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
     public boolean isAppServerRunning() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+    
+    public void startAppServer() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public void stopAppServer() {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 }

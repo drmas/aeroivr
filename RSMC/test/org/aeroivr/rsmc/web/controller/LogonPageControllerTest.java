@@ -39,17 +39,10 @@ import org.easymock.classextension.IMocksControl;
 /**
  * @author Andriy Petlyovanyy
  */
-public class LogonPageControllerTest extends BaseTestForController {
-
-    private final ServiceLocator serviceLocator;
+public class LogonPageControllerTest extends BaseTestForPageController {
 
     public LogonPageControllerTest(final String testName) {
         super(testName);
-        serviceLocator = ServiceLocator.getInstance();
-    }
-
-    protected void tearDown() throws Exception {
-        ServiceLocator.load(serviceLocator);
     }
 
     public void testPageGet() throws Exception {

@@ -4,9 +4,17 @@
         <servlet-name>LogonPageController</servlet-name>
         <servlet-class>org.aeroivr.rsmc.web.controller.LogonPageController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>StartStopServerPageController</servlet-name>
+        <servlet-class>org.aeroivr.rsmc.web.controller.StartStopServerPageController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LogonPageController</servlet-name>
         <url-pattern>/logon.html</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StartStopServerPageController</servlet-name>
+        <url-pattern>/startStopServer.html</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
@@ -15,7 +23,7 @@
     </session-config>
     <welcome-file-list>
 	<welcome-file>
-            index.jsp
+            logon.html
         </welcome-file>
     </welcome-file-list>
 </web-app>
