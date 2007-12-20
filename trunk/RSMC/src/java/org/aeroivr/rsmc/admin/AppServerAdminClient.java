@@ -44,4 +44,8 @@ public class AppServerAdminClient {
     public void stopAppServer() {
         throw new UnsupportedOperationException("Not yet implemented");
     }
+    
+    public void changeAdminPassword(final String newPassword) {
+        
+    }
 }
