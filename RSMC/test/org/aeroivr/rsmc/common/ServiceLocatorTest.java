@@ -36,6 +36,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Map;
 import org.aeroivr.rsmc.web.view.StartStopServerView;
+import org.aeroivr.rsmc.web.view.ChangePasswordView;
 
 /**
  *
@@ -120,4 +121,17 @@ public class ServiceLocatorTest extends TestCase {
                 serviceLocator.getStartStopServerView(
                     TestConstants.VIEWS_FOLDER, new HashMap()));
     }
+
+    public void testGetChangePasswordView() {
+        assertNotNull("ChangePasswordView should not be null",
+                serviceLocator.getChangePasswordView(
+                    TestConstants.VIEWS_FOLDER));
+    }
+    
+    public void testGetChangePasswordWithParameters() {
+        assertNotNull("ChangePasswordView should not be null",
+                serviceLocator.getChangePasswordView(
+                    TestConstants.VIEWS_FOLDER, new HashMap()));
+    }
+
 }

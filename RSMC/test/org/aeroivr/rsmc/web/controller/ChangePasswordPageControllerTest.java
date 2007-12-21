@@ -24,6 +24,7 @@ import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import org.aeroivr.appserver.common.AppServerAdminConstants;
+import org.aeroivr.rsmc.common.ServiceLocator;
 import org.aeroivr.rsmc.web.view.ChangePasswordView;
 import static org.easymock.classextension.EasyMock.createNiceControl;
 import static org.easymock.classextension.EasyMock.expectLastCall;
@@ -99,6 +100,7 @@ public class ChangePasswordPageControllerTest
 
         testParams.control.replay();
 
+        ServiceLocator.load(testParams.serviceLocatorMock);
         testParams.controllerMock.doPost(testParams.requestMock,
                 testParams.responseMock);
 
@@ -125,17 +127,14 @@ public class ChangePasswordPageControllerTest
                 confirmPassword);
         testParams.parameters.put(ChangePasswordView.CHANGE_BUTTON,
                 ChangePasswordView.CHANGE_BUTTON);
-
-        testParams.appServerClientAdminMock.areCredentialsValid(
-                eq(AppServerAdminConstants.ADMIN_USERNAME), eq(oldPassword));
-        expectLastCall().andReturn(true).once();
         
-        testParams.appServerClientAdminMock.changeAdminPassword(
-                eq(newPassword));
-        expectLastCall().times(0);
+        testParams.controllerMock.setError(eq("Confirm password should match " +
+                "new password"));
+        expectLastCall().once();
 
         testParams.control.replay();
 
+        ServiceLocator.load(testParams.serviceLocatorMock);
         testParams.controllerMock.doPost(testParams.requestMock,
                 testParams.responseMock);
 

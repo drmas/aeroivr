@@ -22,6 +22,10 @@ import java.io.*;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
+import org.aeroivr.rsmc.admin.AppServerAdminClient;
+import org.aeroivr.rsmc.common.ServiceLocator;
+import org.aeroivr.rsmc.web.security.WebSecurityManager;
+import org.aeroivr.rsmc.web.view.ChangePasswordView;
 
 /**
  * Page controller for change administrator password view.
@@ -31,14 +35,47 @@ import javax.servlet.http.*;
 public class ChangePasswordPageController extends BaseSecurePageController {
     
     protected String getHeader() {
-        return null ;
+        return "Change administrator's password";
     }
 
     protected void pageGet(HttpServletRequest request, 
             HttpServletResponse response) throws ServletException, IOException {
+
+        final ChangePasswordView view = ServiceLocator.getInstance(
+                ).getChangePasswordView(getViewsFolder());
+        renderView(request, response, view);
     }
 
     protected void pagePost(HttpServletRequest request, 
             HttpServletResponse response) throws ServletException, IOException {
+        
+        final ChangePasswordView view = ServiceLocator.getInstance(
+                ).getChangePasswordView(getViewsFolder(),
+                request.getParameterMap());
+        if (view.wasChangeButtonPressed()) {
+            WebSecurityManager securityManager = ServiceLocator.getInstance(
+                    ).getWebSecurityManager(request.getSession());
+            AppServerAdminClient client = ServiceLocator.getInstance(
+                    ).getAppServerAdminClient();
+
+            if (((null == view.getNewPassword()) &&
+                    (null == view.getConfirmPassword())) ||
+                    ((null != view.getNewPassword()) &&
+                        (0 == view.getNewPassword().compareTo(
+                            view.getConfirmPassword())))) {
+
+                if (client.areCredentialsValid(
+                        securityManager.getLoggedInUsername(),
+                        view.getOldPassword())) {
+                    client.changeAdminPassword(view.getNewPassword());
+
+                } else {
+                    setError("Please provide correct old password");
+                }
+            } else {
+                setError("Confirm password should match new password");
+            }
+        }
+        renderView(request, response, view);
     }
 }
