@@ -404,15 +404,21 @@
         <copy-ear-war file="${reference.AppServerAdminInterface.jar}" propname="included.lib.reference.AppServerAdminInterface.jar.X"/>
         <basename property="included.lib.reference.AeroIVRCommon.jar" file="${reference.AeroIVRCommon.jar}"/>
         <copy-ear-war file="${reference.AeroIVRCommon.jar}" propname="included.lib.reference.AeroIVRCommon.jar.X"/>
+        <basename property="included.lib.file.reference.commons-fileupload-1.2.jar" file="${file.reference.commons-fileupload-1.2.jar}"/>
+        <copy-ear-war file="${file.reference.commons-fileupload-1.2.jar}" propname="included.lib.file.reference.commons-fileupload-1.2.jar.X"/>
+        <basename property="included.lib.file.reference.commons-io-1.3.2.jar" file="${file.reference.commons-io-1.3.2.jar}"/>
+        <copy-ear-war file="${file.reference.commons-io-1.3.2.jar}" propname="included.lib.file.reference.commons-io-1.3.2.jar.X"/>
         <mkdir dir="${build.web.dir.real}/META-INF"/>
         <manifest file="${build.web.dir.real}/META-INF/MANIFEST.MF" mode="update">
-            <attribute name="Class-Path" value="${included.lib.reference.AppServerAdminInterface.jar} ${included.lib.reference.AeroIVRCommon.jar} "/>
+            <attribute name="Class-Path" value="${included.lib.reference.AppServerAdminInterface.jar} ${included.lib.reference.AeroIVRCommon.jar} ${included.lib.file.reference.commons-fileupload-1.2.jar} ${included.lib.file.reference.commons-io-1.3.2.jar} "/>
         </manifest>
         <delete dir="${dist.ear.dir}/temp"/>
     </target>
     <target name="library-inclusion-in-archive" depends="init" unless="dist.ear.dir">
         <copy file="${reference.AppServerAdminInterface.jar}" todir="${build.web.dir.real}/WEB-INF/lib"/>
         <copy file="${reference.AeroIVRCommon.jar}" todir="${build.web.dir.real}/WEB-INF/lib"/>
+        <copy file="${file.reference.commons-fileupload-1.2.jar}" todir="${build.web.dir.real}/WEB-INF/lib"/>
+        <copy file="${file.reference.commons-io-1.3.2.jar}" todir="${build.web.dir.real}/WEB-INF/lib"/>
     </target>
     <target name="do-ear-dist" depends="init,compile,compile-jsps,-pre-dist,library-inclusion-in-manifest">
         <dirname property="dist.jar.dir" file="${dist.ear.war}"/>

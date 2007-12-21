@@ -53,6 +53,7 @@ public class ChangePasswordPageControllerTest
     }
 
     public void testPageGet() throws Exception {
+
         PageGetTestParameters<ChangePasswordPageController> testParams =
                 new PageGetTestParameters<ChangePasswordPageController>();
 
