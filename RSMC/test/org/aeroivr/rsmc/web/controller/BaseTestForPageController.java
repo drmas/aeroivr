@@ -128,13 +128,14 @@ public class BaseTestForPageController extends TestCase {
                 TestConstants.SERVLET_CONTEXT_PATH).anyTimes();
 
         testParams.requestMock.getParameterMap();
-        expectLastCall().andReturn(testParams.parameters).atLeastOnce();
+        expectLastCall().andReturn(testParams.parameters).anyTimes();
 
         testParams.requestMock.getSession();
         expectLastCall().andReturn(testParams.sessionMock).anyTimes();
 
         testParams.serviceLocatorMock.getAppServerAdminClient();
-        expectLastCall().andReturn(testParams.appServerClientAdminMock).once();
+        expectLastCall().andReturn(
+                testParams.appServerClientAdminMock).anyTimes();
     }
 
     protected <T extends BasePageController> void pagePostInitTestParams(
@@ -157,13 +158,18 @@ public class BaseTestForPageController extends TestCase {
                 new Method[] {
                     BasePageController.class.getDeclaredMethod(
                             "getViewsFolder"),
+                    BasePageController.class.getDeclaredMethod(
+                            "getWavFilesFolder"),
                     BasePageController.class.getDeclaredMethod("clearErrors"),
                     BasePageController.class.getDeclaredMethod("setError",
                             String.class)});
         testParams.serviceLocatorMock = testParams.control.createMock(
                 ServiceLocator.class,
                 new Method[] {ServiceLocator.class.getMethod(
-                        "getAppServerAdminClient")});
+                        "getAppServerAdminClient"),
+                    ServiceLocator.class.getMethod("getServletFileUpload"),
+                    ServiceLocator.class.getMethod("getFileWithUniqueName", 
+                        String.class, String.class, String.class)});
         testParams.appServerClientAdminMock = testParams.control.createMock(
                 AppServerAdminClient.class);
     }

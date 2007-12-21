@@ -14,6 +14,21 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
  * USA.
+ *
+ * Copyright 2007 AeroIVR Development Team
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
  */
 
 package org.aeroivr.rsmc.common;
@@ -37,6 +52,10 @@ import java.io.FileReader;
 import java.util.Map;
 import org.aeroivr.rsmc.web.view.StartStopServerView;
 import org.aeroivr.rsmc.web.view.ChangePasswordView;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.aeroivr.rsmc.web.view.SetWavFileView;
+import org.aeroivr.rsmc.web.controller.SetWavFilePageController;
 
 /**
  *
@@ -134,4 +153,29 @@ public class ServiceLocatorTest extends TestCase {
                     TestConstants.VIEWS_FOLDER, new HashMap()));
     }
 
+    public void testGetServletFileUpload() {
+        assertNotNull("ServletFileUpload should not be null",
+                serviceLocator.getServletFileUpload());
+    }
+
+    public void testGetFileWithUniqueName() throws IOException {
+        
+        final File tempFile = serviceLocator.getFileWithUniqueName(
+                "/", "temp", "tmp");
+        try {
+            assertNotNull("ServletFileUpload should not be null",
+                tempFile);
+        } finally {
+            if (null != tempFile) {
+                tempFile.delete();
+            }
+        }
+    }
+
+    public void testGetSetWavFileView() {
+        
+        assertNotNull("SetWavFileView should not be null",
+                serviceLocator.getSetWavFileView(
+                    TestConstants.VIEWS_FOLDER));
+    }
 }

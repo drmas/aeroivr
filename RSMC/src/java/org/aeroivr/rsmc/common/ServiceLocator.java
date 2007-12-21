@@ -14,23 +14,44 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
  * USA.
+ *
+ * Copyright 2007 AeroIVR Development Team
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
  */
 
 package org.aeroivr.rsmc.common;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.Map;
 import javax.servlet.http.HttpSession;
 import org.aeroivr.rsmc.admin.AppServerAdminClient;
+import org.aeroivr.rsmc.web.controller.SetWavFilePageController;
 import org.aeroivr.rsmc.web.render.PageRenderer;
 import org.aeroivr.rsmc.web.security.WebSecurityManager;
 import org.aeroivr.rsmc.web.view.AbstractView;
 import org.aeroivr.rsmc.web.view.ChangePasswordView;
 import org.aeroivr.rsmc.web.view.LogonView;
 import org.aeroivr.rsmc.web.view.MasterPageView;
+import org.aeroivr.rsmc.web.view.SetWavFileView;
 import org.aeroivr.rsmc.web.view.StartStopServerView;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 /**
  * Service Locator for all classes.
@@ -111,5 +132,22 @@ public class ServiceLocator {
             final Map parameters) {
         
         return new ChangePasswordView(viewsFolder, parameters);
+    }
+
+    public ServletFileUpload getServletFileUpload() {
+
+        return new ServletFileUpload(new DiskFileItemFactory());
+    }
+    
+    public File getFileWithUniqueName(final String folder, 
+            final String prefix, final String suffix) throws IOException {
+
+        final File directory = new File(folder);
+        return File.createTempFile(prefix, suffix, directory);
+    }
+
+    public SetWavFileView getSetWavFileView(final String viewsFolder) {
+        
+        return new SetWavFileView(viewsFolder);
     }
 }

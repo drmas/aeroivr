@@ -46,6 +46,10 @@ public class AppServerAdminClient {
     }
     
     public void changeAdminPassword(final String newPassword) {
-        
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public void setWavFileName(String string) {
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 }

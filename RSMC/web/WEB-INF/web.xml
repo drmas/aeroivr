@@ -12,6 +12,10 @@
         <servlet-name>ChangePasswordPageController</servlet-name>
         <servlet-class>org.aeroivr.rsmc.web.controller.ChangePasswordPageController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SetWavFilePageController</servlet-name>
+        <servlet-class>org.aeroivr.rsmc.web.controller.SetWavFilePageController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LogonPageController</servlet-name>
         <url-pattern>/logon.html</url-pattern>
@@ -23,6 +27,10 @@
     <servlet-mapping>
         <servlet-name>ChangePasswordPageController</servlet-name>
         <url-pattern>/changePassword.html</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SetWavFilePageController</servlet-name>
+        <url-pattern>/setWavFile.html</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
