@@ -42,5 +42,9 @@ public class WebSecurityManager {
     public boolean isLoggedIn() {
         return (null != httpSession.getAttribute(USERNAME));
     }
+
+    public String getLoggedInUsername() {
+        return (String) httpSession.getAttribute(USERNAME);
+    }
     
 }

@@ -18,6 +18,7 @@
 
 package org.aeroivr.rsmc.web.controller;
 
+import org.aeroivr.appserver.common.AppServerAdminConstants;
 import org.aeroivr.rsmc.web.security.WebSecurityManager;
 import org.easymock.classextension.IMocksControl;
 import static org.easymock.classextension.EasyMock.createNiceControl;
@@ -46,7 +47,8 @@ public class BaseTestForSecurePageController extends BaseTestForPageController {
         expectLastCall().andReturn(testParams.sessionMock).anyTimes();
 
         testParams.sessionMock.getAttribute(WebSecurityManager.USERNAME);
-        expectLastCall().andReturn("testUsername").anyTimes();
+        expectLastCall().andReturn(AppServerAdminConstants.ADMIN_USERNAME
+                ).anyTimes();
 
         pageGetInitCalls(testParams);
     }
@@ -58,7 +60,8 @@ public class BaseTestForSecurePageController extends BaseTestForPageController {
         pagePostInitTestParams(controllerClass, testParams);
 
         testParams.sessionMock.getAttribute(WebSecurityManager.USERNAME);
-        expectLastCall().andReturn("testUsername").anyTimes();
+        expectLastCall().andReturn(AppServerAdminConstants.ADMIN_USERNAME
+                ).anyTimes();
 
         pagePostInitCalls(testParams);
     }

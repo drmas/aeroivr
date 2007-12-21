@@ -71,4 +71,22 @@ public class WebSecurityManagerTest extends TestCase {
         
         control.verify();
     }
+
+    public void testGetLoggedInUsername() {
+        final IMocksControl control = createNiceControl();
+        final HttpSession sessionMock = control.createMock(HttpSession.class);
+        final String username = "testUserName";
+        
+        sessionMock.getAttribute(eq(WebSecurityManager.USERNAME));
+        expectLastCall().andReturn(username).atLeastOnce();
+        control.replay();
+        
+        WebSecurityManager securityManager = new WebSecurityManager(
+                sessionMock);
+        assertEquals("Username should be equal", 
+                securityManager.getLoggedInUsername(),
+                username);
+        
+        control.verify();
+    }
 }

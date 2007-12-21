@@ -27,6 +27,7 @@ import org.aeroivr.rsmc.admin.AppServerAdminClient;
 import org.aeroivr.rsmc.web.render.PageRenderer;
 import org.aeroivr.rsmc.web.security.WebSecurityManager;
 import org.aeroivr.rsmc.web.view.AbstractView;
+import org.aeroivr.rsmc.web.view.ChangePasswordView;
 import org.aeroivr.rsmc.web.view.LogonView;
 import org.aeroivr.rsmc.web.view.MasterPageView;
 import org.aeroivr.rsmc.web.view.StartStopServerView;
@@ -99,5 +100,16 @@ public class ServiceLocator {
             final Map parameters) {
 
         return new StartStopServerView(viewsFolder, parameters);
+    }
+
+    public ChangePasswordView getChangePasswordView(final String viewsFolder) {
+        
+        return new ChangePasswordView(viewsFolder);
+    }
+
+    public ChangePasswordView getChangePasswordView(final String viewsFolder, 
+            final Map parameters) {
+        
+        return new ChangePasswordView(viewsFolder, parameters);
     }
 }
