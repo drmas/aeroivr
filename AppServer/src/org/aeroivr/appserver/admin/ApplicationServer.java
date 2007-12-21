@@ -38,7 +38,7 @@ public final class ApplicationServer {
                 ServiceLocator.getInstance().getServerAdmin();
         registry.rebind(AppServerAdminConstants.APP_SERVER_ADMIN_RMI_NAME,
                 serverAdmin);
-        serverAdmin.startApplicationServer();
+        serverAdmin.startAppServer();
 
         final Runtime runtime = ServiceLocator.getInstance(
                 ).getRuntime();

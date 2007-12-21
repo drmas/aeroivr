@@ -29,7 +29,8 @@ import org.aeroivr.appserver.h323.H323Application;
  *
  * @author Andriy Petlyovanyy
  */
-public class ServerAdmin extends UnicastRemoteObject {
+public class ServerAdmin extends UnicastRemoteObject 
+        implements AppServerAdminRemoteInterface {
 
     private H323Application h323Application;
 
@@ -37,17 +38,35 @@ public class ServerAdmin extends UnicastRemoteObject {
         super(AppServerAdminConstants.APP_SERVER_ADMIN_RMI_PORT);
     }
 
-    public void startApplicationServer() {
+    public void startAppServer() {
         if (null == h323Application) {
             h323Application = ServiceLocator.getInstance().getH323Application();
             h323Application.start();
         }
     }
 
-    public void stopApplicationServer() {
+    public void stopAppServer() {
         if (null != h323Application) {
             h323Application.stop();
             h323Application = null;
         }
+    }
+    
+    public boolean areCredentialsValid(final String username, 
+            final String password) {
+        
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+    
+    public boolean isAppServerRunning() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+    
+    public void changeAdminPassword(final String newPassword) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    public void setWavFileName(final String fileName) {
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 }

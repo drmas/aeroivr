@@ -35,9 +35,11 @@ package org.aeroivr.rsmc.common;
 
 import java.io.File;
 import java.io.IOException;
+import java.rmi.NotBoundException;
 import java.util.HashMap;
 import junit.framework.TestCase;
 import javax.servlet.http.HttpSession;
+import org.aeroivr.appserver.common.AppServerAdminConstants;
 import org.aeroivr.rsmc.web.security.WebSecurityManager;
 import org.aeroivr.rsmc.web.view.LogonView;
 import static org.easymock.classextension.EasyMock.createMock;
@@ -56,6 +58,9 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.aeroivr.rsmc.web.view.SetWavFileView;
 import org.aeroivr.rsmc.web.controller.SetWavFilePageController;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 /**
  *
@@ -100,7 +105,8 @@ public class ServiceLocatorTest extends TestCase {
                 serviceLocator.getWebSecurityManager(sessionMock));
     }
 
-    public void testGetAppServerAdminClient() {
+    public void testGetAppServerAdminClient() 
+        throws RemoteException, NotBoundException {
         assertNotNull("AppServerAdminClient should not be null ",
                 serviceLocator.getAppServerAdminClient());
     }
@@ -177,5 +183,11 @@ public class ServiceLocatorTest extends TestCase {
         assertNotNull("SetWavFileView should not be null",
                 serviceLocator.getSetWavFileView(
                     TestConstants.VIEWS_FOLDER));
+    }
+
+    public void testGetRmiRegistry() throws Exception {
+        assertNotNull("Rmi Registry object should not be null",
+                serviceLocator.getRmiRegistry(
+                AppServerAdminConstants.APP_SERVER_ADMIN_RMI_PORT));
     }
 }

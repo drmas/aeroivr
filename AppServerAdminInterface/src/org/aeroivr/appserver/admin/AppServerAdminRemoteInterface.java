@@ -1,5 +1,5 @@
 /*
- * AppServerShutdownThread.java
+ * ServerAdminRemoteInterface.java
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,22 +19,21 @@
 package org.aeroivr.appserver.admin;
 
 /**
- *
- * Special thread to shutdown application server
+ * Remote access interface for Application Server Admin.
  *
  * @author Andriy Petlyovanyy
  */
-public class AppServerShutdownThread extends Thread {
+public interface AppServerAdminRemoteInterface {
+    
+    boolean areCredentialsValid(final String username, final String password);
+    
+    public boolean isAppServerRunning();
+    
+    public void startAppServer();
 
-    private ServerAdmin serverAdmin;
+    public void stopAppServer();
+    
+    public void changeAdminPassword(final String newPassword);
 
-    public AppServerShutdownThread(final ServerAdmin srvAdmin) {
-        this.serverAdmin = srvAdmin;
-    }
-
-    public void run() {
-        if (null != serverAdmin) {
-            serverAdmin.stopAppServer();
-        }
-    }
+    public void setWavFileName(final String fileName);
 }
