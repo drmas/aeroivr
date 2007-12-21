@@ -73,7 +73,7 @@ public class ApplicationServerTest extends TestCase {
                 eq(serverAdminMock));
         expectLastCall().once();
 
-        serverAdminMock.startApplicationServer();
+        serverAdminMock.startAppServer();
         expectLastCall().once();
 
         control.checkOrder(false);

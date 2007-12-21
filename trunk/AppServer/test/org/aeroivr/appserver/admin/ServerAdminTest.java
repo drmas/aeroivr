@@ -68,7 +68,7 @@ public class ServerAdminTest extends BaseTestWithServiceLocator {
 
         ServiceLocator.load(serviceLocatorMock);
         final ServerAdmin serverAdmin = new ServerAdmin();
-        serverAdmin.startApplicationServer();
+        serverAdmin.startAppServer();
 
         control.verify();
 
@@ -85,8 +85,8 @@ public class ServerAdminTest extends BaseTestWithServiceLocator {
 
         ServiceLocator.load(serviceLocatorMock);
         final ServerAdmin serverAdmin = new ServerAdmin();
-        serverAdmin.startApplicationServer();
-        serverAdmin.startApplicationServer();
+        serverAdmin.startAppServer();
+        serverAdmin.startAppServer();
 
         control.verify();
 
@@ -106,8 +106,8 @@ public class ServerAdminTest extends BaseTestWithServiceLocator {
 
         ServiceLocator.load(serviceLocatorMock);
         final ServerAdmin serverAdmin = new ServerAdmin();
-        serverAdmin.startApplicationServer();
-        serverAdmin.stopApplicationServer();
+        serverAdmin.startAppServer();
+        serverAdmin.stopAppServer();
 
         control.verify();
     }
@@ -118,7 +118,7 @@ public class ServerAdminTest extends BaseTestWithServiceLocator {
 
         ServiceLocator.load(serviceLocatorMock);
         final ServerAdmin serverAdmin = new ServerAdmin();
-        serverAdmin.stopApplicationServer();
+        serverAdmin.stopAppServer();
 
         control.verify();
     }

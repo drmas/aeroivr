@@ -37,7 +37,7 @@ public class AppServerShutdownThreadTest extends TestCase {
         IMocksControl control = createStrictControl();
         ServerAdmin serverAdminMock = control.createMock(ServerAdmin.class);
 
-        serverAdminMock.stopApplicationServer();
+        serverAdminMock.stopAppServer();
         expectLastCall().once();
 
         control.replay();

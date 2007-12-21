@@ -38,6 +38,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.Map;
 import javax.servlet.http.HttpSession;
 import org.aeroivr.rsmc.admin.AppServerAdminClient;
@@ -82,7 +86,8 @@ public class ServiceLocator {
         return new WebSecurityManager(session);
     }
 
-    public AppServerAdminClient getAppServerAdminClient() {
+    public AppServerAdminClient getAppServerAdminClient() 
+        throws RemoteException, NotBoundException {
         return new AppServerAdminClient();
     }
 
@@ -149,5 +154,10 @@ public class ServiceLocator {
     public SetWavFileView getSetWavFileView(final String viewsFolder) {
         
         return new SetWavFileView(viewsFolder);
+    }
+    
+    public Registry getRmiRegistry(final int port) throws RemoteException {
+        LocateRegistry.createRegistry(port);
+        return LocateRegistry.getRegistry(port);
     }
 }

@@ -18,6 +18,13 @@
 
 package org.aeroivr.rsmc.admin;
 
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.Registry;
+import org.aeroivr.appserver.admin.AppServerAdminRemoteInterface;
+import org.aeroivr.appserver.common.AppServerAdminConstants;
+import org.aeroivr.rsmc.common.ServiceLocator;
+
 /**
  * Client of the application server.
  *
@@ -25,31 +32,40 @@ package org.aeroivr.rsmc.admin;
  */
 public class AppServerAdminClient {
     
-    public AppServerAdminClient() {
+    private AppServerAdminRemoteInterface remoteObject;
+    
+    public AppServerAdminClient() throws RemoteException, NotBoundException {
+
+        Registry registry = ServiceLocator.getInstance().getRmiRegistry(
+                AppServerAdminConstants.APP_SERVER_ADMIN_RMI_PORT);
+	remoteObject = (AppServerAdminRemoteInterface) registry.lookup(
+                            AppServerAdminConstants.APP_SERVER_ADMIN_RMI_NAME);
     }
 
     public boolean areCredentialsValid(final String username, 
             final String password) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        
+        return remoteObject.areCredentialsValid(username, password);
     }
 
     public boolean isAppServerRunning() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        
+        return remoteObject.isAppServerRunning();
     }
     
     public void startAppServer() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        remoteObject.startAppServer();
     }
 
     public void stopAppServer() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        remoteObject.stopAppServer();
     }
     
     public void changeAdminPassword(final String newPassword) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        remoteObject.changeAdminPassword(newPassword);
     }
 
-    public void setWavFileName(String string) {
-        throw new UnsupportedOperationException("Not yet implemented");
+    public void setWavFileName(final String fileName) {
+        remoteObject.setWavFileName(fileName);
     }
 }
