@@ -19,6 +19,8 @@
 package org.aeroivr.rsmc.web.controller;
 
 import java.io.*;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -33,12 +35,12 @@ import org.aeroivr.rsmc.web.view.ChangePasswordView;
  * @author Andriy Petlyovanyy
  */
 public class ChangePasswordPageController extends BaseSecurePageController {
-    
+
     protected String getHeader() {
         return "Change administrator's password";
     }
 
-    protected void pageGet(HttpServletRequest request, 
+    protected void pageGet(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
 
         final ChangePasswordView view = ServiceLocator.getInstance(
@@ -46,17 +48,25 @@ public class ChangePasswordPageController extends BaseSecurePageController {
         renderView(request, response, view);
     }
 
-    protected void pagePost(HttpServletRequest request, 
+    protected void pagePost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
-        
+
         final ChangePasswordView view = ServiceLocator.getInstance(
                 ).getChangePasswordView(getViewsFolder(),
                 request.getParameterMap());
         if (view.wasChangeButtonPressed()) {
             WebSecurityManager securityManager = ServiceLocator.getInstance(
                     ).getWebSecurityManager(request.getSession());
-            AppServerAdminClient client = ServiceLocator.getInstance(
-                    ).getAppServerAdminClient();
+            AppServerAdminClient client;
+            try {
+                client = ServiceLocator.getInstance().getAppServerAdminClient();
+            } catch (RemoteException ex) {
+                throw new ServletException("Error during connection to " +
+                        "AppServer admin", ex);
+            } catch (NotBoundException ex) {
+                throw new ServletException("Error during connection to " +
+                        "AppServer admin", ex);
+            }
 
             if (((null == view.getNewPassword()) &&
                     (null == view.getConfirmPassword())) ||

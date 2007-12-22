@@ -38,6 +38,7 @@ public class Settings {
     private static Settings instance = new Settings();
     protected static final String SETTINGS_FILE_NAME = "settings.properties";
     protected static final String WAV_FILE_NAME = "WavFileName";
+    protected static final String ADMIN_PASSWORD = "AdminPassword"; 
 
     protected Settings() {
         try {
@@ -47,9 +48,6 @@ public class Settings {
         }
     }
 
-    public String getWavFileName() {
-        return properties.getProperty(WAV_FILE_NAME, "");
-    }
 
     public static Settings getInstance() {
         return instance;
@@ -81,5 +79,21 @@ public class Settings {
         if (null != properties) {
             properties.store(outputFile, "");
         }
+    }
+
+    public String getWavFileName() {
+        return properties.getProperty(WAV_FILE_NAME, "");
+    }
+
+    public void setWavFileName(final String fileName) {
+        properties.setProperty(WAV_FILE_NAME, fileName);
+    }
+
+    public String getAdminPassword() {
+        return properties.getProperty(ADMIN_PASSWORD, "");
+    }
+
+    public void setAdminPassword(final String  newPassword) {
+        properties.setProperty(ADMIN_PASSWORD, newPassword);
     }
 }

@@ -52,12 +52,12 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
  * @author Andriy Petlyovanyy
  */
 public class SetWavFilePageController extends BaseSecurePageController {
-    
+
     protected String getHeader() {
         return "Please select appropriate wav file";
     }
 
-    protected void pageGet(HttpServletRequest request, 
+    protected void pageGet(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
 
         SetWavFileView view = ServiceLocator.getInstance(
@@ -65,7 +65,7 @@ public class SetWavFilePageController extends BaseSecurePageController {
         renderView(request, response, view);
     }
 
-    protected void pagePost(HttpServletRequest request, 
+    protected void pagePost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
 
         SetWavFileView view = ServiceLocator.getInstance().getSetWavFileView(
@@ -92,8 +92,8 @@ public class SetWavFilePageController extends BaseSecurePageController {
                     } catch (IOException ex) {
                         throw ex;
                     } catch (Exception ex) {
-                        setError("Following error occured during file upload: "
-                                + ex.getMessage());
+                        throw new ServletException("Error occured during " +
+                                "file upload", ex);
                     }
                 } else {
                     setError("You should upload WAV type of file");
@@ -105,8 +105,8 @@ public class SetWavFilePageController extends BaseSecurePageController {
         }
         renderView(request, response, view);
     }
-    
-    private void processUploadedFile(FileItem item) throws IOException, Exception {
+
+    private void processUploadedFile(FileItem item) throws Exception {
 
         File wavFile = ServiceLocator.getInstance().getFileWithUniqueName(
                 getWavFilesFolder(), "play_", ".wav");

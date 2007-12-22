@@ -18,6 +18,7 @@
 
 package org.aeroivr.rsmc.admin;
 
+import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
@@ -31,9 +32,9 @@ import org.aeroivr.rsmc.common.ServiceLocator;
  * @author Andriy Petlyovanyy
  */
 public class AppServerAdminClient {
-    
+
     private AppServerAdminRemoteInterface remoteObject;
-    
+
     public AppServerAdminClient() throws RemoteException, NotBoundException {
 
         Registry registry = ServiceLocator.getInstance().getRmiRegistry(
@@ -42,17 +43,17 @@ public class AppServerAdminClient {
                             AppServerAdminConstants.APP_SERVER_ADMIN_RMI_NAME);
     }
 
-    public boolean areCredentialsValid(final String username, 
+    public boolean areCredentialsValid(final String username,
             final String password) {
-        
+
         return remoteObject.areCredentialsValid(username, password);
     }
 
     public boolean isAppServerRunning() {
-        
+
         return remoteObject.isAppServerRunning();
     }
-    
+
     public void startAppServer() {
         remoteObject.startAppServer();
     }
@@ -60,12 +61,14 @@ public class AppServerAdminClient {
     public void stopAppServer() {
         remoteObject.stopAppServer();
     }
-    
-    public void changeAdminPassword(final String newPassword) {
+
+    public void changeAdminPassword(final String newPassword) 
+        throws IOException {
         remoteObject.changeAdminPassword(newPassword);
     }
 
-    public void setWavFileName(final String fileName) {
+    public void setWavFileName(final String fileName) 
+        throws IOException {
         remoteObject.setWavFileName(fileName);
     }
 }

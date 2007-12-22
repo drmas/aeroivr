@@ -18,22 +18,26 @@
 
 package org.aeroivr.appserver.admin;
 
+import java.io.IOException;
+
 /**
  * Remote access interface for Application Server Admin.
  *
  * @author Andriy Petlyovanyy
  */
 public interface AppServerAdminRemoteInterface {
-    
+
     boolean areCredentialsValid(final String username, final String password);
-    
+
     public boolean isAppServerRunning();
-    
+
     public void startAppServer();
 
     public void stopAppServer();
-    
-    public void changeAdminPassword(final String newPassword);
 
-    public void setWavFileName(final String fileName);
+    public void changeAdminPassword(final String newPassword)
+        throws IOException;
+
+    public void setWavFileName(final String fileName)
+        throws IOException;
 }
