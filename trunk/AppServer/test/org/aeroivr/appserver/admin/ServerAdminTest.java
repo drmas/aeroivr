@@ -18,28 +18,36 @@
 
 package org.aeroivr.appserver.admin;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.rmi.RemoteException;
 import org.aeroivr.appserver.common.AppServerAdminConstants;
 import org.aeroivr.appserver.common.BaseTestWithServiceLocator;
 import org.aeroivr.appserver.common.ServiceLocator;
+import org.aeroivr.appserver.common.Settings;
 import org.aeroivr.appserver.h323.H323Application;
+import static org.easymock.classextension.EasyMock.eq;
 import static org.easymock.classextension.EasyMock.expectLastCall;
 import static org.easymock.classextension.EasyMock.createStrictControl;
+import static org.easymock.classextension.EasyMock.createNiceControl;
 import org.easymock.classextension.IMocksControl;
+import junit.framework.*;
+import java.rmi.server.UnicastRemoteObject;
 
 /**
  *
  * @author Andriy Petlyovanyy
  */
-public class ServerAdminTest extends BaseTestWithServiceLocator {
+public class ServerAdminTest extends TestCase {
 
     private IMocksControl control;
     private H323Application h323AppMock;
+    private ServiceLocator serviceLocator;
     private ServiceLocator serviceLocatorMock;
 
     public ServerAdminTest(final String testName) {
         super(testName);
+        serviceLocator = ServiceLocator.getInstance();
     }
 
     protected void setUp() throws Exception {
@@ -48,6 +56,11 @@ public class ServerAdminTest extends BaseTestWithServiceLocator {
         serviceLocatorMock = control.createMock(
                 ServiceLocator.class, new Method[] {
             ServiceLocator.class.getMethod("getH323Application")});
+    }
+
+    protected void tearDown() throws Exception {
+
+        ServiceLocator.load(serviceLocator);
     }
 
     private void startApplicationServerSequence() {
@@ -60,7 +73,7 @@ public class ServerAdminTest extends BaseTestWithServiceLocator {
 
     }
 
-    public void testStartApplicationServer() throws RemoteException {
+    public void testStartAppServer() throws RemoteException {
 
         startApplicationServerSequence();
 
@@ -77,7 +90,7 @@ public class ServerAdminTest extends BaseTestWithServiceLocator {
                 AppServerAdminConstants.APP_SERVER_ADMIN_RMI_PORT)) >= 0);
     }
 
-    public void testStartApplicationServer2() throws RemoteException {
+    public void testStartAppServer2() throws RemoteException {
 
         startApplicationServerSequence();
 
@@ -95,7 +108,7 @@ public class ServerAdminTest extends BaseTestWithServiceLocator {
                 AppServerAdminConstants.APP_SERVER_ADMIN_RMI_PORT)) >= 0);
     }
 
-    public void testStopApplicationServer() throws RemoteException {
+    public void testStopAppServer() throws RemoteException {
 
         startApplicationServerSequence();
 
@@ -112,7 +125,7 @@ public class ServerAdminTest extends BaseTestWithServiceLocator {
         control.verify();
     }
 
-    public void testStopApplicationServer2() throws RemoteException {
+    public void testStopAppServer2() throws RemoteException {
 
         control.replay();
 
@@ -121,5 +134,113 @@ public class ServerAdminTest extends BaseTestWithServiceLocator {
         serverAdmin.stopAppServer();
 
         control.verify();
+    }
+
+    public void testAreCredentialsValid() throws NoSuchMethodException,
+            RemoteException {
+
+        final IMocksControl niceControl = createNiceControl();
+        final ServiceLocator srvLocatorMock = niceControl.createMock(
+                ServiceLocator.class, new Method[] {
+                    ServiceLocator.class.getMethod("getSettings")});
+        final Settings settingsMock = niceControl.createMock(Settings.class);
+        final String adminPassword = "PA55W0RD";
+
+        srvLocatorMock.getSettings();
+        expectLastCall().andReturn(settingsMock).atLeastOnce();
+
+        settingsMock.getAdminPassword();
+        expectLastCall().andReturn(adminPassword).atLeastOnce();
+
+        niceControl.replay();
+
+        ServiceLocator.load(srvLocatorMock);
+        final ServerAdmin serverAdmin = new ServerAdmin();
+        assertTrue("Credentials should be valid",
+                serverAdmin.areCredentialsValid(
+                    AppServerAdminConstants.ADMIN_USERNAME, adminPassword));
+        assertFalse("Credentials should not be valid",
+                serverAdmin.areCredentialsValid(
+                    AppServerAdminConstants.ADMIN_USERNAME + "b",
+                    adminPassword));
+        assertFalse("Credentials should not be valid",
+                serverAdmin.areCredentialsValid(
+                    AppServerAdminConstants.ADMIN_USERNAME,
+                    adminPassword + "c"));
+
+        niceControl.verify();
+    }
+
+    public void testIsAppServerRunning() throws RemoteException {
+
+        startApplicationServerSequence();
+
+        h323AppMock.stop();
+        expectLastCall().once();
+
+        control.replay();
+
+        ServiceLocator.load(serviceLocatorMock);
+        final ServerAdmin serverAdmin = new ServerAdmin();
+
+        serverAdmin.startAppServer();
+        assertTrue("Server should be running",
+                serverAdmin.isAppServerRunning());
+
+        serverAdmin.stopAppServer();
+        assertFalse("Server should be stopped",
+                serverAdmin.isAppServerRunning());
+
+        control.verify();
+    }
+
+    public void testChangeAdminPassword()
+        throws NoSuchMethodException, RemoteException, IOException {
+
+        final IMocksControl niceControl = createNiceControl();
+        final ServiceLocator srvLocatorMock = niceControl.createMock(
+                ServiceLocator.class, new Method[] {
+                    ServiceLocator.class.getMethod("getSettings")});
+        final Settings settingsMock = niceControl.createMock(Settings.class);
+        final String newAdminPassword = "PA55W0RD";
+
+        srvLocatorMock.getSettings();
+        expectLastCall().andReturn(settingsMock).atLeastOnce();
+
+        settingsMock.setAdminPassword(eq(newAdminPassword));
+        expectLastCall().atLeastOnce();
+
+        niceControl.replay();
+
+        ServiceLocator.load(srvLocatorMock);
+        final ServerAdmin serverAdmin = new ServerAdmin();
+        serverAdmin.changeAdminPassword(newAdminPassword);
+
+        niceControl.verify();
+    }
+
+    public void testSetWavFileName()
+        throws NoSuchMethodException, RemoteException, IOException {
+
+        final IMocksControl niceControl = createNiceControl();
+        final ServiceLocator srvLocatorMock = niceControl.createMock(
+                ServiceLocator.class, new Method[] {
+                    ServiceLocator.class.getMethod("getSettings")});
+        final Settings settingsMock = niceControl.createMock(Settings.class);
+        final String wavFileName = "test.wav";
+
+        srvLocatorMock.getSettings();
+        expectLastCall().andReturn(settingsMock).atLeastOnce();
+
+        settingsMock.setWavFileName(eq(wavFileName));
+        expectLastCall().atLeastOnce();
+
+        niceControl.replay();
+
+        ServiceLocator.load(srvLocatorMock);
+        final ServerAdmin serverAdmin = new ServerAdmin();
+        serverAdmin.setWavFileName(wavFileName);
+
+        niceControl.verify();
     }
 }

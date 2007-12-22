@@ -18,10 +18,12 @@
 
 package org.aeroivr.appserver.admin;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import org.aeroivr.appserver.common.AppServerAdminConstants;
 import org.aeroivr.appserver.common.ServiceLocator;
+import org.aeroivr.appserver.common.Settings;
 import org.aeroivr.appserver.h323.H323Application;
 
 /**
@@ -29,7 +31,7 @@ import org.aeroivr.appserver.h323.H323Application;
  *
  * @author Andriy Petlyovanyy
  */
-public class ServerAdmin extends UnicastRemoteObject 
+public class ServerAdmin extends UnicastRemoteObject
         implements AppServerAdminRemoteInterface {
 
     private H323Application h323Application;
@@ -51,22 +53,40 @@ public class ServerAdmin extends UnicastRemoteObject
             h323Application = null;
         }
     }
-    
-    public boolean areCredentialsValid(final String username, 
+
+    public boolean areCredentialsValid(final String username,
             final String password) {
-        
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-    
-    public boolean isAppServerRunning() {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-    
-    public void changeAdminPassword(final String newPassword) {
-        throw new UnsupportedOperationException("Not yet implemented");
+
+        if (0 == AppServerAdminConstants.ADMIN_USERNAME.compareTo(username)) {
+            final String adminPassword = ServiceLocator.getInstance(
+                    ).getSettings().getAdminPassword();
+
+            if (0 == adminPassword.compareTo(password)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
-    public void setWavFileName(final String fileName) {
-        throw new UnsupportedOperationException("Not yet implemented");
+    public boolean isAppServerRunning() {
+
+        return (null != h323Application);
+    }
+
+    public void changeAdminPassword(final String newPassword)
+        throws IOException {
+
+        final Settings settings = ServiceLocator.getInstance().getSettings();
+        settings.setAdminPassword(newPassword);
+        settings.saveSettings();
+   }
+
+    public void setWavFileName(final String fileName)
+        throws IOException {
+
+        final Settings settings = ServiceLocator.getInstance().getSettings();
+        settings.setWavFileName(fileName);
+        settings.saveSettings();
     }
 }

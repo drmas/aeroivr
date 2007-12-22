@@ -31,12 +31,14 @@ import static org.easymock.classextension.EasyMock.createStrictControl;
 import static org.easymock.classextension.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.expectLastCall;
 import static org.easymock.classextension.EasyMock.eq;
+import junit.framework.*;
+import org.aeroivr.common.utils.FileUtils;
 
 /**
  *
  * @author Andriy Petlyovanyy
  */
-public class SettingsTest extends BaseTestWithServiceLocator {
+public class SettingsTest extends TestCase {
 
     private IMocksControl control;
     private Properties propertiesMock;
@@ -145,6 +147,11 @@ public class SettingsTest extends BaseTestWithServiceLocator {
         control.verify();
     }
 
+    public void testGetInstance() {
+        assertTrue("Settings object should not be null",
+                null != Settings.getInstance());
+    }
+
     public void testGetWavFileName() throws IOException {
         final String wavFileName = "test.wav";
 
@@ -164,9 +171,60 @@ public class SettingsTest extends BaseTestWithServiceLocator {
         control.verify();
     }
 
-    public void testGetInstance() {
-        assertTrue("Settings object should not be null",
-                null != Settings.getInstance());
+    public void testSetWavFileName() throws IOException {
+        final String wavFileName = "tempWAVFILE.wav";
+
+        loadSequence();
+
+        expect(propertiesMock.setProperty(eq(settingsMock.WAV_FILE_NAME),
+                eq(wavFileName))).andReturn(wavFileName).once();
+
+        control.replay();
+
+        ServiceLocator.load(serviceLocatorMock);
+        settingsMock.loadSettings();
+
+        settingsMock.setWavFileName(wavFileName);
+
+        control.verify();
+    }
+
+    public void testGetAdminPassword() throws IOException {
+        final String adminPassword = "admPWD";
+
+        loadSequence();
+
+        expect(propertiesMock.getProperty(eq(settingsMock.ADMIN_PASSWORD),
+                eq(""))).andReturn(adminPassword).once();
+
+        control.replay();
+
+        ServiceLocator.load(serviceLocatorMock);
+        settingsMock.loadSettings();
+
+        assertEquals("Password should be equal ",
+                settingsMock.getAdminPassword(),
+                adminPassword);
+
+        control.verify();
+    }
+
+    public void testSetAdminPassword() throws IOException {
+        final String adminPassword = "admPWD";
+
+        loadSequence();
+
+        expect(propertiesMock.setProperty(eq(settingsMock.ADMIN_PASSWORD),
+                eq(adminPassword))).andReturn(null).once();
+
+        control.replay();
+
+        ServiceLocator.load(serviceLocatorMock);
+        settingsMock.loadSettings();
+
+        settingsMock.setAdminPassword(adminPassword);
+
+        control.verify();
     }
 
 }

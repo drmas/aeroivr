@@ -19,6 +19,8 @@
 package org.aeroivr.rsmc.web.controller;
 
 import java.io.*;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -34,27 +36,32 @@ import org.aeroivr.rsmc.web.view.LogonView;
  * @author Andriy Petlyovanyy
  */
 public class LogonPageController extends BasePageController {
-    
-    protected void pageGet(HttpServletRequest request, 
+
+    protected void pageGet(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
-        
+
         final LogonView view = ServiceLocator.getInstance().getLogonView(
                 getViewsFolder());
         view.setUsername(AppServerAdminConstants.ADMIN_USERNAME);
         renderView(request, response, view);
     }
 
-    protected void pagePost(HttpServletRequest request, 
+    protected void pagePost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
-        
+
         final LogonView logonView = ServiceLocator.getInstance().getLogonView(
                 getViewsFolder(), request.getParameterMap());
         boolean areCredentialsValid = false;
-        AppServerAdminClient appServerClient = ServiceLocator.getInstance(
-                ).getAppServerAdminClient();
-        
+        AppServerAdminClient appServerClient;
+        try {
+            appServerClient = ServiceLocator.getInstance().getAppServerAdminClient();
+        } catch (Exception ex) {
+            throw new ServletException("Error occured durring connection to " +
+                    "AppServer admin", ex);
+        }
+
         if (logonView.wasLogonButtonPressed()) {
-            if (appServerClient.areCredentialsValid(logonView.getUsername(), 
+            if (appServerClient.areCredentialsValid(logonView.getUsername(),
                     logonView.getPassword())) {
 
                 areCredentialsValid = true;
@@ -67,7 +74,7 @@ public class LogonPageController extends BasePageController {
                 setError("Invalid credentials supplied");
             }
         }
-        
+
         if (!areCredentialsValid) {
             renderView(request, response, logonView);
         }
