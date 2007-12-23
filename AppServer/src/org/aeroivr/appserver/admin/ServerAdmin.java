@@ -40,14 +40,14 @@ public class ServerAdmin extends UnicastRemoteObject
         super(AppServerAdminConstants.APP_SERVER_ADMIN_RMI_PORT);
     }
 
-    public void startAppServer() {
+    public void startAppServer() throws RemoteException {
         if (null == h323Application) {
             h323Application = ServiceLocator.getInstance().getH323Application();
             h323Application.start();
         }
     }
 
-    public void stopAppServer() {
+    public void stopAppServer() throws RemoteException {
         if (null != h323Application) {
             h323Application.stop();
             h323Application = null;
@@ -55,7 +55,7 @@ public class ServerAdmin extends UnicastRemoteObject
     }
 
     public boolean areCredentialsValid(final String username,
-            final String password) {
+            final String password) throws RemoteException {
 
         if (0 == AppServerAdminConstants.ADMIN_USERNAME.compareTo(username)) {
             final String adminPassword = ServiceLocator.getInstance(
@@ -69,13 +69,13 @@ public class ServerAdmin extends UnicastRemoteObject
         return false;
     }
 
-    public boolean isAppServerRunning() {
+    public boolean isAppServerRunning() throws RemoteException {
 
         return (null != h323Application);
     }
 
     public void changeAdminPassword(final String newPassword)
-        throws IOException {
+        throws IOException, RemoteException {
 
         final Settings settings = ServiceLocator.getInstance().getSettings();
         settings.setAdminPassword(newPassword);
@@ -83,7 +83,7 @@ public class ServerAdmin extends UnicastRemoteObject
    }
 
     public void setWavFileName(final String fileName)
-        throws IOException {
+        throws IOException, RemoteException {
 
         final Settings settings = ServiceLocator.getInstance().getSettings();
         settings.setWavFileName(fileName);

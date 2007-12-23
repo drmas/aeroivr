@@ -20,6 +20,7 @@ package org.aeroivr.appserver.admin;
 
 import java.io.IOException;
 import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 /**
  * Remote access interface for Application Server Admin.
@@ -28,17 +29,18 @@ import java.rmi.Remote;
  */
 public interface AppServerAdminRemoteInterface extends Remote {
 
-    boolean areCredentialsValid(final String username, final String password);
+    boolean areCredentialsValid(final String username, final String password) 
+        throws RemoteException;
 
-    boolean isAppServerRunning();
+    boolean isAppServerRunning() throws RemoteException;
 
-    void startAppServer();
+    void startAppServer() throws RemoteException;
 
-    void stopAppServer();
+    void stopAppServer() throws RemoteException;
 
     void changeAdminPassword(final String newPassword)
-        throws IOException;
+        throws IOException, RemoteException;
 
     void setWavFileName(final String fileName)
-        throws IOException;
+        throws IOException, RemoteException;
 }

@@ -34,6 +34,9 @@
         <path id="junit.classpath">
                 <pathelement path="${junit.dir}/junit-3.8.1.jar" />
         </path>
+        <path id="AppServerAdminInterface.project.classpath" path="${AppServerAdminInterface.lib}"/>
+        <path id="AeroIVRCommon.project.classpath" path="${AeroIVRCommon.lib}"/>
+
 
         <taskdef classpathref="cobertura.classpath" resource="tasks.properties"/>
         <taskdef classpathref="checkstyle.classpath" resource="checkstyletask.properties"/>
@@ -49,30 +52,39 @@
                 <mkdir dir="${checkstyle.html.dir}" />
         </target>
 
+        <target name="compileUsedProjects">
+                <subant target="compile" buildpath="${AppServerAdminInterface.build.dir}"/>
+                <subant target="compile" buildpath="${AeroIVRCommon.build.dir}"/>
+        </target>
+
         <target name="checkstyle" depends="init" 
                 description="Generates a report of code convention violations.">
 
 
                 <checkstyle config="${checkstyle.settings}" failureProperty="checkstyle.failure"
-                	failOnViolation="false">
+                        failOnViolation="false">
 
-			<formatter type="xml" tofile="${checkstyle.xml.dir}/checkstyle_report.xml"/>
-			<fileset dir="${src.dir}" includes="**/*.java"/>
-			<fileset dir="${test.dir}" includes="**/*.java"/>
-		</checkstyle>
+                        <formatter type="xml" tofile="${checkstyle.xml.dir}/checkstyle_report.xml"/>
+                        <fileset dir="${src.dir}" includes="**/*.java"/>
+                        <fileset dir="${test.dir}" includes="**/*.java"/>
+                </checkstyle>
 
-		<style in="${checkstyle.xml.dir}/checkstyle_report.xml" out="${checkstyle.html.dir}/checkstyle_report.html" 
-			style="${checkstyle.dir}/checkstyle-simple.xsl"/>
-	</target>
+                <style in="${checkstyle.xml.dir}/checkstyle_report.xml" out="${checkstyle.html.dir}/checkstyle_report.html" 
+                        style="${checkstyle.dir}/checkstyle-simple.xsl"/>
+        </target>
 
-        <target name="compile" depends="init">
+        <target name="compile" depends="init,compileUsedProjects">
                 <javac srcdir="${src.dir}" destdir="${classes.dir}" debug="yes">
                         <classpath refid="cobertura.classpath" />
+                        <classpath refid="AppServerAdminInterface.project.classpath" />
+                        <classpath refid="AeroIVRCommon.project.classpath" />
                 </javac>
                 <javac srcdir="${test.dir}" destdir="${classes.dir}" debug="yes">
                         <classpath refid="cobertura.classpath" />
                         <classpath refid="test.lib.classpath" />
                         <classpath refid="junit.classpath"  />
+                        <classpath refid="AppServerAdminInterface.project.classpath" />
+                        <classpath refid="AeroIVRCommon.project.classpath" />
                 </javac>
         </target>
 
@@ -103,7 +115,7 @@
                                 <include name="**/*.class" />
                                 <exclude name="**/ApplicationConstants.class" />
                                 <exclude name="**/*Test.class" />
-				<exclude name="**/BaseTestWithServiceLocator.class" />
+                                <exclude name="**/BaseTestWithServiceLocator.class" />
                         </fileset>
                 </cobertura-instrument>
         </target>
@@ -125,6 +137,8 @@
                         <classpath refid="cobertura.classpath" />
                         <classpath refid="test.lib.classpath" />
                         <classpath refid="junit.classpath" />
+                        <classpath refid="AppServerAdminInterface.project.classpath" />
+                        <classpath refid="AeroIVRCommon.project.classpath" />
 
                         <formatter type="xml" />
                         <test name="${testcase}" todir="${reports.xml.dir}" if="testcase" />
@@ -169,6 +183,6 @@
         </target>
 
         <target name="coverage" depends="compile,instrument,test,coverage-report,checkstyle" 
-		description="Compile, instrument ourself, run the tests and generate JUnit and coverage reports."/>
+                description="Compile, instrument ourself, run the tests and generate JUnit and coverage reports."/>
 
 </project>
