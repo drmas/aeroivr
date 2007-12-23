@@ -86,7 +86,7 @@ public class ServiceLocator {
         return new WebSecurityManager(session);
     }
 
-    public AppServerAdminClient getAppServerAdminClient() 
+    public AppServerAdminClient getAppServerAdminClient()
         throws RemoteException, NotBoundException {
         return new AppServerAdminClient();
     }
@@ -129,13 +129,13 @@ public class ServiceLocator {
     }
 
     public ChangePasswordView getChangePasswordView(final String viewsFolder) {
-        
+
         return new ChangePasswordView(viewsFolder);
     }
 
-    public ChangePasswordView getChangePasswordView(final String viewsFolder, 
+    public ChangePasswordView getChangePasswordView(final String viewsFolder,
             final Map parameters) {
-        
+
         return new ChangePasswordView(viewsFolder, parameters);
     }
 
@@ -143,8 +143,8 @@ public class ServiceLocator {
 
         return new ServletFileUpload(new DiskFileItemFactory());
     }
-    
-    public File getFileWithUniqueName(final String folder, 
+
+    public File getFileWithUniqueName(final String folder,
             final String prefix, final String suffix) throws IOException {
 
         final File directory = new File(folder);
@@ -152,10 +152,10 @@ public class ServiceLocator {
     }
 
     public SetWavFileView getSetWavFileView(final String viewsFolder) {
-        
+
         return new SetWavFileView(viewsFolder);
     }
-    
+
     public Registry getRmiRegistry(final int port) throws RemoteException {
         LocateRegistry.createRegistry(port);
         return LocateRegistry.getRegistry(port);

@@ -19,13 +19,14 @@
 package org.aeroivr.appserver.admin;
 
 import java.io.IOException;
+import java.rmi.Remote;
 
 /**
  * Remote access interface for Application Server Admin.
  *
  * @author Andriy Petlyovanyy
  */
-public interface AppServerAdminRemoteInterface {
+public interface AppServerAdminRemoteInterface extends Remote {
 
     boolean areCredentialsValid(final String username, final String password);
 
