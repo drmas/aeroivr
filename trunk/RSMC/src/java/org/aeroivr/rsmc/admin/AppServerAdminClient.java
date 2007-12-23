@@ -44,21 +44,21 @@ public class AppServerAdminClient {
     }
 
     public boolean areCredentialsValid(final String username,
-            final String password) {
+            final String password) throws RemoteException {
 
         return remoteObject.areCredentialsValid(username, password);
     }
 
-    public boolean isAppServerRunning() {
+    public boolean isAppServerRunning() throws RemoteException {
 
         return remoteObject.isAppServerRunning();
     }
 
-    public void startAppServer() {
+    public void startAppServer() throws RemoteException {
         remoteObject.startAppServer();
     }
 
-    public void stopAppServer() {
+    public void stopAppServer() throws RemoteException {
         remoteObject.stopAppServer();
     }
 

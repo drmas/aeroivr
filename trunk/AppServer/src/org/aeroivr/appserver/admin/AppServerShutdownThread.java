@@ -18,6 +18,8 @@
 
 package org.aeroivr.appserver.admin;
 
+import java.rmi.RemoteException;
+
 /**
  *
  * Special thread to shutdown application server
@@ -34,7 +36,11 @@ public class AppServerShutdownThread extends Thread {
 
     public void run() {
         if (null != serverAdmin) {
-            serverAdmin.stopAppServer();
+            try {
+                serverAdmin.stopAppServer();
+            } catch (RemoteException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 }

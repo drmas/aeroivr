@@ -18,6 +18,7 @@
 
 package org.aeroivr.appserver.admin;
 
+import java.rmi.RemoteException;
 import junit.framework.TestCase;
 import org.easymock.IMocksControl;
 import static org.easymock.classextension.EasyMock.createStrictControl;
@@ -33,7 +34,7 @@ public class AppServerShutdownThreadTest extends TestCase {
         super(testName);
     }
 
-    public void testRun() throws InterruptedException {
+    public void testRun() throws InterruptedException, RemoteException {
         IMocksControl control = createStrictControl();
         ServerAdmin serverAdminMock = control.createMock(ServerAdmin.class);
 
