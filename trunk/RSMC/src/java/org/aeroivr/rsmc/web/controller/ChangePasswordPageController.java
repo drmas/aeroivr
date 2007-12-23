@@ -60,10 +60,7 @@ public class ChangePasswordPageController extends BaseSecurePageController {
             AppServerAdminClient client;
             try {
                 client = ServiceLocator.getInstance().getAppServerAdminClient();
-            } catch (RemoteException ex) {
-                throw new ServletException("Error during connection to " +
-                        "AppServer admin", ex);
-            } catch (NotBoundException ex) {
+            } catch (Exception ex) {
                 throw new ServletException("Error during connection to " +
                         "AppServer admin", ex);
             }

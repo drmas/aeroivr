@@ -19,7 +19,6 @@
 package org.aeroivr.common.utils;
 
 import java.io.File;
-import java.net.URL;
 
 /**
  * Utility functions for file system.

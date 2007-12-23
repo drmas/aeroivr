@@ -19,6 +19,8 @@
 package org.aeroivr.rsmc.web.controller;
 
 import java.io.IOException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -45,8 +47,13 @@ public class StartStopServerPageController extends BaseSecurePageController {
 
         StartStopServerView view = ServiceLocator.getInstance(
                 ).getStartStopServerView(getViewsFolder());
-        AppServerAdminClient client = ServiceLocator.getInstance(
-                ).getAppServerAdminClient();
+        AppServerAdminClient client;
+        try {
+            client = ServiceLocator.getInstance().getAppServerAdminClient();
+        } catch (Exception ex) {
+            throw new ServletException("Error during connection to " +
+                    "AppServer admin", ex);
+        }
         view.setServerStarted(client.isAppServerRunning());
         renderView(request, response, view);
     }
@@ -57,8 +64,13 @@ public class StartStopServerPageController extends BaseSecurePageController {
         StartStopServerView view = ServiceLocator.getInstance(
                 ).getStartStopServerView(getViewsFolder(),
                 request.getParameterMap());
-        AppServerAdminClient client = ServiceLocator.getInstance(
-                ).getAppServerAdminClient();
+        AppServerAdminClient client;
+        try {
+            client = ServiceLocator.getInstance().getAppServerAdminClient();
+        } catch (Exception ex) {
+            throw new ServletException("Error during connection to " +
+                    "AppServer admin", ex);
+        }
         if (view.wasStartButtonPressed()) {
             client.startAppServer();
             view.setServerStarted(client.isAppServerRunning());

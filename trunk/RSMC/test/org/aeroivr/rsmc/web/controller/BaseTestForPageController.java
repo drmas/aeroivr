@@ -21,6 +21,8 @@ package org.aeroivr.rsmc.web.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -118,7 +120,8 @@ public class BaseTestForPageController extends TestCase {
     }
 
     protected <T extends BasePageController> void pagePostInitCalls(
-            final PagePostTestParameters<T> testParams) {
+            final PagePostTestParameters<T> testParams) 
+                throws RemoteException, NotBoundException {
 
         testParams.controllerMock.getViewsFolder();
         expectLastCall().andReturn(TestConstants.VIEWS_FOLDER).atLeastOnce();
@@ -176,7 +179,8 @@ public class BaseTestForPageController extends TestCase {
 
     public <T extends BasePageController> void pagePostInitTest(
             Class<T> controllerClass, PagePostTestParameters<T> testParams)
-                throws NoSuchMethodException {
+                throws NoSuchMethodException, RemoteException, 
+                    NotBoundException {
 
         pagePostInitTestParams(controllerClass, testParams);
         pagePostInitCalls(testParams);

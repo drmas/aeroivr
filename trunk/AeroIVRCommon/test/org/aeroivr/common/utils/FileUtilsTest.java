@@ -20,7 +20,6 @@ package org.aeroivr.common.utils;
 
 import java.io.File;
 import junit.framework.TestCase;
-import org.aeroivr.common.utils.FileUtils;
 
 /**
  *
