@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
-import org.aeroivr.common.utils.FileUtils;
 
 /**
  * Class provides persistense and access to system wide settings from
@@ -38,7 +37,7 @@ public class Settings {
     private static Settings instance = new Settings();
     protected static final String SETTINGS_FILE_NAME = "settings.properties";
     protected static final String WAV_FILE_NAME = "WavFileName";
-    protected static final String ADMIN_PASSWORD = "AdminPassword"; 
+    protected static final String ADMIN_PASSWORD = "AdminPassword";
 
     protected Settings() {
         try {
