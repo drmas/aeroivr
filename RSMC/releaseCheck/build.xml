@@ -151,6 +151,11 @@
                         <classpath refid="cobertura.classpath" />
                         <classpath refid="test.lib.classpath" />
                         <classpath refid="junit.classpath" />
+                        <classpath refid="enterprise.libraries.classpath"/>
+                        <classpath refid="jakarta.fileupload.classpath"/>
+                        <classpath refid="AppServerAdminInterface.project.classpath"/>
+                        <classpath refid="AeroIVRCommon.project.classpath"/>
+
 
                         <formatter type="xml" />
                         <test name="${testcase}" todir="${reports.xml.dir}" if="testcase" />
