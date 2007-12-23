@@ -122,6 +122,8 @@
 
         <target name="test" depends="init,compile">
                 <junit fork="yes" dir="${basedir}" failureProperty="test.failed">
+                        <sysproperty key="java.library.path" value="${openh323.jni.path}"/>
+
                         <!--
                                 Note the classpath order: instrumented classes are before the
                                 original (uninstrumented) classes.  This is important.
