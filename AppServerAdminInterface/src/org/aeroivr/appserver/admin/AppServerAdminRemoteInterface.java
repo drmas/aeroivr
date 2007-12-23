@@ -29,15 +29,15 @@ public interface AppServerAdminRemoteInterface {
 
     boolean areCredentialsValid(final String username, final String password);
 
-    public boolean isAppServerRunning();
+    boolean isAppServerRunning();
 
-    public void startAppServer();
+    void startAppServer();
 
-    public void stopAppServer();
+    void stopAppServer();
 
-    public void changeAdminPassword(final String newPassword)
+    void changeAdminPassword(final String newPassword)
         throws IOException;
 
-    public void setWavFileName(final String fileName)
+    void setWavFileName(final String fileName)
         throws IOException;
 }

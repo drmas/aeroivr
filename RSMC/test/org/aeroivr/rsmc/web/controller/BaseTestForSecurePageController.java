@@ -18,6 +18,8 @@
 
 package org.aeroivr.rsmc.web.controller;
 
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import org.aeroivr.appserver.common.AppServerAdminConstants;
 import org.aeroivr.rsmc.web.security.WebSecurityManager;
 import org.easymock.classextension.IMocksControl;
@@ -55,7 +57,8 @@ public class BaseTestForSecurePageController extends BaseTestForPageController {
 
     public <T extends BasePageController> void pagePostInitTest(
             Class<T> controllerClass, PagePostTestParameters<T> testParams)
-                throws NoSuchMethodException {
+                throws NoSuchMethodException, RemoteException, 
+                    NotBoundException {
 
         pagePostInitTestParams(controllerClass, testParams);
 
