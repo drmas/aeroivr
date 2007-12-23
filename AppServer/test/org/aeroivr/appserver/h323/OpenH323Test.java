@@ -43,7 +43,7 @@ public class OpenH323Test extends TestCase {
                 new Method[] {OpenH323.class.getDeclaredMethod("init")});
 
         openH323Mock.init();
-        expectLastCall().once();
+        expectLastCall().andReturn(true).once();
 
         replay(openH323Mock);
 
@@ -92,7 +92,7 @@ public class OpenH323Test extends TestCase {
                         "startListening")});
 
         openH323Mock.startListening();
-        expectLastCall().once();
+        expectLastCall().andReturn(true).once();
 
         replay(openH323Mock);
 
@@ -107,7 +107,7 @@ public class OpenH323Test extends TestCase {
                 new Method[] {OpenH323.class.getDeclaredMethod("shutdown")});
 
         openH323Mock.shutdown();
-        expectLastCall().once();
+        expectLastCall().andReturn(true).once();
 
         replay(openH323Mock);
 

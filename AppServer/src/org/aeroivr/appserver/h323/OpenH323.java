@@ -26,8 +26,8 @@ package org.aeroivr.appserver.h323;
 public class OpenH323 {
 
     static {
-        System.loadLibrary("PTLibd");
-        System.loadLibrary("OpenH323d");
+        System.loadLibrary("PTLib");
+        System.loadLibrary("OpenH323");
         System.loadLibrary("OpenH323JNI");
     }
 
