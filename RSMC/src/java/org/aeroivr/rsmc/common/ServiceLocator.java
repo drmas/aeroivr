@@ -45,7 +45,6 @@ import java.rmi.registry.Registry;
 import java.util.Map;
 import javax.servlet.http.HttpSession;
 import org.aeroivr.rsmc.admin.AppServerAdminClient;
-import org.aeroivr.rsmc.web.controller.SetWavFilePageController;
 import org.aeroivr.rsmc.web.render.PageRenderer;
 import org.aeroivr.rsmc.web.security.WebSecurityManager;
 import org.aeroivr.rsmc.web.view.AbstractView;

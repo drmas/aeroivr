@@ -18,12 +18,13 @@
 
 package org.aeroivr.rsmc.web.controller;
 
-import java.io.*;
+import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
 import org.aeroivr.appserver.common.AppServerAdminConstants;
 import org.aeroivr.rsmc.admin.AppServerAdminClient;
 import org.aeroivr.rsmc.common.ServiceLocator;
@@ -54,7 +55,8 @@ public class LogonPageController extends BasePageController {
         boolean areCredentialsValid = false;
         AppServerAdminClient appServerClient;
         try {
-            appServerClient = ServiceLocator.getInstance().getAppServerAdminClient();
+            appServerClient = ServiceLocator.getInstance(
+                    ).getAppServerAdminClient();
         } catch (Exception ex) {
             throw new ServletException("Error occured durring connection to " +
                     "AppServer admin", ex);

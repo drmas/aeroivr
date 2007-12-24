@@ -26,20 +26,20 @@ import java.util.Map;
  * @author Andriy Petlyovanyy
  */
 public class StartStopServerView extends AbstractView {
-    
+
     public static final String SERVER_STOPPED = "serverStopped";
     public static final String SERVER_STARTED = "serverStarted";
-    
+
     public static final String START_SERVER_BUTTON = "startServer";
     public static final String STOP_SERVER_BUTTON = "stopServer";
     public static final String RESTART_SERVER_BUTTON = "restartServer";
-    
+
     public StartStopServerView(final String vwsFolder) {
         super(vwsFolder);
     }
-    
+
     public StartStopServerView(final String vwsFolder, final Map parameters) {
-        super(vwsFolder, parameters, START_SERVER_BUTTON, STOP_SERVER_BUTTON, 
+        super(vwsFolder, parameters, START_SERVER_BUTTON, STOP_SERVER_BUTTON,
                 RESTART_SERVER_BUTTON);
     }
 
@@ -55,13 +55,12 @@ public class StartStopServerView extends AbstractView {
     public boolean wasStartButtonPressed() {
         return containsKey(START_SERVER_BUTTON);
     }
-    
+
     public boolean wasStopButtonPressed() {
         return containsKey(STOP_SERVER_BUTTON);
     }
-    
+
     public boolean wasRestartButtonPressed() {
         return containsKey(RESTART_SERVER_BUTTON);
     }
 }
- 

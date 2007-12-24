@@ -18,15 +18,13 @@
 
 package org.aeroivr.rsmc.web.view;
 
-import java.util.Map;
-
 /**
  * View representation for upload WAV file page.
  *
  * @author Andriy Petlyovanyy
  */
 public class SetWavFileView extends AbstractView {
-    
+
     public SetWavFileView(final String viewsFolder) {
         super(viewsFolder);
     }
