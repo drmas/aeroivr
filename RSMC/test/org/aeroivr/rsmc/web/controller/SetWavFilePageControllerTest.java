@@ -122,6 +122,12 @@ public class SetWavFilePageControllerTest
         fileItemMock.getContentType();
         expectLastCall().andReturn("audio/wav").once();
         
+        testParams.controllerMock.getServletContext();
+        expectLastCall().andReturn(testParams.servletContextMock).once();
+        
+        testParams.servletContextMock.getRealPath(eq("/WAV"));
+        expectLastCall().andReturn(null).atLeastOnce();
+        
         testParams.serviceLocatorMock.getFileWithUniqueName(null, 
                 "play_", ".wav");
         expectLastCall().andReturn(fileMock).once();
