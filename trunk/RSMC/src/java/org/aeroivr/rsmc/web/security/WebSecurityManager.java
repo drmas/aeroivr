@@ -26,11 +26,11 @@ import javax.servlet.http.HttpSession;
  * @author Andriy Petlyovanyy
  */
 public class WebSecurityManager {
-    
+
     private HttpSession httpSession;
-    
+
     public static final String USERNAME = "username";
-    
+
     public WebSecurityManager(final HttpSession session) {
         httpSession = session;
     }
@@ -46,5 +46,5 @@ public class WebSecurityManager {
     public String getLoggedInUsername() {
         return (String) httpSession.getAttribute(USERNAME);
     }
-    
+
 }

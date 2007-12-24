@@ -27,18 +27,18 @@ import java.util.Map;
  * @author Andriy Petlyovanyy
  */
 public class MasterPageView extends AbstractView {
-    
+
     private static final String SHOW_MENU = "showMenu";
     private static final String WERE_ERRORS = "wereErrors";
     private static final String ERRORS = "errors";
     private static final String INNER_CONTENT = "innerContent";
     private static final String ROOT_DIR_URL = "rootDirUrl";
     private static final String HEADER = "header";
-    
+
     protected MasterPageView(final String viewsFolder, final Map parameters) {
         super(viewsFolder, parameters);
     }
-    
+
     public MasterPageView(final String viewsFolder, final String rootDirUrl) {
         super(viewsFolder);
         setRootDirUrl(rootDirUrl);
@@ -51,7 +51,7 @@ public class MasterPageView extends AbstractView {
     public void setHeader(final String value) {
         setValue(HEADER, value);
     }
-    
+
     public void setInnerContent(final String value) {
         setValue(INNER_CONTENT, value);
     }
@@ -68,7 +68,7 @@ public class MasterPageView extends AbstractView {
         StringBuilder html = new StringBuilder();
         if ((null != errors) && (0 < errors.size())) {
             setValue(WERE_ERRORS, true);
-            for (String error: errors) {
+            for (String error : errors) {
                 html.append("<li/> " + error);
             }
             setValue(ERRORS, html.toString());

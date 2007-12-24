@@ -39,7 +39,7 @@ public class AppServerAdminClient {
 
         Registry registry = ServiceLocator.getInstance().getRmiRegistry(
                 AppServerAdminConstants.APP_SERVER_ADMIN_RMI_PORT);
-	remoteObject = (AppServerAdminRemoteInterface) registry.lookup(
+        remoteObject = (AppServerAdminRemoteInterface) registry.lookup(
                             AppServerAdminConstants.APP_SERVER_ADMIN_RMI_NAME);
     }
 
@@ -62,12 +62,12 @@ public class AppServerAdminClient {
         remoteObject.stopAppServer();
     }
 
-    public void changeAdminPassword(final String newPassword) 
+    public void changeAdminPassword(final String newPassword)
         throws IOException {
         remoteObject.changeAdminPassword(newPassword);
     }
 
-    public void setWavFileName(final String fileName) 
+    public void setWavFileName(final String fileName)
         throws IOException {
         remoteObject.setWavFileName(fileName);
     }

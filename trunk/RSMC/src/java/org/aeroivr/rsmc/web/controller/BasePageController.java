@@ -18,12 +18,15 @@
 
 package org.aeroivr.rsmc.web.controller;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
 import org.aeroivr.rsmc.common.ServiceLocator;
 import org.aeroivr.rsmc.web.render.PageRenderer;
 import org.aeroivr.rsmc.web.view.AbstractView;
@@ -53,8 +56,8 @@ public abstract class BasePageController extends HttpServlet {
         return getServletContext().getRealPath("/WAV");
     }
 
-    protected void renderView(HttpServletRequest request,
-            HttpServletResponse response, AbstractView view)
+    protected void renderView(final HttpServletRequest request,
+            final HttpServletResponse response, final AbstractView view)
             throws IOException {
 
         MasterPageView masterPageView = ServiceLocator.getMasterPageView(
@@ -71,7 +74,7 @@ public abstract class BasePageController extends HttpServlet {
         clearErrors();
     }
 
-    protected void setError(String errorMessage) {
+    protected void setError(final String errorMessage) {
         errors.add(errorMessage);
     }
 

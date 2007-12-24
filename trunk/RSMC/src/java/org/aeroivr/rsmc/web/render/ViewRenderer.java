@@ -19,7 +19,6 @@
 package org.aeroivr.rsmc.web.render;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
@@ -31,20 +30,20 @@ import org.aeroivr.rsmc.common.ServiceLocator;
  * @author Andriy Petlyovanyy
  */
 public class ViewRenderer {
-    
+
     private Map pageParameters;
     private String htmlFileName;
-    
+
     public ViewRenderer(final Map parameters, final String htmlFile) {
         pageParameters = parameters;
         htmlFileName = htmlFile;
     }
 
-    public String renderContent() throws FileNotFoundException, IOException {
+    public String renderContent() throws IOException {
         StringBuilder content = new StringBuilder();
         readHtmlFromFile(content);
 
-        for (String key: (Set<String>) pageParameters.keySet()) {
+        for (String key : (Set<String>) pageParameters.keySet()) {
             processTextLabels(key, content);
             if (!processConditionalBlock(key, content)) {
                 break;
@@ -54,7 +53,7 @@ public class ViewRenderer {
         return content.toString();
     }
 
-    private boolean processConditionalBlock(final String key, 
+    private boolean processConditionalBlock(final String key,
             final StringBuilder content) {
 
         if (pageParameters.get(key) instanceof Boolean) {
@@ -92,12 +91,12 @@ public class ViewRenderer {
         }
     }
 
-    private void processTextLabels(final String key, 
+    private void processTextLabels(final String key,
             final StringBuilder content) {
 
         String insertTag = "{" + key + "}";
 
-        for (int tagIndex = content.indexOf(insertTag); tagIndex > -1; 
+        for (int tagIndex = content.indexOf(insertTag); tagIndex > -1;
             tagIndex = content.indexOf(insertTag)) {
 
             content.replace(tagIndex, tagIndex + insertTag.length(),
@@ -105,12 +104,12 @@ public class ViewRenderer {
         }
     }
 
-    private void readHtmlFromFile(final StringBuilder content) 
-        throws FileNotFoundException, IOException {
+    private void readHtmlFromFile(final StringBuilder content)
+        throws IOException {
 
         BufferedReader htmlFile = ServiceLocator.getInstance(
                 ).getBufferedReaderForFile(htmlFileName);
-        for (String line = htmlFile.readLine(); null != line; 
+        for (String line = htmlFile.readLine(); null != line;
             line = htmlFile.readLine()) {
 
             content.append(line);

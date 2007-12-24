@@ -31,7 +31,7 @@ import org.aeroivr.rsmc.web.render.ViewRenderer;
  * @author Andriy Petlyovanyy
  */
 public abstract class AbstractView {
-    
+
     private HashMap pageParameters = new HashMap();
     private String viewsFolder;
 
@@ -44,11 +44,11 @@ public abstract class AbstractView {
 
         this.viewsFolder = vwsFolder;
 
-        for(String paramName: paramNames) {
+        for (String paramName : paramNames) {
             if (parameters.containsKey(paramName)) {
                 Object value = parameters.get(paramName);
                 if (value instanceof String[]) {
-                    pageParameters.put(paramName, ((String[])value)[0]);
+                    pageParameters.put(paramName, ((String[]) value)[0]);
                 } else {
                     pageParameters.put(paramName, value);
                 }
@@ -70,7 +70,7 @@ public abstract class AbstractView {
 
     protected abstract String getHtmlFileName();
 
-    public String getContent() throws FileNotFoundException, IOException {
+    public String getContent() throws IOException {
 
         ViewRenderer renderer = new ViewRenderer(pageParameters,
                 FileUtils.concatenatePath(viewsFolder, getHtmlFileName()));
