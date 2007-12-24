@@ -127,9 +127,10 @@
                                         don't instrument the test classes.
                                 -->
                                 <include name="**/*.class" />
-                                <exclude name="**/ApplicationConstants.class" />
                                 <exclude name="**/*Test.class" />
-                                <exclude name="**/BaseTestWithServiceLocator.class" />
+				<exclude name="**/BaseTestForPageController*.class" />
+				<exclude name="**/BaseTestForSecurePageController*.class" />
+				<exclude name="**/TestConstants*.class" />
                         </fileset>
                 </cobertura-instrument>
         </target>
@@ -186,7 +187,6 @@
                 <cobertura-report destdir="${coverage.html.dir}">
                         <fileset dir="${src.dir}">
                                 <include name="**/*.java"/>
-                                <exclude name="**/ApplicationConstants.java" />
                         </fileset>
                 </cobertura-report>
         </target>

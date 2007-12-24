@@ -31,10 +31,6 @@ public class SetWavFileView extends AbstractView {
         super(viewsFolder);
     }
 
-    protected SetWavFileView(final String vwsFolder, final Map parameters) {
-        super(vwsFolder, parameters);
-    }
-
     protected String getHtmlFileName() {
         return "setWavFile.html";
     }

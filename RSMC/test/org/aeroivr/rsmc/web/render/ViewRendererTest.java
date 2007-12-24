@@ -135,4 +135,20 @@ public class ViewRendererTest extends TestCase {
         checkHtmlDocument(htmlDocument, parameters, resultingHtmlDocument);
     }
     
+    public void testRenderContentWithOnlyClosingTag() 
+        throws NoSuchMethodException, IOException {
+
+        final HashMap parameters = new HashMap();
+        parameters.put("condition", true);
+        
+        final String htmlDocument = "<html>  test content " +
+                " [/condition] </html>";
+        
+        final String resultingHtmlDocument = "<font color=\"Red\">There is " +
+                "closing tag [/condition] without opening </font>";
+        
+        checkHtmlDocument(htmlDocument, parameters, resultingHtmlDocument);
+    }
+    
+    
 }

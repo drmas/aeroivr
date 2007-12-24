@@ -89,8 +89,6 @@ public class SetWavFilePageController extends BaseSecurePageController {
                 if (0 == fileItem.getContentType().compareTo("audio/wav")) {
                     try {
                         processUploadedFile(fileItem);
-                    } catch (IOException ex) {
-                        throw ex;
                     } catch (Exception ex) {
                         throw new ServletException("Error occured during " +
                                 "file upload", ex);
