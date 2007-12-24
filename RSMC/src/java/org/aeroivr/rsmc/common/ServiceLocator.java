@@ -157,7 +157,6 @@ public class ServiceLocator {
     }
 
     public Registry getRmiRegistry(final int port) throws RemoteException {
-        LocateRegistry.createRegistry(port);
         return LocateRegistry.getRegistry(port);
     }
 }
