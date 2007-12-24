@@ -24,6 +24,8 @@ import java.lang.reflect.Method;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.HashMap;
+import javax.servlet.GenericServlet;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -59,6 +61,7 @@ public class BaseTestForPageController extends TestCase {
         public HttpServletRequest requestMock;
         public HttpServletResponse responseMock;
         public HttpSession sessionMock;
+        public ServletContext servletContextMock;
         public PrintWriter printWriterMock;
         public T controllerMock;
     }
@@ -81,15 +84,20 @@ public class BaseTestForPageController extends TestCase {
         testParams.controllerMock = testParams.control.createMock(
                     controllerClass,
                     new Method[] {
-                BasePageController.class.getDeclaredMethod(
-                        "getViewsFolder"),
+                GenericServlet.class.getDeclaredMethod(
+                        "getServletContext"),
                 BasePageController.class.getDeclaredMethod("clearErrors")});
+        testParams.servletContextMock = testParams.control.createMock(
+                ServletContext.class);
     }
 
     protected <T extends BasePageController> void pageGetInitCalls(
             final PageGetTestParameters<T> testParams) throws IOException {
 
-        testParams.controllerMock.getViewsFolder();
+        testParams.controllerMock.getServletContext();
+        expectLastCall().andReturn(testParams.servletContextMock).atLeastOnce();
+        
+        testParams.servletContextMock.getRealPath(eq("/"));
         expectLastCall().andReturn(TestConstants.VIEWS_FOLDER).atLeastOnce();
 
         testParams.requestMock.getContextPath();
@@ -114,6 +122,7 @@ public class BaseTestForPageController extends TestCase {
         public HttpServletResponse responseMock;
         public HttpSession sessionMock;
         public T controllerMock;
+        public ServletContext servletContextMock;
         public PrintWriter printWriterMock;
         public ServiceLocator serviceLocatorMock;
         public AppServerAdminClient appServerClientAdminMock;
@@ -161,11 +170,13 @@ public class BaseTestForPageController extends TestCase {
                 new Method[] {
                     BasePageController.class.getDeclaredMethod(
                             "getViewsFolder"),
-                    BasePageController.class.getDeclaredMethod(
-                            "getWavFilesFolder"),
+                    GenericServlet.class.getDeclaredMethod(
+                            "getServletContext"),
                     BasePageController.class.getDeclaredMethod("clearErrors"),
                     BasePageController.class.getDeclaredMethod("setError",
                             String.class)});
+        testParams.servletContextMock = testParams.control.createMock(
+                ServletContext.class);
         testParams.serviceLocatorMock = testParams.control.createMock(
                 ServiceLocator.class,
                 new Method[] {ServiceLocator.class.getMethod(
