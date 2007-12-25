@@ -1,5 +1,5 @@
+#summary Release notes for version 0.1
 #labels Phase-Deploy,Featured
-#Release of the version 0.1 of the application.
 
 = Release notes for version 0.1 of AeroIVR =
 
