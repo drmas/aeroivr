@@ -21,12 +21,12 @@ package org.aeroivr.rsmc.web.controller;
 import java.lang.reflect.Method;
 import org.aeroivr.rsmc.admin.AppServerAdminClient;
 import org.aeroivr.rsmc.common.ServiceLocator;
-import org.aeroivr.rsmc.web.controller.BaseTestForPageController.PageGetTestParameters;
-import org.aeroivr.rsmc.web.controller.BaseTestForPageController.PagePostTestParameters;
+import org.aeroivr.rsmc.web.controller.
+        BaseTestForPageController.PageGetTestParameters;
+import org.aeroivr.rsmc.web.controller.
+        BaseTestForPageController.PagePostTestParameters;
 import org.aeroivr.rsmc.web.view.StartStopServerView;
-import static org.easymock.classextension.EasyMock.createNiceControl;
 import static org.easymock.classextension.EasyMock.expectLastCall;
-import static org.easymock.classextension.EasyMock.eq;
 import static org.easymock.classextension.EasyMock.contains;
 import static org.easymock.classextension.EasyMock.and;
 

@@ -33,18 +33,16 @@
 
 package org.aeroivr.rsmc.web.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import junit.framework.TestCase;
-import junit.framework.*;
-import java.io.*;
-import java.net.*;
-import javax.servlet.*;
-import javax.servlet.http.*;
 import org.aeroivr.rsmc.common.ServiceLocator;
+import org.aeroivr.rsmc.web.controller.
+        BaseTestForPageController.PageGetTestParameters;
+import org.aeroivr.rsmc.web.controller.
+        BaseTestForPageController.PagePostTestParameters;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import static org.easymock.classextension.EasyMock.createNiceControl;
 import static org.easymock.classextension.EasyMock.expectLastCall;
 import static org.easymock.classextension.EasyMock.eq;
 import static org.easymock.classextension.EasyMock.contains;
@@ -54,18 +52,18 @@ import static org.easymock.classextension.EasyMock.and;
  *
  * @author Andriy Petlyovanyy
  */
-public class SetWavFilePageControllerTest 
+public class SetWavFilePageControllerTest
         extends BaseTestForSecurePageController {
-    
+
     public SetWavFilePageControllerTest(final String testName) {
         super(testName);
     }
 
     public void testGetHeader() {
-        final SetWavFilePageController pageController = 
+        final SetWavFilePageController pageController =
                 new SetWavFilePageController();
         assertEquals("Header should contain appropriate text",
-                pageController.getHeader(), 
+                pageController.getHeader(),
                 "Please select appropriate wav file");
     }
 
@@ -73,13 +71,13 @@ public class SetWavFilePageControllerTest
 
         PageGetTestParameters<SetWavFilePageController> testParams =
                 new PageGetTestParameters<SetWavFilePageController>();
-        
+
         pageGetInitTest(SetWavFilePageController.class, testParams);
 
         testParams.printWriterMock.print(and(and(
                 contains("multipart/form-data"),
-                contains("wavFile")), 
-                and(contains("upload"), 
+                contains("wavFile")),
+                and(contains("upload"),
                 contains("type=\"file\""))));
         expectLastCall().once();
 
@@ -92,46 +90,46 @@ public class SetWavFilePageControllerTest
     }
 
     public void testPagePostWithFile() throws Exception {
-        
+
         PagePostTestParameters<SetWavFilePageController> testParams =
                 new PagePostTestParameters<SetWavFilePageController>();
         pagePostInitTest(SetWavFilePageController.class, testParams);
 
         testParams.responseMock.getWriter();
         expectLastCall().andReturn(testParams.printWriterMock).once();
-        
-        final ServletFileUpload servletFileUploadMock = 
+
+        final ServletFileUpload servletFileUploadMock =
                 testParams.control.createMock(ServletFileUpload.class);
-        
+
         final List<FileItem> fileItems = new ArrayList<FileItem>();
         FileItem fileItemMock = testParams.control.createMock(FileItem.class);
-        
+
         final File fileMock = testParams.control.createMock(File.class);
-        
+
         fileItems.add(fileItemMock);
-        
+
         testParams.serviceLocatorMock.getServletFileUpload();
         expectLastCall().andReturn(servletFileUploadMock).once();
-        
+
         servletFileUploadMock.parseRequest(testParams.requestMock);
         expectLastCall().andReturn(fileItems).once();
 
         fileItemMock.isFormField();
         expectLastCall().andReturn(false).once();
-        
+
         fileItemMock.getContentType();
         expectLastCall().andReturn("audio/wav").once();
-        
+
         testParams.controllerMock.getServletContext();
         expectLastCall().andReturn(testParams.servletContextMock).once();
-        
+
         testParams.servletContextMock.getRealPath(eq("/WAV"));
         expectLastCall().andReturn(null).atLeastOnce();
-        
-        testParams.serviceLocatorMock.getFileWithUniqueName(null, 
+
+        testParams.serviceLocatorMock.getFileWithUniqueName(null,
                 "play_", ".wav");
         expectLastCall().andReturn(fileMock).once();
-        
+
         testParams.control.replay();
 
         ServiceLocator.load(testParams.serviceLocatorMock);
@@ -140,7 +138,7 @@ public class SetWavFilePageControllerTest
 
         testParams.control.verify();
     }
-    
+
     public void testPagePostWithIncompleteData() throws Exception {
 
         PagePostTestParameters<SetWavFilePageController> testParams =
@@ -149,21 +147,21 @@ public class SetWavFilePageControllerTest
 
         testParams.responseMock.getWriter();
         expectLastCall().andReturn(testParams.printWriterMock).once();
-        
-        final ServletFileUpload servletFileUploadMock = 
+
+        final ServletFileUpload servletFileUploadMock =
                 testParams.control.createMock(ServletFileUpload.class);
-        
+
         final List<FileItem> fileItems = new ArrayList<FileItem>();
-        
+
         testParams.serviceLocatorMock.getServletFileUpload();
         expectLastCall().andReturn(servletFileUploadMock).once();
-        
+
         servletFileUploadMock.parseRequest(testParams.requestMock);
         expectLastCall().andReturn(fileItems).once();
-        
+
         testParams.controllerMock.setError(eq("Wav file should be uploaded"));
         expectLastCall().once();
-        
+
         testParams.control.replay();
 
         ServiceLocator.load(testParams.serviceLocatorMock);

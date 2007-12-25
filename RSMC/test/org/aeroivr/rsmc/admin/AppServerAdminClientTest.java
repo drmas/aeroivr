@@ -19,8 +19,7 @@
 package org.aeroivr.rsmc.admin;
 
 import java.rmi.Remote;
-import junit.framework.*;
-import java.io.IOException;
+import junit.framework.TestCase;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
@@ -37,15 +36,15 @@ import org.easymock.classextension.IMocksControl;
  * @author Andriy Petlyovanyy
  */
 public class AppServerAdminClientTest extends TestCase {
-    
+
     private ServiceLocator serviceLocator = ServiceLocator.getInstance();
     private IMocksControl control = createNiceControl();
     private ServiceLocator serviceLocatorMock = control.createMock(
                 ServiceLocator.class);
     private Registry registryMock = control.createMock(Registry.class);
-    private AppServerAdminRemoteInterface appServerInterfaceMock = 
+    private AppServerAdminRemoteInterface appServerInterfaceMock =
                 control.createMock(AppServerAdminRemoteInterface.class);
-    
+
     public AppServerAdminClientTest(final String testName) {
         super(testName);
     }
@@ -57,16 +56,16 @@ public class AppServerAdminClientTest extends TestCase {
 
         registryMock.lookup(eq(
                 AppServerAdminConstants.APP_SERVER_ADMIN_RMI_NAME));
-        expectLastCall().andReturn((Remote)appServerInterfaceMock
+        expectLastCall().andReturn((Remote) appServerInterfaceMock
                 ).atLeastOnce();
     }
-    
-    public void testAreCredentialsValid() 
+
+    public void testAreCredentialsValid()
         throws RemoteException, NotBoundException {
-        
+
         final String username = "UsrNM";
         final String password = "pwD";
-        
+
         appServerInterfaceMock.areCredentialsValid(eq(username),
                 eq(password));
         expectLastCall().andReturn(true).atLeastOnce();
@@ -84,9 +83,9 @@ public class AppServerAdminClientTest extends TestCase {
         control.verify();
     }
 
-    public void testIsAppServerRunning() 
+    public void testIsAppServerRunning()
         throws RemoteException, NotBoundException {
-        
+
         appServerInterfaceMock.isAppServerRunning();
         expectLastCall().andReturn(true).atLeastOnce();
 
@@ -103,9 +102,9 @@ public class AppServerAdminClientTest extends TestCase {
         control.verify();
     }
 
-    public void testStartAppServer() 
+    public void testStartAppServer()
         throws RemoteException, NotBoundException {
-        
+
         appServerInterfaceMock.startAppServer();
 
         control.replay();
@@ -121,9 +120,9 @@ public class AppServerAdminClientTest extends TestCase {
         control.verify();
     }
 
-    public void testStopAppServer() 
+    public void testStopAppServer()
         throws RemoteException, NotBoundException {
-        
+
         appServerInterfaceMock.stopAppServer();
 
         control.replay();
@@ -140,9 +139,9 @@ public class AppServerAdminClientTest extends TestCase {
     }
 
     public void testChangeAdminPassword() throws Exception {
-        
+
         final String newAdminPassword = "newPWWD";
-        
+
         appServerInterfaceMock.changeAdminPassword(eq(newAdminPassword));
 
         control.replay();
@@ -159,7 +158,7 @@ public class AppServerAdminClientTest extends TestCase {
     }
 
     public void testSetWavFileName() throws Exception {
-        
+
         final String wavFileName = "tteemp.wav";
         appServerInterfaceMock.setWavFileName(eq(wavFileName));
 

@@ -22,12 +22,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import org.aeroivr.appserver.common.AppServerAdminConstants;
 import org.aeroivr.rsmc.web.security.WebSecurityManager;
-import org.easymock.classextension.IMocksControl;
-import static org.easymock.classextension.EasyMock.createNiceControl;
 import static org.easymock.classextension.EasyMock.expectLastCall;
-import static org.easymock.classextension.EasyMock.eq;
-import static org.easymock.classextension.EasyMock.contains;
-import static org.easymock.classextension.EasyMock.and;
 
 /**
  *
@@ -40,7 +35,8 @@ public class BaseTestForSecurePageController extends BaseTestForPageController {
     }
 
     public <T extends BasePageController> void pageGetInitTest(
-            Class<T> controllerClass, PageGetTestParameters<T> testParams)
+            final Class<T> controllerClass,
+            final PageGetTestParameters<T> testParams)
                 throws Exception {
 
         pageGetInitTestParams(controllerClass, testParams);
@@ -56,8 +52,9 @@ public class BaseTestForSecurePageController extends BaseTestForPageController {
     }
 
     public <T extends BasePageController> void pagePostInitTest(
-            Class<T> controllerClass, PagePostTestParameters<T> testParams)
-                throws NoSuchMethodException, RemoteException, 
+            final Class<T> controllerClass,
+            final PagePostTestParameters<T> testParams)
+                throws NoSuchMethodException, RemoteException,
                     NotBoundException {
 
         pagePostInitTestParams(controllerClass, testParams);
