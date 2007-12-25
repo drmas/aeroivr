@@ -4,9 +4,7 @@
 = Release notes for version 0.1 of AeroIVR =
 
 We have curently implemented first version of the AeroIVR application. 
-
 All features declared in Software Requirements Specification for this version was implemented. 
-
 Please check it for more details [SRS_v_0_1 Software Requirements Specification v 0.1].
 
 
@@ -18,7 +16,7 @@ Please check it for more details [SRS_v_0_1 Software Requirements Specification 
 
   * Download AeroIVR-0.1.zip from [http://aeroivr.googlecode.com/files/AeroIVR-0.1.zip]
   * Unzip archive AeroIVR-0.1.zip
-  * Copy !WebApp\RSMC.war to Tomcats webapps folder.
+  * Copy RSMC.war from !WebApp folder to Tomcats webapps folder.
   * Run startup.bat from bin directory of Tomcat(make sure you set up JAVA_HOME or JRE_HOME envinronment variables). 
   * Run application server !AppServer\xRunServer.cmd
   * Run browser and go to url [http://localhost:8080/RSMC]
