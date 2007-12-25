@@ -80,10 +80,10 @@
                 </checkstyle>
  
                 <xslt in="${checkstyle.xml.dir}/checkstyle_report.xml" out="${checkstyle.xml.dir}/checkstyle_report_fixed.xml" 
-			style="${checkstyle.dir}/checkstyle-fix-output.xsl"/>
+                        style="${checkstyle.dir}/checkstyle-fix-output.xsl"/>
 
                 <xslt in="${checkstyle.xml.dir}/checkstyle_report_fixed.xml" out="${checkstyle.html.dir}/checkstyle_report.html" 
-			style="${checkstyle.dir}/checkstyle-simple.xsl"/>
+                        style="${checkstyle.dir}/checkstyle-simple.xsl"/>
         </target>
 
         <target name="compile" depends="init,compileUsedProjects">
@@ -140,6 +140,8 @@
 
         <target name="test" depends="init,compile">
                 <junit fork="yes" dir="${basedir}" failureProperty="test.failed">
+                        <sysproperty key="aeroivr.web.folder" value="${basedir}/../web"/>
+
                         <!--
                                 Note the classpath order: instrumented classes are before the
                                 original (uninstrumented) classes.  This is important.

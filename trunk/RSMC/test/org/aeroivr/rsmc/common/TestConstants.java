@@ -18,6 +18,8 @@
 
 package org.aeroivr.rsmc.common;
 
+import java.io.File;
+
 /**
  * Constans for tests.
  *
@@ -25,10 +27,13 @@ package org.aeroivr.rsmc.common;
  */
 public final class TestConstants {
 
-    // TODO: Fix problem with the relative paths
-//    public static final String VIEWS_FOLDER = ".." + File.separator + "web";
-    public static final String VIEWS_FOLDER = "H:\\Projects\\AeroIVR\\"
-            + "Sources\\trunk\\RSMC\\web";
+    /* Value of the constant is tried to read from system property
+     * (to support build from Ant tasks where paths are a bit different)
+     * if there is no such system property then we are in IDE and
+     * get Web folder path.
+     */
+    public static final String VIEWS_FOLDER = System.getProperty(
+            "aeroivr.web.folder", new File("web").getAbsolutePath());
     public static final String SERVLET_CONTEXT_PATH = "/RSMC/";
 
     protected TestConstants() {
