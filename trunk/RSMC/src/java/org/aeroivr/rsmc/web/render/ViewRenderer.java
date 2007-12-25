@@ -64,22 +64,22 @@ public class ViewRenderer {
 
             for (startTagIndex = content.indexOf(startConditionalBlockTag),
                     endTagIndex = content.indexOf(endConditionalBlockTag);
-                    (startTagIndex > -1) && (endTagIndex > -1) &&
-                        (endTagIndex > startTagIndex);
+                    (startTagIndex > -1) && (endTagIndex > -1)
+                        && (endTagIndex > startTagIndex);
                     startTagIndex =
                     content.indexOf(startConditionalBlockTag),
                     endTagIndex = content.indexOf(endConditionalBlockTag)) {
 
                 if (((Boolean) pageParameters.get(key)).booleanValue()) {
                     content.delete(endTagIndex,
-                            endTagIndex +
-                            endConditionalBlockTag.length());
+                            endTagIndex
+                            + endConditionalBlockTag.length());
                     content.delete(startTagIndex,
-                            startTagIndex +
-                            startConditionalBlockTag.length());
+                            startTagIndex
+                            + startConditionalBlockTag.length());
                 } else {
-                    content.delete(startTagIndex, endTagIndex +
-                            endConditionalBlockTag.length());
+                    content.delete(startTagIndex, endTagIndex
+                            + endConditionalBlockTag.length());
                 }
             }
 
@@ -122,21 +122,21 @@ public class ViewRenderer {
             final StringBuilder content) {
 
         if ((startTagIndex == -1) && (endTagIndex != -1)) {
-             addTemplateParsingError(content, "There is closing tag " +
-                    endConditionalBlockTag + " without opening ");
+             addTemplateParsingError(content, "There is closing tag "
+                     + endConditionalBlockTag + " without opening ");
             return false;
         }  else {
             if ((startTagIndex != -1) && (endTagIndex == -1)) {
                 addTemplateParsingError(content,
-                        "There is opening tag " +
-                        startConditionalBlockTag + " without closing ");
+                        "There is opening tag "
+                        + startConditionalBlockTag + " without closing ");
                 return false;
             }  else {
                 if (startTagIndex > endTagIndex) {
                     addTemplateParsingError(content,
-                            "The closing opening tag " +
-                            endConditionalBlockTag +
-                            " is before opening tag ");
+                            "The closing opening tag "
+                            + endConditionalBlockTag
+                            + " is before opening tag ");
                     return false;
                 } else {
                     return true;

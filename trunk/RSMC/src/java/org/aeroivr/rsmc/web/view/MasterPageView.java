@@ -64,7 +64,7 @@ public class MasterPageView extends AbstractView {
         return "masterPage.html";
     }
 
-    public void setErrors(List<String> errors) {
+    public void setErrors(final List<String> errors) {
         StringBuilder html = new StringBuilder();
         if ((null != errors) && (0 < errors.size())) {
             setValue(WERE_ERRORS, true);
