@@ -55,14 +55,73 @@ public class BaseTestForPageController extends TestCase {
         ServiceLocator.load(serviceLocator);
     }
 
+    /**
+     * Inner class for page get testing.
+     */
     public class PageGetTestParameters<T> {
-        public IMocksControl control;
-        public HttpServletRequest requestMock;
-        public HttpServletResponse responseMock;
-        public HttpSession sessionMock;
-        public ServletContext servletContextMock;
-        public PrintWriter printWriterMock;
-        public T controllerMock;
+        private IMocksControl control;
+        private HttpServletRequest requestMock;
+        private HttpServletResponse responseMock;
+        private HttpSession sessionMock;
+        private ServletContext servletContextMock;
+        private PrintWriter printWriterMock;
+        private T controllerMock;
+
+        public IMocksControl getControl() {
+            return control;
+        }
+
+        public void setControl(final IMocksControl value) {
+            this.control = value;
+        }
+
+        public HttpServletRequest getRequestMock() {
+            return requestMock;
+        }
+
+        public void setRequestMock(final HttpServletRequest value) {
+            this.requestMock = value;
+        }
+
+        public HttpServletResponse getResponseMock() {
+            return responseMock;
+        }
+
+        public HttpSession getSessionMock() {
+            return sessionMock;
+        }
+
+        public ServletContext getServletContextMock() {
+            return servletContextMock;
+        }
+
+        public PrintWriter getPrintWriterMock() {
+            return printWriterMock;
+        }
+
+        public T getControllerMock() {
+            return controllerMock;
+        }
+
+        public void setResponseMock(final HttpServletResponse value) {
+            this.responseMock = value;
+        }
+
+        public void setSessionMock(final HttpSession value) {
+            this.sessionMock = value;
+        }
+
+        public void setServletContextMock(final ServletContext value) {
+            this.servletContextMock = value;
+        }
+
+        public void setPrintWriterMock(final PrintWriter value) {
+            this.printWriterMock = value;
+        }
+
+        public void setControllerMock(final T value) {
+            this.controllerMock = value;
+        }
     }
 
     protected <T extends BasePageController> void pageGetInitTestParams(
@@ -70,41 +129,42 @@ public class BaseTestForPageController extends TestCase {
             final PageGetTestParameters<T> testParams)
                 throws NoSuchMethodException {
 
-        testParams.control = createNiceControl();
-        testParams.requestMock = testParams.control.createMock(
-                HttpServletRequest.class);
-        testParams.responseMock = testParams.control.createMock(
-                HttpServletResponse.class);
-        testParams.sessionMock = testParams.control.createMock(
-                HttpSession.class);
+        testParams.setControl(createNiceControl());
+        testParams.setRequestMock(testParams.getControl().createMock(
+                HttpServletRequest.class));
+        testParams.setResponseMock(testParams.getControl().createMock(
+                HttpServletResponse.class));
+        testParams.setSessionMock(testParams.getControl().createMock(
+                HttpSession.class));
 
-        testParams.printWriterMock = testParams.control.createMock(
-                PrintWriter.class);
-        testParams.controllerMock = testParams.control.createMock(
+        testParams.setPrintWriterMock(testParams.getControl().createMock(
+                PrintWriter.class));
+        testParams.setControllerMock(testParams.getControl().createMock(
                     controllerClass,
                     new Method[] {
                 GenericServlet.class.getDeclaredMethod(
                         "getServletContext"),
-                BasePageController.class.getDeclaredMethod("clearErrors")});
-        testParams.servletContextMock = testParams.control.createMock(
-                ServletContext.class);
+                BasePageController.class.getDeclaredMethod("clearErrors")}));
+        testParams.setServletContextMock(testParams.getControl().createMock(
+                ServletContext.class));
     }
 
     protected <T extends BasePageController> void pageGetInitCalls(
             final PageGetTestParameters<T> testParams) throws IOException {
 
-        testParams.controllerMock.getServletContext();
-        expectLastCall().andReturn(testParams.servletContextMock).atLeastOnce();
+        testParams.getControllerMock().getServletContext();
+        expectLastCall().andReturn(testParams.getServletContextMock(
+                )).atLeastOnce();
 
-        testParams.servletContextMock.getRealPath(eq("/"));
+        testParams.getServletContextMock().getRealPath(eq("/"));
         expectLastCall().andReturn(TestConstants.VIEWS_FOLDER).atLeastOnce();
 
-        testParams.requestMock.getContextPath();
+        testParams.getRequestMock().getContextPath();
         expectLastCall().andReturn(
                 TestConstants.SERVLET_CONTEXT_PATH).atLeastOnce();
 
-        testParams.responseMock.getWriter();
-        expectLastCall().andReturn(testParams.printWriterMock).once();
+        testParams.getResponseMock().getWriter();
+        expectLastCall().andReturn(testParams.getPrintWriterMock()).once();
     }
 
     public <T extends BasePageController> void pageGetInitTest(
@@ -114,39 +174,124 @@ public class BaseTestForPageController extends TestCase {
         pageGetInitCalls(testParams);
     }
 
+    /**
+     * Inner class for page post testing.
+     */
     public class PagePostTestParameters<T> {
-        public HashMap parameters;
-        public IMocksControl control;
-        public HttpServletRequest requestMock;
-        public HttpServletResponse responseMock;
-        public HttpSession sessionMock;
-        public T controllerMock;
-        public ServletContext servletContextMock;
-        public PrintWriter printWriterMock;
-        public ServiceLocator serviceLocatorMock;
-        public AppServerAdminClient appServerClientAdminMock;
+        private HashMap parameters;
+        private IMocksControl control;
+        private HttpServletRequest requestMock;
+        private HttpServletResponse responseMock;
+        private HttpSession sessionMock;
+        private T controllerMock;
+        private ServletContext servletContextMock;
+        private PrintWriter printWriterMock;
+        private ServiceLocator serviceLocatorMock;
+        private AppServerAdminClient appServerClientAdminMock;
+
+        public HashMap getParameters() {
+            return parameters;
+        }
+
+        public void setParameters(final HashMap value) {
+            this.parameters = value;
+        }
+
+        public IMocksControl getControl() {
+            return control;
+        }
+
+        public void setControl(final IMocksControl value) {
+            this.control = value;
+        }
+
+        public HttpServletRequest getRequestMock() {
+            return requestMock;
+        }
+
+        public void setRequestMock(final HttpServletRequest value) {
+            this.requestMock = value;
+        }
+
+        public HttpServletResponse getResponseMock() {
+            return responseMock;
+        }
+
+        public void setResponseMock(final HttpServletResponse value) {
+            this.responseMock = value;
+        }
+
+        public HttpSession getSessionMock() {
+            return sessionMock;
+        }
+
+        public void setSessionMock(final HttpSession value) {
+            this.sessionMock = value;
+        }
+
+        public T getControllerMock() {
+            return controllerMock;
+        }
+
+        public void setControllerMock(final T value) {
+            this.controllerMock = value;
+        }
+
+        public ServletContext getServletContextMock() {
+            return servletContextMock;
+        }
+
+        public void setServletContextMock(final ServletContext value) {
+            this.servletContextMock = value;
+        }
+
+        public PrintWriter getPrintWriterMock() {
+            return printWriterMock;
+        }
+
+        public void setPrintWriterMock(final PrintWriter value) {
+            this.printWriterMock = value;
+        }
+
+        public ServiceLocator getServiceLocatorMock() {
+            return serviceLocatorMock;
+        }
+
+        public void setServiceLocatorMock(final ServiceLocator value) {
+            this.serviceLocatorMock = value;
+        }
+
+        public AppServerAdminClient getAppServerClientAdminMock() {
+            return appServerClientAdminMock;
+        }
+
+        public void setAppServerClientAdminMock(
+                final AppServerAdminClient value) {
+
+            this.appServerClientAdminMock = value;
+        }
     }
 
     protected <T extends BasePageController> void pagePostInitCalls(
             final PagePostTestParameters<T> testParams)
                 throws RemoteException, NotBoundException {
 
-        testParams.controllerMock.getViewsFolder();
+        testParams.getControllerMock().getViewsFolder();
         expectLastCall().andReturn(TestConstants.VIEWS_FOLDER).atLeastOnce();
 
-        testParams.requestMock.getContextPath();
+        testParams.getRequestMock().getContextPath();
         expectLastCall().andReturn(
                 TestConstants.SERVLET_CONTEXT_PATH).anyTimes();
 
-        testParams.requestMock.getParameterMap();
-        expectLastCall().andReturn(testParams.parameters).anyTimes();
+        testParams.getRequestMock().getParameterMap();
+        expectLastCall().andReturn(testParams.getParameters()).anyTimes();
 
-        testParams.requestMock.getSession();
-        expectLastCall().andReturn(testParams.sessionMock).anyTimes();
+        testParams.getRequestMock().getSession();
+        expectLastCall().andReturn(testParams.getSessionMock()).anyTimes();
 
-        testParams.serviceLocatorMock.getAppServerAdminClient();
+        testParams.getServiceLocatorMock().getAppServerAdminClient();
         expectLastCall().andReturn(
-                testParams.appServerClientAdminMock).anyTimes();
+            testParams.getAppServerClientAdminMock()).anyTimes();
     }
 
     protected <T extends BasePageController> void pagePostInitTestParams(
@@ -154,17 +299,17 @@ public class BaseTestForPageController extends TestCase {
             final PagePostTestParameters<T> testParams)
                 throws NoSuchMethodException {
 
-        testParams.parameters = new HashMap();
-        testParams.control = createNiceControl();
-        testParams.requestMock = testParams.control.createMock(
-                HttpServletRequest.class);
-        testParams.responseMock = testParams.control.createMock(
-                HttpServletResponse.class);
-        testParams.sessionMock = testParams.control.createMock(
-                HttpSession.class);
-        testParams.printWriterMock = testParams.control.createMock(
-                PrintWriter.class);
-        testParams.controllerMock = testParams.control.createMock(
+        testParams.setParameters(new HashMap());
+        testParams.setControl(createNiceControl());
+        testParams.setRequestMock(testParams.getControl().createMock(
+                HttpServletRequest.class));
+        testParams.setResponseMock(testParams.getControl().createMock(
+                HttpServletResponse.class));
+        testParams.setSessionMock(testParams.getControl().createMock(
+                HttpSession.class));
+        testParams.setPrintWriterMock(testParams.getControl().createMock(
+                PrintWriter.class));
+        testParams.setControllerMock(testParams.getControl().createMock(
                 controllerClass,
                 new Method[] {
                     BasePageController.class.getDeclaredMethod(
@@ -173,18 +318,18 @@ public class BaseTestForPageController extends TestCase {
                             "getServletContext"),
                     BasePageController.class.getDeclaredMethod("clearErrors"),
                     BasePageController.class.getDeclaredMethod("setError",
-                            String.class)});
-        testParams.servletContextMock = testParams.control.createMock(
-                ServletContext.class);
-        testParams.serviceLocatorMock = testParams.control.createMock(
+                            String.class)}));
+        testParams.setServletContextMock(testParams.getControl().createMock(
+                ServletContext.class));
+        testParams.setServiceLocatorMock(testParams.getControl().createMock(
                 ServiceLocator.class,
                 new Method[] {ServiceLocator.class.getMethod(
                         "getAppServerAdminClient"),
                     ServiceLocator.class.getMethod("getServletFileUpload"),
                     ServiceLocator.class.getMethod("getFileWithUniqueName",
-                        String.class, String.class, String.class)});
-        testParams.appServerClientAdminMock = testParams.control.createMock(
-                AppServerAdminClient.class);
+                        String.class, String.class, String.class)}));
+        testParams.setAppServerClientAdminMock(testParams.getControl(
+                ).createMock(AppServerAdminClient.class));
     }
 
     public <T extends BasePageController> void pagePostInitTest(

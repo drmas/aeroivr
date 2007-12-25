@@ -57,16 +57,16 @@ public class ChangePasswordPageControllerTest
 
         pageGetInitTest(ChangePasswordPageController.class, testParams);
 
-        testParams.printWriterMock.print(and(and(contains("oldPassword"),
+        testParams.getPrintWriterMock().print(and(and(contains("oldPassword"),
                 contains("newPassword")), contains("confirmPassword")));
         expectLastCall().once();
 
-        testParams.control.replay();
+        testParams.getControl().replay();
 
-        testParams.controllerMock.doGet(testParams.requestMock,
-                testParams.responseMock);
+        testParams.getControllerMock().doGet(testParams.getRequestMock(),
+                testParams.getResponseMock());
 
-        testParams.control.verify();
+        testParams.getControl().verify();
     }
 
     public void testPagePostWithCorrectInputData() throws Exception {
@@ -75,35 +75,35 @@ public class ChangePasswordPageControllerTest
                 new PagePostTestParameters<ChangePasswordPageController>();
         pagePostInitTest(ChangePasswordPageController.class, testParams);
 
-        testParams.responseMock.getWriter();
-        expectLastCall().andReturn(testParams.printWriterMock).once();
+        testParams.getResponseMock().getWriter();
+        expectLastCall().andReturn(testParams.getPrintWriterMock()).once();
 
         final String oldPassword = "oldPWD";
         final String newPassword = "P@WD";
-        testParams.parameters.put(ChangePasswordView.OLD_PASSWORD,
+        testParams.getParameters().put(ChangePasswordView.OLD_PASSWORD,
                 oldPassword);
-        testParams.parameters.put(ChangePasswordView.NEW_PASSWORD,
+        testParams.getParameters().put(ChangePasswordView.NEW_PASSWORD,
                 newPassword);
-        testParams.parameters.put(ChangePasswordView.CONFIRM_PASSWORD,
+        testParams.getParameters().put(ChangePasswordView.CONFIRM_PASSWORD,
                 newPassword);
-        testParams.parameters.put(ChangePasswordView.CHANGE_BUTTON,
+        testParams.getParameters().put(ChangePasswordView.CHANGE_BUTTON,
                 ChangePasswordView.CHANGE_BUTTON);
 
-        testParams.appServerClientAdminMock.areCredentialsValid(
+        testParams.getAppServerClientAdminMock().areCredentialsValid(
                 eq(AppServerAdminConstants.ADMIN_USERNAME), eq(oldPassword));
         expectLastCall().andReturn(true).once();
 
-        testParams.appServerClientAdminMock.changeAdminPassword(
+        testParams.getAppServerClientAdminMock().changeAdminPassword(
                 eq(newPassword));
         expectLastCall().once();
 
-        testParams.control.replay();
+        testParams.getControl().replay();
 
-        ServiceLocator.load(testParams.serviceLocatorMock);
-        testParams.controllerMock.doPost(testParams.requestMock,
-                testParams.responseMock);
+        ServiceLocator.load(testParams.getServiceLocatorMock());
+        testParams.getControllerMock().doPost(testParams.getRequestMock(),
+                testParams.getResponseMock());
 
-        testParams.control.verify();
+        testParams.getControl().verify();
     }
 
     public void testPagePostWithNotMatchingConfirmPassord() throws Exception {
@@ -112,31 +112,31 @@ public class ChangePasswordPageControllerTest
                 new PagePostTestParameters<ChangePasswordPageController>();
         pagePostInitTest(ChangePasswordPageController.class, testParams);
 
-        testParams.responseMock.getWriter();
-        expectLastCall().andReturn(testParams.printWriterMock).once();
+        testParams.getResponseMock().getWriter();
+        expectLastCall().andReturn(testParams.getPrintWriterMock()).once();
 
         final String oldPassword = "oldPWD";
         final String newPassword = "P@WD";
         final String confirmPassword = "P2WD";
-        testParams.parameters.put(ChangePasswordView.OLD_PASSWORD,
+        testParams.getParameters().put(ChangePasswordView.OLD_PASSWORD,
                 oldPassword);
-        testParams.parameters.put(ChangePasswordView.NEW_PASSWORD,
+        testParams.getParameters().put(ChangePasswordView.NEW_PASSWORD,
                 newPassword);
-        testParams.parameters.put(ChangePasswordView.CONFIRM_PASSWORD,
+        testParams.getParameters().put(ChangePasswordView.CONFIRM_PASSWORD,
                 confirmPassword);
-        testParams.parameters.put(ChangePasswordView.CHANGE_BUTTON,
+        testParams.getParameters().put(ChangePasswordView.CHANGE_BUTTON,
                 ChangePasswordView.CHANGE_BUTTON);
 
-        testParams.controllerMock.setError(eq("Confirm password should match "
-                + "new password"));
+        testParams.getControllerMock().setError(eq("Confirm password should "
+                + "match new password"));
         expectLastCall().once();
 
-        testParams.control.replay();
+        testParams.getControl().replay();
 
-        ServiceLocator.load(testParams.serviceLocatorMock);
-        testParams.controllerMock.doPost(testParams.requestMock,
-                testParams.responseMock);
+        ServiceLocator.load(testParams.getServiceLocatorMock());
+        testParams.getControllerMock().doPost(testParams.getRequestMock(),
+                testParams.getResponseMock());
 
-        testParams.control.verify();
+        testParams.getControl().verify();
     }
 }

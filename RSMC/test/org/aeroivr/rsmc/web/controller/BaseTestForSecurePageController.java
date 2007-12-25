@@ -41,10 +41,10 @@ public class BaseTestForSecurePageController extends BaseTestForPageController {
 
         pageGetInitTestParams(controllerClass, testParams);
 
-        testParams.requestMock.getSession();
-        expectLastCall().andReturn(testParams.sessionMock).anyTimes();
+        testParams.getRequestMock().getSession();
+        expectLastCall().andReturn(testParams.getSessionMock()).anyTimes();
 
-        testParams.sessionMock.getAttribute(WebSecurityManager.USERNAME);
+        testParams.getSessionMock().getAttribute(WebSecurityManager.USERNAME);
         expectLastCall().andReturn(AppServerAdminConstants.ADMIN_USERNAME
                 ).anyTimes();
 
@@ -59,7 +59,7 @@ public class BaseTestForSecurePageController extends BaseTestForPageController {
 
         pagePostInitTestParams(controllerClass, testParams);
 
-        testParams.sessionMock.getAttribute(WebSecurityManager.USERNAME);
+        testParams.getSessionMock().getAttribute(WebSecurityManager.USERNAME);
         expectLastCall().andReturn(AppServerAdminConstants.ADMIN_USERNAME
                 ).anyTimes();
 

@@ -58,12 +58,12 @@ public class StartStopServerPageControllerTest
         pageGetInitTest(StartStopServerPageController.class, testParams);
 
         ServiceLocator serviceLocatorMock =
-                testParams.control.createMock(ServiceLocator.class,
+                testParams.getControl().createMock(ServiceLocator.class,
                     new Method[] {ServiceLocator.class.getMethod(
                             "getAppServerAdminClient")});
 
         AppServerAdminClient appServerClientMock =
-                testParams.control.createMock(AppServerAdminClient.class);
+                testParams.getControl().createMock(AppServerAdminClient.class);
 
         serviceLocatorMock.getAppServerAdminClient();
         expectLastCall().andReturn(appServerClientMock).once();
@@ -71,17 +71,17 @@ public class StartStopServerPageControllerTest
         appServerClientMock.isAppServerRunning();
         expectLastCall().andReturn(running).once();
 
-        testParams.printWriterMock.print(and(contains(shouldContainOne),
+        testParams.getPrintWriterMock().print(and(contains(shouldContainOne),
                 contains(shouldContainTwo)));
         expectLastCall().once();
 
-        testParams.control.replay();
+        testParams.getControl().replay();
 
         ServiceLocator.load(serviceLocatorMock);
-        testParams.controllerMock.doGet(testParams.requestMock,
-                testParams.responseMock);
+        testParams.getControllerMock().doGet(testParams.getRequestMock(),
+                testParams.getResponseMock());
 
-        testParams.control.verify();
+        testParams.getControl().verify();
     }
 
     public void testPageGetWithStoppedServer() throws Exception {
@@ -98,22 +98,22 @@ public class StartStopServerPageControllerTest
                 new PagePostTestParameters<StartStopServerPageController>();
         pagePostInitTest(StartStopServerPageController.class, testParams);
 
-        testParams.responseMock.getWriter();
-        expectLastCall().andReturn(testParams.printWriterMock).once();
+        testParams.getResponseMock().getWriter();
+        expectLastCall().andReturn(testParams.getPrintWriterMock()).once();
 
-        testParams.parameters.put(StartStopServerView.START_SERVER_BUTTON,
+        testParams.getParameters().put(StartStopServerView.START_SERVER_BUTTON,
                 StartStopServerView.START_SERVER_BUTTON);
 
-        testParams.appServerClientAdminMock.startAppServer();
+        testParams.getAppServerClientAdminMock().startAppServer();
         expectLastCall().once();
 
-        testParams.control.replay();
+        testParams.getControl().replay();
 
-        ServiceLocator.load(testParams.serviceLocatorMock);
-        testParams.controllerMock.doPost(testParams.requestMock,
-                testParams.responseMock);
+        ServiceLocator.load(testParams.getServiceLocatorMock());
+        testParams.getControllerMock().doPost(testParams.getRequestMock(),
+                testParams.getResponseMock());
 
-        testParams.control.verify();
+        testParams.getControl().verify();
     }
 
     public void testPagePostWithStopServerCommand() throws Exception {
@@ -122,22 +122,22 @@ public class StartStopServerPageControllerTest
                 new PagePostTestParameters<StartStopServerPageController>();
         pagePostInitTest(StartStopServerPageController.class, testParams);
 
-        testParams.responseMock.getWriter();
-        expectLastCall().andReturn(testParams.printWriterMock).once();
+        testParams.getResponseMock().getWriter();
+        expectLastCall().andReturn(testParams.getPrintWriterMock()).once();
 
-        testParams.parameters.put(StartStopServerView.STOP_SERVER_BUTTON,
+        testParams.getParameters().put(StartStopServerView.STOP_SERVER_BUTTON,
                 StartStopServerView.START_SERVER_BUTTON);
 
-        testParams.appServerClientAdminMock.stopAppServer();
+        testParams.getAppServerClientAdminMock().stopAppServer();
         expectLastCall().once();
 
-        testParams.control.replay();
+        testParams.getControl().replay();
 
-        ServiceLocator.load(testParams.serviceLocatorMock);
-        testParams.controllerMock.doPost(testParams.requestMock,
-                testParams.responseMock);
+        ServiceLocator.load(testParams.getServiceLocatorMock());
+        testParams.getControllerMock().doPost(testParams.getRequestMock(),
+                testParams.getResponseMock());
 
-        testParams.control.verify();
+        testParams.getControl().verify();
     }
 
     public void testPagePostWithRestartServerCommand() throws Exception {
@@ -146,25 +146,26 @@ public class StartStopServerPageControllerTest
                 new PagePostTestParameters<StartStopServerPageController>();
         pagePostInitTest(StartStopServerPageController.class, testParams);
 
-        testParams.responseMock.getWriter();
-        expectLastCall().andReturn(testParams.printWriterMock).once();
+        testParams.getResponseMock().getWriter();
+        expectLastCall().andReturn(testParams.getPrintWriterMock()).once();
 
-        testParams.parameters.put(StartStopServerView.RESTART_SERVER_BUTTON,
+        testParams.getParameters().put(
+                StartStopServerView.RESTART_SERVER_BUTTON,
                 StartStopServerView.START_SERVER_BUTTON);
 
-        testParams.appServerClientAdminMock.stopAppServer();
+        testParams.getAppServerClientAdminMock().stopAppServer();
         expectLastCall().once();
 
-        testParams.appServerClientAdminMock.startAppServer();
+        testParams.getAppServerClientAdminMock().startAppServer();
         expectLastCall().once();
 
-        ServiceLocator.load(testParams.serviceLocatorMock);
-        testParams.control.replay();
+        ServiceLocator.load(testParams.getServiceLocatorMock());
+        testParams.getControl().replay();
 
-        testParams.controllerMock.doPost(testParams.requestMock,
-                testParams.responseMock);
+        testParams.getControllerMock().doPost(testParams.getRequestMock(),
+                testParams.getResponseMock());
 
-        testParams.control.verify();
+        testParams.getControl().verify();
     }
 
 }
