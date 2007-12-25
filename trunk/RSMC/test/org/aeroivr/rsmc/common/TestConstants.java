@@ -18,22 +18,19 @@
 
 package org.aeroivr.rsmc.common;
 
-import java.io.File;
-import org.aeroivr.common.utils.FileUtils;
-
 /**
  * Constans for tests.
  *
  * @author Andriy Petlyovanyy
  */
 public final class TestConstants {
-    
+
     // TODO: Fix problem with the relative paths
 //    public static final String VIEWS_FOLDER = ".." + File.separator + "web";
-    public static final String VIEWS_FOLDER = "H:\\Projects\\AeroIVR\\" +
-            "Sources\\trunk\\RSMC\\web";
+    public static final String VIEWS_FOLDER = "H:\\Projects\\AeroIVR\\"
+            + "Sources\\trunk\\RSMC\\web";
     public static final String SERVLET_CONTEXT_PATH = "/RSMC/";
-    
+
     protected TestConstants() {
     }
 }

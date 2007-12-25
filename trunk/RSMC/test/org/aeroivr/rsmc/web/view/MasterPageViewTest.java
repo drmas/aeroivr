@@ -18,33 +18,30 @@
 
 package org.aeroivr.rsmc.web.view;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import junit.framework.TestCase;
 import org.aeroivr.rsmc.common.TestConstants;
-import junit.framework.*;
-import java.util.Map;
 
 /**
  *
  * @author Andriy Petlyovanyy
  */
 public class MasterPageViewTest extends TestCase {
-    
+
     public MasterPageViewTest(final String testName) {
         super(testName);
     }
-    
-    public void testSetShowMenu() throws FileNotFoundException, IOException {
-       
+
+    public void testSetShowMenu() throws IOException {
+
         final MasterPageView masterPageView = new MasterPageView(
                 TestConstants.VIEWS_FOLDER,
                 TestConstants.SERVLET_CONTEXT_PATH);
         masterPageView.setShowMenu(true);
         String content = masterPageView.getContent();
-        
+
         assertNotNull("Content should be present", content);
         assertTrue("Page should contain link on Start\\Stop Server page",
                 content.indexOf("Start\\Stop Server") > -1);
@@ -52,10 +49,10 @@ public class MasterPageViewTest extends TestCase {
                 content.indexOf("Change Password") > -1);
         assertTrue("Page should contain link on Set WAV file page",
                 content.indexOf("Set WAV file") > -1);
-        
+
         masterPageView.setShowMenu(false);
         content = masterPageView.getContent();
-        
+
         assertNotNull("Content should be present", content);
         assertTrue("Page should not contain link on Start\\Stop Server page",
                 content.indexOf("Start\\Stop Server") == -1);
@@ -65,20 +62,20 @@ public class MasterPageViewTest extends TestCase {
                 content.indexOf("Set WAV file") == -1);
     }
 
-    public void testSetHeader() throws FileNotFoundException, IOException {
-       
+    public void testSetHeader() throws IOException {
+
         final MasterPageView masterPageView = new MasterPageView(
                 TestConstants.VIEWS_FOLDER,
                 TestConstants.SERVLET_CONTEXT_PATH);
         final String testHeader = "Test Header";
-        
+
         masterPageView.setHeader(testHeader);
         String content = masterPageView.getContent();
-        
+
         assertNotNull("Content should be present", content);
         assertTrue("Page should contain header",
                 content.indexOf(testHeader) > -1);
-        
+
         masterPageView.setHeader("");
         content = masterPageView.getContent();
         assertNotNull("Content should be present", content);
@@ -95,23 +92,23 @@ public class MasterPageViewTest extends TestCase {
                 masterPageView.getHtmlFileName(), "masterPage.html");
     }
 
-    public void testSetErrors() throws FileNotFoundException, IOException {
-       
+    public void testSetErrors() throws IOException {
+
         final MasterPageView masterPageView = new MasterPageView(
                 TestConstants.VIEWS_FOLDER,
                 TestConstants.SERVLET_CONTEXT_PATH);
         final String error1 = "Error One";
         final String error2 = "Error Seconddd";
         final String error3 = "Error Number Three";
-        
+
         final List<String> errors = new ArrayList<String>();
         errors.add(error1);
         errors.add(error2);
         errors.add(error3);
-        
+
         masterPageView.setErrors(errors);
         String content = masterPageView.getContent();
-        
+
         assertNotNull("Content should be present", content);
         assertTrue("Should contain error text",
                 -1 < content.indexOf(error1));
@@ -119,10 +116,10 @@ public class MasterPageViewTest extends TestCase {
                 -1 < content.indexOf(error2));
         assertTrue("Should contain error text",
                 -1 < content.indexOf(error3));
-        
+
         masterPageView.setErrors(new ArrayList<String>());
         content = masterPageView.getContent();
-        
+
         assertNotNull("Content should be present", content);
         assertTrue("Should contain not error text",
                 -1 == content.indexOf(error1));
@@ -132,20 +129,19 @@ public class MasterPageViewTest extends TestCase {
                 -1 == content.indexOf(error3));
     }
 
-    public void testSetInnerContent() 
-        throws FileNotFoundException, IOException {
-        
+    public void testSetInnerContent() throws IOException {
+
         final MasterPageView masterPageView = new MasterPageView(
                 TestConstants.VIEWS_FOLDER,
                 TestConstants.SERVLET_CONTEXT_PATH);
         final String testInnerContent = "<b>my test inner content</b>";
         masterPageView.setInnerContent(testInnerContent);
-        
+
         final String content = masterPageView.getContent();
         assertNotNull("Content should not be null",
                 content);
         assertTrue("Content should contain inner content",
                 -1 < content.indexOf(testInnerContent));
     }
-    
+
 }

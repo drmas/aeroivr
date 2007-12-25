@@ -18,42 +18,38 @@
 
 package org.aeroivr.rsmc.web.view;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import junit.framework.TestCase;
 import org.aeroivr.rsmc.common.TestConstants;
-import org.easymock.classextension.IMocksControl;
-import static org.easymock.classextension.EasyMock.createStrictControl;
-import junit.framework.*;
 
 /**
  *
  * @author Andriy Petlyovanyy
  */
 public class LogonViewTest extends TestCase {
-    
+
     public LogonViewTest(final String testName) {
         super(testName);
     }
 
-    public void testSetUsername() throws FileNotFoundException, IOException {
+    public void testSetUsername() throws IOException {
         final LogonView logonView = new LogonView(TestConstants.VIEWS_FOLDER);
         final String testUsername1 = "testUserOne";
         final String testUsername2 = "testUserTwo";
         logonView.setUsername(testUsername1);
-        assertEquals("Username should be saved", logonView.getUsername(), 
+        assertEquals("Username should be saved", logonView.getUsername(),
                 testUsername1);
         logonView.setUsername(testUsername2);
-        assertEquals("Username should be saved", logonView.getUsername(), 
+        assertEquals("Username should be saved", logonView.getUsername(),
                 testUsername2);
-        
+
         final String content = logonView.getContent();
         assertNotNull("Content should not be null",
                 content);
-        
-        assertTrue("Username should be pressent in HTML", 
+
+        assertTrue("Username should be pressent in HTML",
                 -1 < content.indexOf(testUsername2));
     }
 
@@ -62,11 +58,11 @@ public class LogonViewTest extends TestCase {
         parameters.put(LogonView.LOGON_BUTTON, LogonView.LOGON_BUTTON);
         LogonView logonView = new LogonView(TestConstants.VIEWS_FOLDER,
                 parameters);
-        
+
         assertTrue("Button was pressed", logonView.wasLogonButtonPressed());
-        
+
         logonView = new LogonView(TestConstants.VIEWS_FOLDER, new HashMap());
-        assertTrue("Button wasn\'t pressed", 
+        assertTrue("Button wasn\'t pressed",
                 !logonView.wasLogonButtonPressed());
     }
 
@@ -74,12 +70,12 @@ public class LogonViewTest extends TestCase {
         final String testUsername = "testU";
         final Map parameters = new HashMap();
         parameters.put(LogonView.USERNAME, testUsername);
-        
-        LogonView logonView = new LogonView(TestConstants.VIEWS_FOLDER, 
+
+        LogonView logonView = new LogonView(TestConstants.VIEWS_FOLDER,
                 parameters);
-        assertEquals("Username should be set", logonView.getUsername(), 
+        assertEquals("Username should be set", logonView.getUsername(),
                 testUsername);
-        
+
         logonView = new LogonView(TestConstants.VIEWS_FOLDER, new HashMap());
         assertNull("Username should be null", logonView.getUsername());
     }
@@ -88,14 +84,14 @@ public class LogonViewTest extends TestCase {
         final String testPassword = "testPasndsjgknd";
         final Map parameters = new HashMap();
         parameters.put(LogonView.PASSWORD, testPassword);
-        
-        LogonView logonView = new LogonView(TestConstants.VIEWS_FOLDER, 
+
+        LogonView logonView = new LogonView(TestConstants.VIEWS_FOLDER,
                 parameters);
-        assertEquals("Password should be set", logonView.getPassword(), 
+        assertEquals("Password should be set", logonView.getPassword(),
                 testPassword);
-        
+
         logonView = new LogonView(TestConstants.VIEWS_FOLDER, new HashMap());
         assertNull("Password should be null", logonView.getPassword());
     }
-    
+
 }

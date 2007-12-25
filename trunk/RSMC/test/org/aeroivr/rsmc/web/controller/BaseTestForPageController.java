@@ -31,13 +31,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import junit.framework.TestCase;
 import org.aeroivr.rsmc.admin.AppServerAdminClient;
-import org.aeroivr.rsmc.common.*;
+import org.aeroivr.rsmc.common.ServiceLocator;
+import org.aeroivr.rsmc.common.TestConstants;
 import org.easymock.classextension.IMocksControl;
 import static org.easymock.classextension.EasyMock.createNiceControl;
 import static org.easymock.classextension.EasyMock.expectLastCall;
 import static org.easymock.classextension.EasyMock.eq;
-import static org.easymock.classextension.EasyMock.contains;
-import static org.easymock.classextension.EasyMock.and;
 
 /**
  *
@@ -69,7 +68,7 @@ public class BaseTestForPageController extends TestCase {
     protected <T extends BasePageController> void pageGetInitTestParams(
             final Class<T> controllerClass,
             final PageGetTestParameters<T> testParams)
-                throws SecurityException, NoSuchMethodException {
+                throws NoSuchMethodException {
 
         testParams.control = createNiceControl();
         testParams.requestMock = testParams.control.createMock(
@@ -96,7 +95,7 @@ public class BaseTestForPageController extends TestCase {
 
         testParams.controllerMock.getServletContext();
         expectLastCall().andReturn(testParams.servletContextMock).atLeastOnce();
-        
+
         testParams.servletContextMock.getRealPath(eq("/"));
         expectLastCall().andReturn(TestConstants.VIEWS_FOLDER).atLeastOnce();
 
@@ -109,8 +108,8 @@ public class BaseTestForPageController extends TestCase {
     }
 
     public <T extends BasePageController> void pageGetInitTest(
-            Class<T> controllerClass, PageGetTestParameters<T> testParams)
-                throws Exception {
+            final Class<T> controllerClass,
+            final PageGetTestParameters<T> testParams) throws Exception {
         pageGetInitTestParams(controllerClass, testParams);
         pageGetInitCalls(testParams);
     }
@@ -129,7 +128,7 @@ public class BaseTestForPageController extends TestCase {
     }
 
     protected <T extends BasePageController> void pagePostInitCalls(
-            final PagePostTestParameters<T> testParams) 
+            final PagePostTestParameters<T> testParams)
                 throws RemoteException, NotBoundException {
 
         testParams.controllerMock.getViewsFolder();
@@ -153,7 +152,7 @@ public class BaseTestForPageController extends TestCase {
     protected <T extends BasePageController> void pagePostInitTestParams(
             final Class<T> controllerClass,
             final PagePostTestParameters<T> testParams)
-                throws SecurityException, NoSuchMethodException {
+                throws NoSuchMethodException {
 
         testParams.parameters = new HashMap();
         testParams.control = createNiceControl();
@@ -182,15 +181,16 @@ public class BaseTestForPageController extends TestCase {
                 new Method[] {ServiceLocator.class.getMethod(
                         "getAppServerAdminClient"),
                     ServiceLocator.class.getMethod("getServletFileUpload"),
-                    ServiceLocator.class.getMethod("getFileWithUniqueName", 
+                    ServiceLocator.class.getMethod("getFileWithUniqueName",
                         String.class, String.class, String.class)});
         testParams.appServerClientAdminMock = testParams.control.createMock(
                 AppServerAdminClient.class);
     }
 
     public <T extends BasePageController> void pagePostInitTest(
-            Class<T> controllerClass, PagePostTestParameters<T> testParams)
-                throws NoSuchMethodException, RemoteException, 
+            final Class<T> controllerClass,
+            final PagePostTestParameters<T> testParams)
+                throws NoSuchMethodException, RemoteException,
                     NotBoundException {
 
         pagePostInitTestParams(controllerClass, testParams);

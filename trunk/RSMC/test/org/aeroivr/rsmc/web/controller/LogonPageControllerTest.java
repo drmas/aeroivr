@@ -18,23 +18,17 @@
 
 package org.aeroivr.rsmc.web.controller;
 
-import java.io.PrintWriter;
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import junit.framework.TestCase;
-import javax.servlet.http.*;
 import org.aeroivr.appserver.common.AppServerAdminConstants;
-import org.aeroivr.rsmc.admin.AppServerAdminClient;
 import org.aeroivr.rsmc.common.ServiceLocator;
-import org.aeroivr.rsmc.common.TestConstants;
-import org.aeroivr.rsmc.web.security.WebSecurityManager;
+import org.aeroivr.rsmc.web.controller.
+        BaseTestForPageController.PageGetTestParameters;
+import org.aeroivr.rsmc.web.controller.
+        BaseTestForPageController.PagePostTestParameters;
 import org.aeroivr.rsmc.web.view.LogonView;
-import static org.easymock.classextension.EasyMock.createNiceControl;
 import static org.easymock.classextension.EasyMock.expectLastCall;
 import static org.easymock.classextension.EasyMock.eq;
 import static org.easymock.classextension.EasyMock.contains;
 import static org.easymock.classextension.EasyMock.and;
-import org.easymock.classextension.IMocksControl;
 
 /**
  * @author Andriy Petlyovanyy
@@ -47,7 +41,7 @@ public class LogonPageControllerTest extends BaseTestForPageController {
 
     public void testPageGet() throws Exception {
 
-        PageGetTestParameters<LogonPageController> testParams = 
+        PageGetTestParameters<LogonPageController> testParams =
                 new PageGetTestParameters<LogonPageController>();
         pageGetInitTest(LogonPageController.class, testParams);
 
@@ -58,7 +52,7 @@ public class LogonPageControllerTest extends BaseTestForPageController {
 
         testParams.control.replay();
 
-        testParams.controllerMock.doGet(testParams.requestMock, 
+        testParams.controllerMock.doGet(testParams.requestMock,
                 testParams.responseMock);
 
         testParams.control.verify();
@@ -67,7 +61,7 @@ public class LogonPageControllerTest extends BaseTestForPageController {
     private void checkPagePost(
             final PagePostTestParameters<LogonPageController> testParams,
             final boolean validationResult) throws Exception {
-        
+
         pagePostInitTest(LogonPageController.class, testParams);
 
         testParams.parameters.put(LogonView.USERNAME,
