@@ -3,7 +3,7 @@
 
 = Welcome to AeroIVR Wiki =
 
-Here you find information about AeroIVR project status, new features and planned development. 
+Here you find information about AeroIVR project status, new features, planned development and releases
 
 
 = Content =
@@ -12,3 +12,4 @@ Following pages are available:
   * [SRS_v_0_1 Software Requirements Specification v 0.1]
   * [SAS_v_0_1 Software Architecture Specification v 0.1]
   * [CodingGuidelines Coding Guidelines]
+  * [Release_v_0_1 Release notes for version 0.1]
