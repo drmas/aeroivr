@@ -45,17 +45,17 @@ public class LogonPageControllerTest extends BaseTestForPageController {
                 new PageGetTestParameters<LogonPageController>();
         pageGetInitTest(LogonPageController.class, testParams);
 
-        testParams.printWriterMock.print(and(and(and(contains("username"),
+        testParams.getPrintWriterMock().print(and(and(and(contains("username"),
                 contains("password")), and(contains("<form"),
                 contains("<input"))), contains("Please provide credentials")));
         expectLastCall().once();
 
-        testParams.control.replay();
+        testParams.getControl().replay();
 
-        testParams.controllerMock.doGet(testParams.requestMock,
-                testParams.responseMock);
+        testParams.getControllerMock().doGet(testParams.getRequestMock(),
+                testParams.getResponseMock());
 
-        testParams.control.verify();
+        testParams.getControl().verify();
     }
 
     private void checkPagePost(
@@ -64,14 +64,14 @@ public class LogonPageControllerTest extends BaseTestForPageController {
 
         pagePostInitTest(LogonPageController.class, testParams);
 
-        testParams.parameters.put(LogonView.USERNAME,
+        testParams.getParameters().put(LogonView.USERNAME,
                 AppServerAdminConstants.ADMIN_USERNAME);
-        testParams.parameters.put(LogonView.PASSWORD,
+        testParams.getParameters().put(LogonView.PASSWORD,
                 AppServerAdminConstants.ADMIN_USERNAME);
-        testParams.parameters.put(LogonView.LOGON_BUTTON,
+        testParams.getParameters().put(LogonView.LOGON_BUTTON,
                 LogonView.LOGON_BUTTON);
 
-        testParams.appServerClientAdminMock.areCredentialsValid(
+        testParams.getAppServerClientAdminMock().areCredentialsValid(
                 eq(AppServerAdminConstants.ADMIN_USERNAME),
                 eq(AppServerAdminConstants.ADMIN_USERNAME));
         expectLastCall().andReturn(validationResult).once();
@@ -83,16 +83,16 @@ public class LogonPageControllerTest extends BaseTestForPageController {
                 new PagePostTestParameters<LogonPageController>();
         checkPagePost(testParams, true);
 
-        testParams.responseMock.sendRedirect(eq("startStopServer.html"));
+        testParams.getResponseMock().sendRedirect(eq("startStopServer.html"));
         expectLastCall().once();
 
-        testParams.control.replay();
+        testParams.getControl().replay();
 
-        ServiceLocator.load(testParams.serviceLocatorMock);
-        testParams.controllerMock.doPost(testParams.requestMock,
-                testParams.responseMock);
+        ServiceLocator.load(testParams.getServiceLocatorMock());
+        testParams.getControllerMock().doPost(testParams.getRequestMock(),
+                testParams.getResponseMock());
 
-        testParams.control.verify();
+        testParams.getControl().verify();
     }
 
     public void testPagePostWithUnsuccessfulLogon() throws Exception {
@@ -101,24 +101,24 @@ public class LogonPageControllerTest extends BaseTestForPageController {
                 new PagePostTestParameters<LogonPageController>();
         checkPagePost(testParams, false);
 
-        testParams.controllerMock.setError(eq(
+        testParams.getControllerMock().setError(eq(
                 "Invalid credentials supplied"));
         expectLastCall().once();
 
-        testParams.responseMock.getWriter();
-        expectLastCall().andReturn(testParams.printWriterMock).once();
+        testParams.getResponseMock().getWriter();
+        expectLastCall().andReturn(testParams.getPrintWriterMock()).once();
 
-        testParams.printWriterMock.print(and(and(contains("username"),
+        testParams.getPrintWriterMock().print(and(and(contains("username"),
                 contains("password")), and(contains("<form"),
                 contains("<input"))));
         expectLastCall().once();
 
-        testParams.control.replay();
+        testParams.getControl().replay();
 
-        ServiceLocator.load(testParams.serviceLocatorMock);
-        testParams.controllerMock.doPost(testParams.requestMock,
-                testParams.responseMock);
+        ServiceLocator.load(testParams.getServiceLocatorMock());
+        testParams.getControllerMock().doPost(testParams.getRequestMock(),
+                testParams.getResponseMock());
 
-        testParams.control.verify();
+        testParams.getControl().verify();
     }
 }
