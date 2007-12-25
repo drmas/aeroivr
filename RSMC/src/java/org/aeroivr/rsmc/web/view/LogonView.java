@@ -30,14 +30,14 @@ public class LogonView extends AbstractView {
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
     public static final String LOGON_BUTTON = "logon";
-    
+
     public LogonView(final String viewsFolder) {
         super(viewsFolder);
     }
-    
+
     public LogonView(final String viewsFolder, final Map parameters) {
         super(viewsFolder, parameters, USERNAME, PASSWORD, LOGON_BUTTON);
-    }  
+    }
 
     public void setUsername(final String value) {
         setValue(USERNAME, value);
@@ -58,5 +58,4 @@ public class LogonView extends AbstractView {
     protected String getHtmlFileName() {
         return "logon.html";
     }
-    
 }
