@@ -57,23 +57,15 @@
     <p/>
 </xsl:template>
 
-
 <xsl:template match="error">
-	<xsl:choose>
-        	<xsl:when test="starts-with(@message,'Got an exception - java.lang.RuntimeException: Unable to get class information for')">
-                	<xsl:apply-templates />
-		</xsl:when>
-		<xsl:otherwise>
-			<tr>
-				<td>
-					<xsl:value-of select="@line"/>
-				</td>
-				<td>
-					<xsl:value-of select="@message"/>
-				</td>
-			</tr>
-		</xsl:otherwise>
-	</xsl:choose>
+    <tr>
+	<td>
+	    <xsl:value-of select="@line"/>
+	</td>
+	<td>
+	    <xsl:value-of select="@message"/>
+	</td>
+    </tr>
 </xsl:template>
 
 </xsl:stylesheet>
