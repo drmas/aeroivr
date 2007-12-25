@@ -78,9 +78,12 @@
                         <fileset dir="${src.dir}" includes="**/*.java"/>
                         <fileset dir="${test.dir}" includes="**/*.java"/>
                 </checkstyle>
+ 
+                <xslt in="${checkstyle.xml.dir}/checkstyle_report.xml" out="${checkstyle.xml.dir}/checkstyle_report_fixed.xml" 
+			style="${checkstyle.dir}/checkstyle-fix-output.xsl"/>
 
-                <style in="${checkstyle.xml.dir}/checkstyle_report.xml" out="${checkstyle.html.dir}/checkstyle_report.html" 
-                        style="${checkstyle.dir}/checkstyle-simple.xsl"/>
+                <xslt in="${checkstyle.xml.dir}/checkstyle_report_fixed.xml" out="${checkstyle.html.dir}/checkstyle_report.html" 
+			style="${checkstyle.dir}/checkstyle-simple.xsl"/>
         </target>
 
         <target name="compile" depends="init,compileUsedProjects">
@@ -128,9 +131,9 @@
                                 -->
                                 <include name="**/*.class" />
                                 <exclude name="**/*Test.class" />
-				<exclude name="**/BaseTestForPageController*.class" />
-				<exclude name="**/BaseTestForSecurePageController*.class" />
-				<exclude name="**/TestConstants*.class" />
+                                <exclude name="**/BaseTestForPageController*.class" />
+                                <exclude name="**/BaseTestForSecurePageController*.class" />
+                                <exclude name="**/TestConstants*.class" />
                         </fileset>
                 </cobertura-instrument>
         </target>
@@ -200,6 +203,5 @@
         </target>
 
         <target name="coverage" depends="compile,instrument,test,coverage-report,checkstyle" 
-                description="Compile, instrument ourself, run the tests and generate JUnit and coverage reports."/>
-
+                description="Compile, instrument ourself, run the tests and generate JUnit and coverage reports."/> 
 </project>
