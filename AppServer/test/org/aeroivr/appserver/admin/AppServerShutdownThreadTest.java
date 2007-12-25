@@ -40,7 +40,7 @@ public class AppServerShutdownThreadTest extends TestCase {
 
         serverAdminMock.stopAppServer();
         expectLastCall().once();
-        
+
         serverAdminMock.stopAppServer();
         expectLastCall().andThrow(new RemoteException()).once();
 
@@ -50,11 +50,11 @@ public class AppServerShutdownThreadTest extends TestCase {
                 new AppServerShutdownThread(serverAdminMock);
         appServerShutdownThread.start();
         appServerShutdownThread.join();
-        
+
         appServerShutdownThread = new AppServerShutdownThread(null);
         appServerShutdownThread.start();
         appServerShutdownThread.join();
-        
+
         appServerShutdownThread = new AppServerShutdownThread(serverAdminMock);
         try {
             appServerShutdownThread.run();

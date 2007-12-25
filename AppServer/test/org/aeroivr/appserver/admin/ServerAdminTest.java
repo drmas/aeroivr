@@ -21,8 +21,8 @@ package org.aeroivr.appserver.admin;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.rmi.RemoteException;
+import junit.framework.TestCase;
 import org.aeroivr.appserver.common.AppServerAdminConstants;
-import org.aeroivr.appserver.common.BaseTestWithServiceLocator;
 import org.aeroivr.appserver.common.ServiceLocator;
 import org.aeroivr.appserver.common.Settings;
 import org.aeroivr.appserver.h323.H323Application;
@@ -31,8 +31,6 @@ import static org.easymock.classextension.EasyMock.expectLastCall;
 import static org.easymock.classextension.EasyMock.createStrictControl;
 import static org.easymock.classextension.EasyMock.createNiceControl;
 import org.easymock.classextension.IMocksControl;
-import junit.framework.*;
-import java.rmi.server.UnicastRemoteObject;
 
 /**
  *
@@ -195,7 +193,7 @@ public class ServerAdminTest extends TestCase {
     }
 
     public void testChangeAdminPassword()
-        throws NoSuchMethodException, RemoteException, IOException {
+        throws NoSuchMethodException, IOException {
 
         final IMocksControl niceControl = createNiceControl();
         final ServiceLocator srvLocatorMock = niceControl.createMock(
@@ -220,7 +218,7 @@ public class ServerAdminTest extends TestCase {
     }
 
     public void testSetWavFileName()
-        throws NoSuchMethodException, RemoteException, IOException {
+        throws NoSuchMethodException, IOException {
 
         final IMocksControl niceControl = createNiceControl();
         final ServiceLocator srvLocatorMock = niceControl.createMock(

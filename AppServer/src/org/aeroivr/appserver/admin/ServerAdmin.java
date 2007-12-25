@@ -75,7 +75,7 @@ public class ServerAdmin extends UnicastRemoteObject
     }
 
     public void changeAdminPassword(final String newPassword)
-        throws IOException, RemoteException {
+        throws IOException {
 
         final Settings settings = ServiceLocator.getInstance().getSettings();
         settings.setAdminPassword(newPassword);
@@ -83,7 +83,7 @@ public class ServerAdmin extends UnicastRemoteObject
    }
 
     public void setWavFileName(final String fileName)
-        throws IOException, RemoteException {
+        throws IOException {
 
         final Settings settings = ServiceLocator.getInstance().getSettings();
         settings.setWavFileName(fileName);
