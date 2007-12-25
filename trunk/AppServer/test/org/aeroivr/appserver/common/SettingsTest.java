@@ -26,13 +26,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.util.Properties;
+import junit.framework.TestCase;
 import org.easymock.classextension.IMocksControl;
 import static org.easymock.classextension.EasyMock.createStrictControl;
 import static org.easymock.classextension.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.expectLastCall;
 import static org.easymock.classextension.EasyMock.eq;
-import junit.framework.*;
-import org.aeroivr.common.utils.FileUtils;
 
 /**
  *

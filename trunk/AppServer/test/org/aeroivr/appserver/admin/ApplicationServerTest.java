@@ -62,9 +62,9 @@ public class ApplicationServerTest extends TestCase {
         serviceLocatorMock.getServerAdmin();
         expectLastCall().andReturn(serverAdminMock).once();
 
-        expect(serviceLocatorMock.getRmiRegistry(
-                eq(AppServerAdminConstants.APP_SERVER_ADMIN_RMI_PORT))).andReturn(
-                rmiRegistryMock).once();
+        expect(serviceLocatorMock.getRmiRegistry(eq(
+                AppServerAdminConstants.APP_SERVER_ADMIN_RMI_PORT))).andReturn(
+                    rmiRegistryMock).once();
 
         control.checkOrder(true);
 

@@ -61,8 +61,11 @@
                         <fileset dir="${test.dir}" includes="**/*.java"/>
                 </checkstyle>
 
-                <style in="${checkstyle.xml.dir}/checkstyle_report.xml" out="${checkstyle.html.dir}/checkstyle_report.html" 
-                        style="${checkstyle.dir}/checkstyle-simple.xsl"/>
+                <xslt in="${checkstyle.xml.dir}/checkstyle_report.xml" out="${checkstyle.xml.dir}/checkstyle_report_fixed.xml" 
+			style="${checkstyle.dir}/checkstyle-fix-output.xsl"/>
+
+                <xslt in="${checkstyle.xml.dir}/checkstyle_report_fixed.xml" out="${checkstyle.html.dir}/checkstyle_report.html" 
+			style="${checkstyle.dir}/checkstyle-simple.xsl"/>
         </target>
 
         <target name="compile" depends="init">
