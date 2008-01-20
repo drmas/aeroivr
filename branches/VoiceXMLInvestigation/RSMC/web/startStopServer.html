@@ -1,0 +1,15 @@
+<form method="POST">
+    <h2>Current status of the application server: 
+    <font color="red"> [serverStopped]Stopped[/serverStopped]
+    [serverStarted]Started[/serverStarted] </font></h2>
+    <br/>
+    
+    [serverStarted]
+    <input type="submit" value="Stop Server" name="stopServer" />
+    <input type="submit" value="Restart Server" name="restartServer" />
+    [/serverStarted]
+    [serverStopped]
+    <input type="submit" value="Start Server" name="startServer" />
+    [/serverStopped]
+</form>
+
