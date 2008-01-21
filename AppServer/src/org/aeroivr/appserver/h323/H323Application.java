@@ -18,8 +18,14 @@
 
 package org.aeroivr.appserver.h323;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import org.aeroivr.appserver.common.ServiceLocator;
 import org.aeroivr.appserver.common.Settings;
+import org.aeroivr.appserver.voicexml.VoiceXMLApp;
+import org.jvoicexml.JVoiceXmlMain;
+import org.jvoicexml.Session;
+import org.jvoicexml.event.ErrorEvent;
 
 /**
  * H323 connections management class
@@ -29,11 +35,21 @@ import org.aeroivr.appserver.common.Settings;
 public class H323Application implements GetFileNameEventListener  {
 
     private OpenH323 openH323;
+    private JVoiceXmlMain voiceXMLApp;
 
     public H323Application() {
     }
 
     public void start() {
+        if (null == voiceXMLApp) {
+            voiceXMLApp = new VoiceXMLApp();
+            voiceXMLApp.setName("JVoiceXMLMain");
+            voiceXMLApp.start();
+
+//            voiceXMLApp..waitShutdownComplete();
+//            voiceXMLApp..postShutdown();
+        }
+        
         if (null == openH323) {
             openH323 = ServiceLocator.getInstance().getOpenH323();
             openH323.initialize();
@@ -51,6 +67,22 @@ public class H323Application implements GetFileNameEventListener  {
 
     public String getWavFileName() {
         Settings settings = ServiceLocator.getInstance().getSettings();
+        Session voiceXmlSession = null;
+        try {
+            voiceXmlSession = voiceXMLApp.createSession(null);
+        } catch (ErrorEvent ex) {
+            ex.printStackTrace();
+        }
+        if (null != voiceXmlSession) {
+            try {
+                voiceXmlSession.call(new URI("file:///H:/Projects/" +
+                        "AeroIVR/Investigation/VoiceXML/simple.vxml"));
+            } catch (ErrorEvent ex) {
+                ex.printStackTrace();
+            } catch (URISyntaxException ex) {
+                ex.printStackTrace();
+            }
+        }
         return settings.getWavFileName();
     }
 }
