@@ -22,7 +22,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import org.aeroivr.appserver.common.ServiceLocator;
 import org.aeroivr.appserver.common.Settings;
-import org.aeroivr.appserver.voicexml.VoiceXMLApp;
 import org.jvoicexml.JVoiceXmlMain;
 import org.jvoicexml.Session;
 import org.jvoicexml.event.ErrorEvent;
@@ -42,7 +41,7 @@ public class H323Application implements GetFileNameEventListener  {
 
     public void start() {
         if (null == voiceXMLApp) {
-            voiceXMLApp = new VoiceXMLApp();
+            voiceXMLApp = new JVoiceXmlMain();
             voiceXMLApp.setName("JVoiceXMLMain");
             voiceXMLApp.start();
 
@@ -77,6 +76,8 @@ public class H323Application implements GetFileNameEventListener  {
             try {
                 voiceXmlSession.call(new URI("file:///H:/Projects/" +
                         "AeroIVR/Investigation/VoiceXML/simple.vxml"));
+                voiceXmlSession.waitSessionEnd();
+                voiceXmlSession.close();
             } catch (ErrorEvent ex) {
                 ex.printStackTrace();
             } catch (URISyntaxException ex) {
