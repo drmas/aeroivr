@@ -57,7 +57,7 @@ import org.jvoicexml.logging.LoggerFactory;
  * </a>
  * </p>
  */
-public final class JVoiceXmlMain
+public class JVoiceXmlMain
         extends Thread
         implements JVoiceXmlCore, Runnable {
     /** Delay after a shutdown request. */
@@ -100,7 +100,7 @@ public final class JVoiceXmlMain
     /**
      * Construct a new object.
      */
-    private JVoiceXmlMain() {
+    public JVoiceXmlMain() {
         shutdownSemaphore = new Object();
     }
 
@@ -187,10 +187,10 @@ public final class JVoiceXmlMain
         grammarProcessor = configuration.loadObject(GrammarProcessor.class,
                 GrammarProcessor.CONFIG_KEY);
 
-        jndi = configuration.loadObject(JndiSupport.class,
-                JndiSupport.CONFIG_KEY);
-        jndi.setJVoiceXml(this);
-        jndi.startup();
+//        jndi = configuration.loadObject(JndiSupport.class,
+//                JndiSupport.CONFIG_KEY);
+//        jndi.setJVoiceXml(this);
+//        jndi.startup();
 
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("VoiceXML interpreter started.");
