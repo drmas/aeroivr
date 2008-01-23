@@ -26,6 +26,7 @@
 
 package org.jvoicexml.implementation.jsapi10;
 
+import com.sun.speech.freetts.audio.SingleFileAudioPlayer;
 import java.beans.PropertyVetoException;
 import java.io.IOException;
 
@@ -303,6 +304,22 @@ public final class AudioOutput
         }
 
         try {
+            
+            SynthesizerModeDesc desc = 
+                    (SynthesizerModeDesc) synthesizer.getEngineModeDesc();
+            javax.speech.synthesis.Voice[] jsapiVoices = desc.getVoices();
+            javax.speech.synthesis.Voice jsapiVoice = jsapiVoices[0];
+    
+            /* Non-JSAPI modification of voice audio player
+             */
+            if (jsapiVoice instanceof 
+                    com.sun.speech.freetts.jsapi.FreeTTSVoice) {
+                com.sun.speech.freetts.Voice freettsVoice = 
+                    ((com.sun.speech.freetts.jsapi.FreeTTSVoice) 
+                        jsapiVoice).getVoice();
+                freettsVoice.setAudioPlayer(new SingleFileAudioPlayer());
+            }
+            
             synthesizer.speakPlainText(text, null);
         } catch (EngineStateError ese) {
             throw new BadFetchError(ese);
