@@ -23,7 +23,6 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-
 package org.jvoicexml;
 
 import java.net.URI;
@@ -72,6 +71,7 @@ import org.jvoicexml.event.error.NoresourceError;
  *
  */
 public interface Session {
+
     /**
      * Retrieves the universal unique identifier for this session.
      * @return Universal unique identifier for this session.
@@ -94,7 +94,6 @@ public interface Session {
     void call(final URI uri)
             throws ErrorEvent;
 
-
     /**
      * Handles a hangup request.
      *
@@ -103,7 +102,7 @@ public interface Session {
      * @since 0.4
      */
     void hangup()
-        throws ErrorEvent;
+            throws ErrorEvent;
 
     /**
      * Retrieves the DTMF input device.
@@ -134,4 +133,12 @@ public interface Session {
      * </p>
      */
     void close();
+    
+    TelephonyApplication getTelephonyApplication();
+    
+    void setTelephonyApplication(TelephonyApplication application);
+    
+    String getTelephonyApplicationId();
+    
+    void setTelephonyApplicationId(String value);
 }

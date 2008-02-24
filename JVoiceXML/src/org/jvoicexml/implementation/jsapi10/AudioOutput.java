@@ -26,10 +26,14 @@
 
 package org.jvoicexml.implementation.jsapi10;
 
+import com.sun.speech.freetts.audio.AudioPlayer;
 import com.sun.speech.freetts.audio.SingleFileAudioPlayer;
 import java.beans.PropertyVetoException;
 import java.io.IOException;
 
+import java.util.logging.Level;
+import javax.sound.sampled.AudioFileFormat;
+import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -43,6 +47,7 @@ import javax.speech.synthesis.Voice;
 
 import org.jvoicexml.DocumentServer;
 import org.jvoicexml.RemoteClient;
+import org.jvoicexml.Session;
 import org.jvoicexml.SpeakableText;
 import org.jvoicexml.SystemOutput;
 import org.jvoicexml.event.error.BadFetchError;
@@ -183,7 +188,8 @@ public final class AudioOutput
      * Checks the type of the given speakable and forwards it either as
      * for SSML output or for plain text output.
      */
-    public void queueSpeakable(final SpeakableText speakable,
+    public void queueSpeakable(final Session session, 
+                               final SpeakableText speakable,
                                final boolean bargein,
                                final DocumentServer documentServer)
             throws NoresourceError, BadFetchError {
@@ -196,11 +202,11 @@ public final class AudioOutput
         if (speakable instanceof SpeakablePlainText) {
             final String text = speakable.getSpeakableText();
 
-            queuePlaintextMessage(text);
+            queuePlaintextMessage(session, text);
         } else if (speakable instanceof SpeakableSsmlText) {
             final SpeakableSsmlText ssml = (SpeakableSsmlText) speakable;
 
-            queueSpeakableMessage(ssml, documentServer);
+            queueSpeakableMessage(session, ssml, documentServer);
         } else {
             LOGGER.warn("unsupported speakable: " + speakable);
         }
@@ -215,7 +221,8 @@ public final class AudioOutput
      * @exception BadFetchError
      *            Error reading from the <code>AudioStream</code>.
      */
-    private void queueSpeakableMessage(final SpeakableSsmlText text,
+    private void queueSpeakableMessage(final Session session, 
+                                       final SpeakableSsmlText text,
                                        final DocumentServer documentServer)
             throws NoresourceError, BadFetchError {
         if (listener != null) {
@@ -237,7 +244,7 @@ public final class AudioOutput
         SSMLSpeakStrategy strategy =
                 SpeakStratgeyFactory.getSpeakStrategy(speak);
         if (strategy != null) {
-            strategy.speak(this, documentServer, speak);
+            strategy.speak(session, this, documentServer, speak);
         }
     }
 
@@ -269,7 +276,7 @@ public final class AudioOutput
      *
      * @since 0.6
      */
-    public void queuePlaintextMessage(final String text)
+    public void queuePlaintextMessage(final Session session, final String text)
             throws NoresourceError, BadFetchError {
         if (synthesizer == null) {
             LOGGER.warn("no synthesizer: cannot speak");
@@ -280,7 +287,7 @@ public final class AudioOutput
             listener.outputStarted();
         }
 
-        queuePlaintext(text);
+        queuePlaintext(session, text);
     }
 
     /**
@@ -292,7 +299,8 @@ public final class AudioOutput
      * @exception BadFetchError
      *            Recognizer in wrong state.
      */
-    public void queuePlaintext(final String text)
+    public void queuePlaintext(final Session session, 
+            final String text)
             throws NoresourceError, BadFetchError {
         if (synthesizer == null) {
             LOGGER.warn("no synthesizer: cannot speak");
@@ -305,9 +313,9 @@ public final class AudioOutput
 
         try {
             
-            SynthesizerModeDesc desc = 
+            SynthesizerModeDesc descrip = 
                     (SynthesizerModeDesc) synthesizer.getEngineModeDesc();
-            javax.speech.synthesis.Voice[] jsapiVoices = desc.getVoices();
+            javax.speech.synthesis.Voice[] jsapiVoices = descrip.getVoices();
             javax.speech.synthesis.Voice jsapiVoice = jsapiVoices[0];
     
             /* Non-JSAPI modification of voice audio player
@@ -317,10 +325,28 @@ public final class AudioOutput
                 com.sun.speech.freetts.Voice freettsVoice = 
                     ((com.sun.speech.freetts.jsapi.FreeTTSVoice) 
                         jsapiVoice).getVoice();
-                freettsVoice.setAudioPlayer(new SingleFileAudioPlayer());
+                freettsVoice.allocate();
+                
+                final String tempFileName = "audio" 
+                        + System.currentTimeMillis();
+                AudioPlayer filePlayer = new SingleFileAudioPlayer(
+                        tempFileName,  
+                        AudioFileFormat.Type.WAVE);
+                filePlayer.setAudioFormat(
+                        new AudioFormat(8000, 16, 1, false, true));
+                
+                freettsVoice.setAudioPlayer(filePlayer);
+                freettsVoice.speak(text);
+                filePlayer.close();
+                session.getTelephonyApplication().playNewAudioFile(
+                        session.getTelephonyApplicationId(), tempFileName 
+                            + ".wav");
+            } else {
+                synthesizer.speakPlainText(text, null);
             }
-            
-            synthesizer.speakPlainText(text, null);
+        } catch (IllegalArgumentException ex) {
+            java.util.logging.Logger.getLogger(
+                    AudioOutput.class.getName()).log(Level.SEVERE, null, ex);
         } catch (EngineStateError ese) {
             throw new BadFetchError(ese);
         }
@@ -329,7 +355,9 @@ public final class AudioOutput
     /**
      * {@inheritDoc}
      */
-    public void queueAudio(final AudioInputStream audio)
+    public void queueAudio(
+            final Session session,
+            final AudioInputStream audio)
             throws NoresourceError, BadFetchError {
         // This is not necessary, but to be consistent.
         if (synthesizer == null) {

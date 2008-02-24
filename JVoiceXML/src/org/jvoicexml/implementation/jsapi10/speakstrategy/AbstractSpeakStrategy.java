@@ -27,6 +27,7 @@
 package org.jvoicexml.implementation.jsapi10.speakstrategy;
 
 import org.jvoicexml.DocumentServer;
+import org.jvoicexml.Session;
 import org.jvoicexml.event.error.BadFetchError;
 import org.jvoicexml.event.error.NoresourceError;
 import org.jvoicexml.implementation.jsapi10.AudioOutput;
@@ -67,7 +68,8 @@ abstract class AbstractSpeakStrategy
      * @exception BadFetchError
      *            Recognizer in wrong state.
      */
-    protected void speakChildNodes(final AudioOutput audioOutput,
+    protected void speakChildNodes(final Session session,
+                                   final AudioOutput audioOutput,
                                    final DocumentServer documentServer,
                                    final SsmlNode node)
             throws NoresourceError, BadFetchError {
@@ -78,7 +80,7 @@ abstract class AbstractSpeakStrategy
                     SpeakStratgeyFactory.getSpeakStrategy(child);
 
             if (strategy != null) {
-                strategy.speak(audioOutput, documentServer, child);
+                strategy.speak(session, audioOutput, documentServer, child);
             }
         }
     }

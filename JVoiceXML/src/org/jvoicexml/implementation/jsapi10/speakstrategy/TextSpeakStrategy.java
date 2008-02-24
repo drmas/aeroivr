@@ -28,6 +28,7 @@
 package org.jvoicexml.implementation.jsapi10.speakstrategy;
 
 import org.jvoicexml.DocumentServer;
+import org.jvoicexml.Session;
 import org.jvoicexml.event.error.BadFetchError;
 import org.jvoicexml.event.error.NoresourceError;
 import org.jvoicexml.implementation.jsapi10.AudioOutput;
@@ -64,7 +65,7 @@ public final class TextSpeakStrategy
     /**
      * {@inheritDoc}
      */
-    public void speak(final AudioOutput audioOutput,
+    public void speak(final Session session, final AudioOutput audioOutput,
                       final DocumentServer documentServer, final SsmlNode node)
             throws NoresourceError, BadFetchError {
         final String text = node.getNodeValue().trim();
@@ -77,6 +78,6 @@ public final class TextSpeakStrategy
             LOGGER.info("speaking '" + text + "'...");
         }
 
-        audioOutput.queuePlaintext(text);
+        audioOutput.queuePlaintext(session, text);
     }
 }

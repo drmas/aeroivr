@@ -84,3 +84,9 @@ JNIEXPORT jboolean JNICALL Java_org_aeroivr_appserver_h323_OpenH323_shutdown
         return JNI_FALSE;
     }
 }
+
+JNIEXPORT void JNICALL Java_org_aeroivr_appserver_h323_OpenH323_playAudioFileInChannel
+  (JNIEnv *, jobject, jstring, jstring)
+{
+	//!!!
+}

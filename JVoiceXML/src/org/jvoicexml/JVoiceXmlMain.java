@@ -96,12 +96,15 @@ public class JVoiceXmlMain
 
     /** The shutdown hook. */
     private Thread shutdownHook;
+    
+    private final Object intializationSemaphore;
 
     /**
      * Construct a new object.
      */
     public JVoiceXmlMain() {
         shutdownSemaphore = new Object();
+        intializationSemaphore = new Object();
     }
 
     /**
@@ -180,12 +183,25 @@ public class JVoiceXmlMain
         documentServer = configuration.loadObject(DocumentServer.class,
                                                   DocumentServer.CONFIG_KEY);
 
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("Document server was configured");
+        }
+        
         implementationPlatformFactory = configuration.loadObject(
                 ImplementationPlatformFactory.class,
                 ImplementationPlatformFactory.CONFIG_KEY);
+        
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("Implementation platform factory was configured");
+        }
 
         grammarProcessor = configuration.loadObject(GrammarProcessor.class,
                 GrammarProcessor.CONFIG_KEY);
+
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("Grammar processor was configured");
+        }
+        
 
 //        jndi = configuration.loadObject(JndiSupport.class,
 //                JndiSupport.CONFIG_KEY);
@@ -195,7 +211,10 @@ public class JVoiceXmlMain
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("VoiceXML interpreter started.");
         }
-
+        
+        synchronized(intializationSemaphore) {
+            intializationSemaphore.notifyAll();
+        }
     }
 
     /**
@@ -313,6 +332,14 @@ public class JVoiceXmlMain
             }
         }
     }
+    
+    public void waitStartupComplete() throws InterruptedException {
+        
+        synchronized(intializationSemaphore) {
+            intializationSemaphore.wait();
+        }
+    }
+            
 
     /**
      * The main method, which starts the interpreter.

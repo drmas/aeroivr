@@ -31,6 +31,14 @@ JNIEXPORT jboolean JNICALL Java_org_aeroivr_appserver_h323_OpenH323_startListeni
 JNIEXPORT jboolean JNICALL Java_org_aeroivr_appserver_h323_OpenH323_shutdown
   (JNIEnv *, jobject);
 
+/*
+ * Class:     org_aeroivr_appserver_h323_OpenH323
+ * Method:    playAudioFileInChannel
+ * Signature: (Ljava/lang/String;Ljava/lang/String;)V
+ */
+JNIEXPORT void JNICALL Java_org_aeroivr_appserver_h323_OpenH323_playAudioFileInChannel
+  (JNIEnv *, jobject, jstring, jstring);
+
 #ifdef __cplusplus
 }
 #endif

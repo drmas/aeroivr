@@ -33,6 +33,7 @@ import javax.naming.Context;
 
 import org.jvoicexml.CharacterInput;
 import org.jvoicexml.Session;
+import org.jvoicexml.TelephonyApplication;
 import org.jvoicexml.event.ErrorEvent;
 import org.jvoicexml.event.error.NoresourceError;
 
@@ -210,5 +211,25 @@ public final class SessionStub
      */
     public String getSessionID() {
         return sessionID;
+    }
+
+    @Override
+    public TelephonyApplication getTelephonyApplication() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void setTelephonyApplication(TelephonyApplication application) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public String getTelephonyApplicationId() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void setTelephonyApplicationId(String value) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

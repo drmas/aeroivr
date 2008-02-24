@@ -45,6 +45,12 @@ H323Connection * OpenH323JNIEndPoint::CreateConnection(unsigned callReference)
 	return new H323Connection(*this, callReference);
 }
 
+void OpenH323JNIEndPoint::OnConnectionEstablished(H323Connection & connection, 
+		const PString & token)
+{
+	OpenH323JavaObject::OnConnected(token);
+}
+
 H323Connection::AnswerCallResponse OpenH323JNIEndPoint::OnAnswerCall(
 	H323Connection &, const PString &, const H323SignalPDU &, H323SignalPDU &)
 {
@@ -71,4 +77,17 @@ BOOL OpenH323JNIEndPoint::OpenAudioChannel(H323Connection & connection,
 	}
 
 	return false;
+}
+
+void OpenH323JNIEndPoint::OnUserInputTone(H323Connection & connection,
+      char tone, unsigned duration, unsigned logicalChannel,
+      unsigned rtpTimestamp)
+{
+	OpenH323JavaObject::OnDtmf(connection.GetCallToken(), tone);
+}
+
+void OpenH323JNIEndPoint::OnConnectionCleared(H323Connection & connection, 
+		const PString & token)
+{
+	OpenH323JavaObject::OnDisconnected(token);
 }

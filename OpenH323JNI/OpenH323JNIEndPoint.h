@@ -24,6 +24,9 @@ class OpenH323JNIEndPoint : public H323EndPoint
 {
 	PCLASSINFO(OpenH323JNIEndPoint, H323EndPoint);
 
+private
+	PHashTable connectionsHashTable;
+
 public:
 	OpenH323JNIEndPoint();
 	~OpenH323JNIEndPoint();
@@ -32,10 +35,17 @@ public:
 
 	// Overrides from H323EndPoint
 	virtual H323Connection * CreateConnection(unsigned callReference);
+    virtual void OnConnectionEstablished(H323Connection & connection, 
+		const PString & token);
 	virtual H323Connection::AnswerCallResponse OnAnswerCall(H323Connection &, 
 		const PString &, const H323SignalPDU &, H323SignalPDU &);
 	virtual BOOL OpenAudioChannel(H323Connection &, BOOL, unsigned, 
 		H323AudioCodec &);
+    virtual void OnUserInputTone(H323Connection & connection,
+      char tone, unsigned duration, unsigned logicalChannel,
+      unsigned rtpTimestamp);
+    virtual void OnConnectionCleared(H323Connection & connection, 
+		const PString & token);
 };
 
 #endif; // _OPENH323JNIENDPOINT_H_

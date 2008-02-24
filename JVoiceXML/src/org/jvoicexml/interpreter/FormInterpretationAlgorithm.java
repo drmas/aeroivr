@@ -665,7 +665,8 @@ public final class FormInterpretationAlgorithm
         final boolean bargein = prompt.isBargein();
         final DocumentServer documentServer = context.getDocumentServer();
 
-        output.queueSpeakable(speakable, bargein, documentServer);
+        output.queueSpeakable(context.getSession(), speakable, 
+                bargein, documentServer);
     }
 
     /**

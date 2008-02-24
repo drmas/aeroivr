@@ -34,6 +34,7 @@ import org.jvoicexml.Application;
 import org.jvoicexml.DocumentServer;
 import org.jvoicexml.GrammarDocument;
 import org.jvoicexml.ImplementationPlatform;
+import org.jvoicexml.Session;
 import org.jvoicexml.event.ErrorEvent;
 import org.jvoicexml.event.JVoiceXMLEvent;
 import org.jvoicexml.event.error.BadFetchError;
@@ -372,6 +373,10 @@ public final class VoiceXmlInterpreterContext {
         final DocumentServer server = session.getDocumentServer();
 
         return server.getAudioInputStream(uri);
+    }
+    
+    public Session getSession() {
+        return session;
     }
 
     /**
