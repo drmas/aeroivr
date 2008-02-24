@@ -20,39 +20,52 @@ package org.aeroivr.appserver.h323;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.aeroivr.appserver.common.ServiceLocator;
-import org.aeroivr.appserver.common.Settings;
 import org.jvoicexml.JVoiceXmlMain;
 import org.jvoicexml.Session;
+import org.jvoicexml.TelephonyApplication;
 import org.jvoicexml.event.ErrorEvent;
+import org.jvoicexml.event.error.NoresourceError;
 
 /**
  * H323 connections management class
  *
  * @author Andriy Petlyovanyy
  */
-public class H323Application implements GetFileNameEventListener  {
+public class H323Application implements H323EventsListener, 
+        TelephonyApplication  {
 
     private OpenH323 openH323;
     private JVoiceXmlMain voiceXMLApp;
+    private Map<String, Object> connectionsHash;
 
     public H323Application() {
+        connectionsHash = Collections.synchronizedMap(
+                new HashMap<String, Object>());
     }
 
     public void start() {
         if (null == voiceXMLApp) {
-            voiceXMLApp = new JVoiceXmlMain();
-            voiceXMLApp.setName("JVoiceXMLMain");
-            voiceXMLApp.start();
-
-//            voiceXMLApp..waitShutdownComplete();
-//            voiceXMLApp..postShutdown();
+            try {
+                voiceXMLApp = new JVoiceXmlMain();
+                voiceXMLApp.setName("JVoiceXMLMain");
+                voiceXMLApp.start();
+                voiceXMLApp.waitStartupComplete();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(H323Application.class.getName()
+                        ).log(Level.SEVERE, null, ex);
+            }
         }
         
         if (null == openH323) {
             openH323 = ServiceLocator.getInstance().getOpenH323();
             openH323.initialize();
-            openH323.setGetFileNameEventListener(this);
+            openH323.setH323EventsListener(this);
             openH323.start();
         }
     }
@@ -62,10 +75,16 @@ public class H323Application implements GetFileNameEventListener  {
             openH323.stop();
             openH323 = null;
         }
+        
+        if (null != voiceXMLApp) {
+            voiceXMLApp.shutdown();
+            voiceXMLApp.waitShutdownComplete();
+        }
     }
 
-    public String getWavFileName() {
-        Settings settings = ServiceLocator.getInstance().getSettings();
+    @Override
+    public void onConnected(final String connectionId) {
+        
         Session voiceXmlSession = null;
         try {
             voiceXmlSession = voiceXMLApp.createSession(null);
@@ -76,14 +95,52 @@ public class H323Application implements GetFileNameEventListener  {
             try {
                 voiceXmlSession.call(new URI("file:///H:/Projects/" +
                         "AeroIVR/Investigation/VoiceXML/simple.vxml"));
-                voiceXmlSession.waitSessionEnd();
-                voiceXmlSession.close();
+                connectionsHash.put(connectionId, voiceXmlSession);
             } catch (ErrorEvent ex) {
                 ex.printStackTrace();
             } catch (URISyntaxException ex) {
                 ex.printStackTrace();
             }
         }
-        return settings.getWavFileName();
+    }
+    
+    @Override
+    public void onDtmf(final String connectionId, final char dtmf) {
+        try {
+            Session voiceXmlSession = getVoiceXmlSessionForConnectionId(
+                    connectionId);
+            voiceXmlSession.getCharacterInput().addCharacter(dtmf);
+        } catch (NoresourceError ex) {
+            Logger.getLogger(H323Application.class.getName()).log(
+                    Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Override
+    public void onDisconnected(final String connectionId) {
+        try {
+            Session voiceXmlSession = (Session) connectionsHash.remove(
+                connectionId);
+            voiceXmlSession.hangup();
+            voiceXmlSession.waitSessionEnd();
+            voiceXmlSession.close();
+        } catch (ErrorEvent ex) {
+            Logger.getLogger(
+                    H323Application.class.getName()).log(
+                    Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void playNewAudioFile(final String connectionId, 
+            final String fileName) {
+
+        openH323.playAudioFile(connectionId, fileName);
+    }
+    
+    private Session getVoiceXmlSessionForConnectionId(
+            final String connectionId) {
+        
+            return (Session) connectionsHash.get(connectionId);
     }
 }

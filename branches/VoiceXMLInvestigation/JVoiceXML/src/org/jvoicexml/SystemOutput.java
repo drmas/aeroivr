@@ -75,8 +75,8 @@ public interface SystemOutput
      *            A URI within the speakable could not be obtained or a parsing
      *            error occured.
      */
-    void queueSpeakable(final SpeakableText speakable, final boolean bargein,
-                        final DocumentServer documentServer)
+    void queueSpeakable(final Session session, final SpeakableText speakable, 
+            final boolean bargein, final DocumentServer documentServer)
             throws NoresourceError, BadFetchError;
 
     /**
@@ -97,7 +97,7 @@ public interface SystemOutput
      *
      * @since 0.3
      */
-    void queueAudio(final AudioInputStream audio)
+    void queueAudio(final Session session, final AudioInputStream audio)
             throws NoresourceError, BadFetchError;
 
     /**

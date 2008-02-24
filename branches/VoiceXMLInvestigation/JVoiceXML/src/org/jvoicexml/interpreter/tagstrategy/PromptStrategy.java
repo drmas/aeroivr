@@ -131,7 +131,8 @@ class PromptStrategy
         final DocumentServer documentServer = context.getDocumentServer();
 
         if (!speakable.isSpeakableTextEmpty()) {
-            output.queueSpeakable(speakable, bargein, documentServer);
+            output.queueSpeakable(context.getSession(), speakable, 
+                    bargein, documentServer);
         }
     }
 }

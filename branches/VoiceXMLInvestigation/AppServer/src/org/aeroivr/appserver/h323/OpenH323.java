@@ -31,7 +31,7 @@ public class OpenH323 {
         System.loadLibrary("OpenH323JNI");
     }
 
-    private GetFileNameEventListener getFileNameEventListener;
+    private H323EventsListener h323EventsListener;
 
     public OpenH323() {
     }
@@ -39,23 +39,35 @@ public class OpenH323 {
     protected native boolean init();
     protected native boolean startListening();
     protected native boolean shutdown();
+    
+    protected native void playAudioFileInChannel(final String connectionId, 
+            final String fileName);
+    
+    protected void onConnected(final String connectionId) {
+        if (null != h323EventsListener) {
+            h323EventsListener.onConnected(connectionId);
+        } 
+    }
 
-    protected String getWavFileName()
-        throws NotSetGetFileNameEventListenerException {
-
-        if (null == getFileNameEventListener) {
-            throw new NotSetGetFileNameEventListenerException();
-        }
-        return getFileNameEventListener.getWavFileName();
+    protected void onDisconnected(final String connectionId) {
+        if (null != h323EventsListener) {
+            h323EventsListener.onDisconnected(connectionId);
+        } 
+    }
+    
+    protected void onDtmf(final String connectionId, final char dtmf) {
+        if (null != h323EventsListener) {
+            h323EventsListener.onDtmf(connectionId, dtmf);
+        } 
     }
 
     public void initialize() {
         this.init();
     }
 
-    public void setGetFileNameEventListener(
-            final GetFileNameEventListener evtListener) {
-        getFileNameEventListener = evtListener;
+    public void setH323EventsListener(
+            final H323EventsListener evtListener) {
+        h323EventsListener = evtListener;
     }
 
     public void start() {
@@ -64,5 +76,11 @@ public class OpenH323 {
 
     public void stop() {
         shutdown();
+    }
+    
+    public void playAudioFile(final String connectionId, 
+            final String fileName) {
+        
+        playAudioFileInChannel(connectionId, fileName);
     }
 }

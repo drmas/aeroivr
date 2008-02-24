@@ -31,9 +31,18 @@ class OpenH323JNIWavFileChannel: public PIndirectChannel
 	PWAVFile wavFile;
 	PAdaptiveDelay writeDataDelay;
 	PAdaptiveDelay readDataDelay;
+	
+	PQueue<PString> fileNames;
+	PSemaphore queueIsEmpty;
+	PMutex operationWithQueue;
 
 public:
 	OpenH323JNIWavFileChannel(const PString &, H323Connection &);
+
+	public void AddFileNameToQueue(const PString & fileName);
+	public PString RemoveFileNameFromQueue();
+	public BOOL isQueueEmpty();
+	public void CloseChannel();
 
 	virtual BOOL Close(); 
 	virtual BOOL IsOpen() const;

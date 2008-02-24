@@ -97,7 +97,7 @@ final class TextStrategy
 
         final SpeakablePlainText speakable = new SpeakablePlainText(text);
 
-        output.queueSpeakable(speakable, false, null);
+        output.queueSpeakable(context.getSession(), speakable, false, null);
     }
 
     /**

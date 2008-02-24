@@ -36,6 +36,7 @@ import org.jvoicexml.DocumentServer;
 import org.jvoicexml.ImplementationPlatform;
 import org.jvoicexml.JVoiceXmlCore;
 import org.jvoicexml.Session;
+import org.jvoicexml.TelephonyApplication;
 import org.jvoicexml.event.ErrorEvent;
 import org.jvoicexml.event.error.NoresourceError;
 import org.jvoicexml.interpreter.scope.ScopeObserver;
@@ -96,6 +97,10 @@ public final class JVoiceXmlSession
 
     /** Flag, of this session is closed. */
     private boolean closed;
+    
+    private TelephonyApplication telephonyApplication;
+    
+    private String telephonyApplicationId;
 
     /**
      * Semaphore to that is set while the session is running.
@@ -324,5 +329,25 @@ public final class JVoiceXmlSession
      */
     public ScriptingEngine getScriptingEngine() {
         return scripting;
+    }
+
+    @Override
+    public TelephonyApplication getTelephonyApplication() {
+        return telephonyApplication;
+    }
+
+    @Override
+    public void setTelephonyApplication(TelephonyApplication application) {
+        this.telephonyApplication = application;
+    }
+
+    @Override
+    public String getTelephonyApplicationId() {
+        return telephonyApplicationId;
+    }
+
+    @Override
+    public void setTelephonyApplicationId(String value) {
+        this.telephonyApplicationId = value;
     }
 }

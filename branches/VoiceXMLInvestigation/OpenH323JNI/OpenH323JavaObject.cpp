@@ -27,18 +27,43 @@ void OpenH323JavaObject::SetJvmAndThisPointers(JavaVM * jvm,
 	m_thisObject = thisObj;
 }
 
-const char* OpenH323JavaObject::GetFileNameForConnection()
+void OpenH323JavaObject::CallVoidMethodWithConnectionToken(
+	const char * methodName, const PString & connectionToken) 
 {
 	JNIEnv * oEnvinronment;
 	m_javaVM->AttachCurrentThread((void **)&oEnvinronment, NULL);
 
 	jclass cls = oEnvinronment->GetObjectClass(m_thisObject);
 	jmethodID methodId = oEnvinronment->GetMethodID(cls, 
-		"getWavFileName", "()Ljava/lang/String;");
+		methodName, "(Ljava/lang/String;)V");
+	jstring connectionId = oEnvinronment->NewStringUTF((const char*) connectionToken);
 
-	jstring result = (jstring) oEnvinronment->CallObjectMethod(
-		m_thisObject, methodId);
-
-	return oEnvinronment->GetStringUTFChars(result, NULL);
+	oEnvinronment->CallVoidMethod(m_thisObject, methodId, connectionId);
 }
+
+void OpenH323JavaObject::OnConnected(const PString & connectionToken)
+{
+	OpenH323JavaObject::CallVoidMethodWithConnectionToken(
+		"onConnected", connectionToken);
+}
+
+void OpenH323JavaObject::OnDisconnected(const PString & connectionToken)
+{
+	OpenH323JavaObject::CallVoidMethodWithConnectionToken(
+		"onDisconnected", connectionToken);
+}
+
+void OpenH323JavaObject::OnDtmf(const PString & connectionToken, const char dtmf)
+{
+	JNIEnv * oEnvinronment;
+	m_javaVM->AttachCurrentThread((void **)&oEnvinronment, NULL);
+
+	jclass cls = oEnvinronment->GetObjectClass(m_thisObject);
+	jmethodID methodId = oEnvinronment->GetMethodID(cls, 
+		"onDtmf", "(Ljava/lang/String;C)V");
+	jstring connectionId = oEnvinronment->NewStringUTF((const char*) connectionToken);
+
+	oEnvinronment->CallVoidMethod(m_thisObject, methodId, connectionId, (jchar) dtmf);
+}
+
 

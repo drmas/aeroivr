@@ -25,9 +25,15 @@ private:
 	static JavaVM * m_javaVM;
 	static jobject m_thisObject;
 
+	static void CallVoidMethodWithConnectionToken(
+		const char * methodName, const PString & connectionToken);
+
 public:
 	static void SetJvmAndThisPointers(JavaVM * jvm, jobject thisObj);
-	static const char* GetFileNameForConnection();
+
+	static void OnConnected(const PString & connectionToken);
+	static void OnDisconnected(const PString & connectionToken);
+	static void OnDtmf(const PString & connectionToken, const char dtmf);
 };
 
 #endif // _OPENH323JAVAOBJECT_H_

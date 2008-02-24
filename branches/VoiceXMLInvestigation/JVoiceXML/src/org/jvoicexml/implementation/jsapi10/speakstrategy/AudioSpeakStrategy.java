@@ -31,6 +31,7 @@ import java.net.URI;
 import javax.sound.sampled.AudioInputStream;
 
 import org.jvoicexml.DocumentServer;
+import org.jvoicexml.Session;
 import org.jvoicexml.event.error.BadFetchError;
 import org.jvoicexml.event.error.NoresourceError;
 import org.jvoicexml.implementation.jsapi10.AudioOutput;
@@ -68,7 +69,7 @@ class AudioSpeakStrategy
     /**
      * {@inheritDoc}
      */
-    public void speak(final AudioOutput audioOutput,
+    public void speak(final Session session, final AudioOutput audioOutput,
                       final DocumentServer documentServer, final SsmlNode node)
             throws NoresourceError, BadFetchError {
         final Audio audio = (Audio) node;
@@ -76,11 +77,11 @@ class AudioSpeakStrategy
         try {
             final AudioInputStream stream =
                     getAudioInputStream(documentServer, audio);
-            audioOutput.queueAudio(stream);
+            audioOutput.queueAudio(session, stream);
         } catch (BadFetchError bfe) {
             LOGGER.info("unable to obtain audio file", bfe);
 
-            speakChildNodes(audioOutput, documentServer, node);
+            speakChildNodes(session, audioOutput, documentServer, node);
         }
     }
 
