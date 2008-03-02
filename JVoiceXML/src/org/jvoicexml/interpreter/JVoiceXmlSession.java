@@ -31,6 +31,7 @@ import java.util.UUID;
 import java.util.concurrent.Semaphore;
 
 import org.jvoicexml.Application;
+import org.jvoicexml.CallControl;
 import org.jvoicexml.CharacterInput;
 import org.jvoicexml.DocumentServer;
 import org.jvoicexml.ImplementationPlatform;
@@ -272,6 +273,15 @@ public final class JVoiceXmlSession
         }
 
         sem.release();
+        
+        try {
+            final CallControl callControl = 
+                    implementationPlatform.getCallControl();
+            callControl.sessionFinished(this);
+        } catch (NoresourceError ee) {
+            LOGGER.error("error processing application '"
+                    + application.getCurrentUri() + "'", ee);
+        }
     }
 
     /**

@@ -54,11 +54,13 @@ BOOL OpenH323JNIWavFileChannel::OpenWavFile(const PString & wavFileName)
 
 void OpenH323JNIWavFileChannel::AddFileNameToPlay(const PString & fileName)
 {
+	PTRACE(TRACE_INFORMATION, "WAV FILE: Adding new wav file " << fileName);
 	wavFileNames.EnqueueString(new PString(fileName));
 }
 
 void OpenH323JNIWavFileChannel::CloseChannelAfterLastWavFile()
 {
+	PTRACE(TRACE_INFORMATION, "WAV FILE: CloseChannelAfterLastWavFile received ");
 	closeChannel = true;
 }
 

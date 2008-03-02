@@ -85,6 +85,12 @@ void OpenH323JNIEndPoint::OnUserInputTone(H323Connection & connection,
 	OpenH323JavaObject::OnDtmf(connection.GetCallToken(), tone);
 }
 
+void OpenH323JNIEndPoint::OnUserInputString(H323Connection & connection, 
+											const PString & value)
+{
+	OpenH323JavaObject::OnDtmf(connection.GetCallToken(), value.GetAt(0));
+}
+
 void OpenH323JNIEndPoint::OnConnectionCleared(H323Connection & connection, 
 		const PString & token)
 {

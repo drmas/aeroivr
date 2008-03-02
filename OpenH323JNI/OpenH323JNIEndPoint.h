@@ -47,6 +47,8 @@ public:
     virtual void OnUserInputTone(H323Connection & connection,
       char tone, unsigned duration, unsigned logicalChannel,
       unsigned rtpTimestamp);
+    virtual void OnUserInputString(
+      H323Connection & connection, const PString & value);
     virtual void OnConnectionCleared(H323Connection & connection, 
 		const PString & token);
 
