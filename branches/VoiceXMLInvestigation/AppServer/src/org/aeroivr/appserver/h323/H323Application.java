@@ -111,7 +111,9 @@ public class H323Application implements H323EventsListener,
         try {
             Session voiceXmlSession = getVoiceXmlSessionForConnectionId(
                     connectionId);
-            voiceXmlSession.getCharacterInput().addCharacter(dtmf);
+            if (null != voiceXmlSession) {
+                voiceXmlSession.getCharacterInput().addCharacter(dtmf);
+            }
         } catch (NoresourceError ex) {
             Logger.getLogger(H323Application.class.getName()).log(
                     Level.SEVERE, null, ex);
@@ -155,7 +157,20 @@ public class H323Application implements H323EventsListener,
     public void onVoiceXmlSessionFinished(final String connectionId) {
         
         if (connectionsHash.containsKey(connectionId)) {
-            connectionsHash.remove(connectionId);
+            
+            Session voiceXmlSession = (Session) connectionsHash.remove(
+                connectionId);
+            if (null != voiceXmlSession) {
+                try {
+                    voiceXmlSession.hangup();
+                    voiceXmlSession.waitSessionEnd();
+                    voiceXmlSession.close();
+                } catch (ErrorEvent ex) {
+                    Logger.getLogger(H323Application.class.getName()).log(
+                            Level.SEVERE, null, ex);
+                }
+            }
+            
             openH323.disconnect(connectionId);
         }
     }

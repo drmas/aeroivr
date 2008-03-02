@@ -16,6 +16,7 @@
 
 #include <ptlib.h>
 #include "OpenH323JavaObject.h"
+#include "OpenH323JNIConstants.h"
 
 JavaVM * OpenH323JavaObject::m_javaVM;
 jobject  OpenH323JavaObject::m_thisObject;
@@ -56,7 +57,9 @@ void OpenH323JavaObject::OnDisconnected(const PString & connectionToken)
 void OpenH323JavaObject::OnDtmf(const PString & connectionToken, const char dtmf)
 {
 	JNIEnv * oEnvinronment;
-	m_javaVM->AttachCurrentThread((void **)&oEnvinronment, NULL);
+
+	jint result = m_javaVM->AttachCurrentThread((void **)&oEnvinronment, NULL);
+	PTRACE(TRACE_INFORMATION, "AttachCurrentThread result is " << result);
 
 	jclass cls = oEnvinronment->GetObjectClass(m_thisObject);
 	jmethodID methodId = oEnvinronment->GetMethodID(cls, 

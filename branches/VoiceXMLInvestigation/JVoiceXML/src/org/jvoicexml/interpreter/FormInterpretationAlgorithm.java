@@ -394,11 +394,6 @@ public final class FormInterpretationAlgorithm
                 }
             }
         } while (item != null);
-        
-        final ImplementationPlatform implementation =
-                context.getImplementationPlatform();
-        final CallControl callControl = implementation.getCallControl();
-        callControl.sessionFinished(context.getSession());
 
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("no next element in form '" + id
