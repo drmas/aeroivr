@@ -26,8 +26,8 @@ package org.aeroivr.appserver.h323;
 public class OpenH323 {
 
     static {
-        System.loadLibrary("PTLib");
-        System.loadLibrary("OpenH323");
+        System.loadLibrary("PTLibd");
+        System.loadLibrary("OpenH323d");
         System.loadLibrary("OpenH323JNI");
     }
 
@@ -40,8 +40,9 @@ public class OpenH323 {
     protected native boolean startListening();
     protected native boolean shutdown();
     
-    protected native void playAudioFileInChannel(final String connectionId, 
+    protected native void playAudioFileInChannel(final String token, 
             final String fileName);
+    protected native void closeConnection(final String token);
     
     protected void onConnected(final String connectionId) {
         if (null != h323EventsListener) {
@@ -82,5 +83,9 @@ public class OpenH323 {
             final String fileName) {
         
         playAudioFileInChannel(connectionId, fileName);
+    }
+
+    public void disconnect(final String connectionId) {
+        closeConnection(connectionId);
     }
 }

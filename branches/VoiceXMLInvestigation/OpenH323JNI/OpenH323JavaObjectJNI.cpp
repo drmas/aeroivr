@@ -19,6 +19,7 @@
 #include "OpenH323JavaObjectJNI.h"
 #include "OpenH323JavaObject.h"
 #include "OpenH323JNIApplication.h"
+#include "OpenH323JNIUtils.h"
 
 OpenH323JNIApplication * g_H323Application;
 
@@ -86,7 +87,29 @@ JNIEXPORT jboolean JNICALL Java_org_aeroivr_appserver_h323_OpenH323_shutdown
 }
 
 JNIEXPORT void JNICALL Java_org_aeroivr_appserver_h323_OpenH323_playAudioFileInChannel
-  (JNIEnv *, jobject, jstring, jstring)
+  (JNIEnv * envinronment, jobject object, jstring token, jstring fileName)
 {
-	//!!!
+    if (NULL != g_H323Application)
+    {
+		PString connectionToken;
+		OpenH323JNIUtils::JStringToPString(envinronment, token, 
+			connectionToken);
+		PString wavFileName;
+		OpenH323JNIUtils::JStringToPString(envinronment, fileName, 
+			wavFileName);
+		g_H323Application->GetH323EndPoint()->SetNextWavFile(
+			connectionToken, wavFileName);
+	}
+}
+
+JNIEXPORT void JNICALL Java_org_aeroivr_appserver_h323_OpenH323_closeConnection
+  (JNIEnv * envinronment, jobject object, jstring token)
+{
+    if (NULL != g_H323Application)
+    {
+		PString connectionToken;
+		OpenH323JNIUtils::JStringToPString(envinronment, token, 
+			connectionToken);
+		g_H323Application->GetH323EndPoint()->CloseConnection(connectionToken);
+	}
 }

@@ -47,4 +47,6 @@ package org.jvoicexml;
  */
 public interface CallControl
         extends ExternalResource, RemoteConnectable {
+    
+    void sessionFinished(final Session session);
 }

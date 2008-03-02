@@ -208,7 +208,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\OpenH323JNIUtils.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\OpenH323JNIWavFileChannel.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\OpenH323SynchronizedQueue.cpp"
 				>
 			</File>
 			<File
@@ -266,7 +274,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\OpenH323JNIUtils.h"
+				>
+			</File>
+			<File
 				RelativePath=".\OpenH323JNIWavFileChannel.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OpenH323SynchronizedQueue.h"
 				>
 			</File>
 		</Filter>

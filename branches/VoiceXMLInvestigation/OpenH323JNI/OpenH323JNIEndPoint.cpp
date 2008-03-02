@@ -65,9 +65,8 @@ BOOL OpenH323JNIEndPoint::OpenAudioChannel(H323Connection & connection,
 	codec.SetSilenceDetectionMode(H323AudioCodec::NoSilenceDetection); 
 	if (isEncoding)
 	{
-		PString wavFileName = OpenH323JavaObject::GetFileNameForConnection();
-		OpenH323JNIWavFileChannel *wavFileChannel = new OpenH323JNIWavFileChannel(
-			wavFileName, connection);
+		OpenH323JNIWavFileChannel * wavFileChannel = 
+			new OpenH323JNIWavFileChannel(connection);
 		return codec.AttachChannel(wavFileChannel, true); 
 	}
 	else
@@ -90,4 +89,51 @@ void OpenH323JNIEndPoint::OnConnectionCleared(H323Connection & connection,
 		const PString & token)
 {
 	OpenH323JavaObject::OnDisconnected(token);
+}
+
+OpenH323JNIWavFileChannel * OpenH323JNIEndPoint::GetWavFileChannelByConnection(
+	const PString & connectionToken)
+{
+	H323Connection * connection = this->FindConnectionWithoutLocks(
+		connectionToken);
+
+	if (NULL != connection)
+	{
+		H323Channel * logicalChannel = connection->FindChannel(
+			RTP_Session::DefaultAudioSessionID, false); 
+
+		H323Codec * codec = logicalChannel->GetCodec();
+		PChannel * rawChannel = codec->GetRawDataChannel();
+		if (rawChannel->IsClass("OpenH323JNIWavFileChannel")) 
+		{
+			OpenH323JNIWavFileChannel * wavFileChannel = 
+				(OpenH323JNIWavFileChannel*)rawChannel;
+			return wavFileChannel;
+		}
+	}
+	return NULL;
+}
+
+
+void OpenH323JNIEndPoint::SetNextWavFile(const PString & connectinToken, 
+										 const PString & wavFileName)
+{
+	OpenH323JNIWavFileChannel * wavFileChannel = 
+		(OpenH323JNIWavFileChannel*)GetWavFileChannelByConnection(
+		connectinToken);
+	if (NULL != wavFileChannel)
+	{
+		wavFileChannel->AddFileNameToPlay(wavFileName);
+	}
+}
+
+void OpenH323JNIEndPoint::CloseConnection(const PString & connectinToken)
+{
+	OpenH323JNIWavFileChannel * wavFileChannel = 
+		(OpenH323JNIWavFileChannel*)GetWavFileChannelByConnection(
+		connectinToken);
+	if (NULL != wavFileChannel)
+	{
+		wavFileChannel->CloseChannelAfterLastWavFile();
+	}
 }
