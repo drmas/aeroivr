@@ -11,5 +11,8 @@ package org.jvoicexml;
  */
 public interface TelephonyApplication {
     
-    void playNewAudioFile(final String connectionId, final String fileName);
+    void playNewAudioFileFromVoiceXml(final String connectionId, 
+            final String fileName);
+    
+    void onVoiceXmlSessionFinished(final String connectionId);
 }

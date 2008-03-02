@@ -22,32 +22,34 @@
 #include <ptclib/pwavfile.h>
 #include <ptclib/delaychan.h>
 #include "OpenH323JNIConstants.h"
+#include "OpenH323SynchronizedQueue.h"
 
 class OpenH323JNIWavFileChannel: public PIndirectChannel 
 {
 	PCLASSINFO(OpenH323JNIWavFileChannel, PIndirectChannel);
 
-	H323Connection &connection;
+	H323Connection & connection;
 	PWAVFile wavFile;
+	BOOL isOpened;
+	BOOL closeChannel;
 	PAdaptiveDelay writeDataDelay;
 	PAdaptiveDelay readDataDelay;
 	
-	PQueue<PString> fileNames;
-	PSemaphore queueIsEmpty;
-	PMutex operationWithQueue;
+	OpenH323SynchronizedQueue wavFileNames;
 
 public:
-	OpenH323JNIWavFileChannel(const PString &, H323Connection &);
-
-	public void AddFileNameToQueue(const PString & fileName);
-	public PString RemoveFileNameFromQueue();
-	public BOOL isQueueEmpty();
-	public void CloseChannel();
+	OpenH323JNIWavFileChannel(H323Connection &);
+	void AddFileNameToPlay(const PString & fileName);
+	void CloseChannelAfterLastWavFile();
 
 	virtual BOOL Close(); 
 	virtual BOOL IsOpen() const;
 	virtual BOOL Read(void *, PINDEX);
 	virtual BOOL Write(const void *, PINDEX); 
+
+private: 
+	BOOL OpenWavFile(const PString & wavFileName);
+	void OpenNextWavFileFromQueue();
 };
 
 #endif // _OPENH323JNIWAVFILECHANNEL_H_

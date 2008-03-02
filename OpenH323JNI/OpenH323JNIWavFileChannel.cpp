@@ -18,15 +18,24 @@
 #include "OpenH323JNIWavFileChannel.h"
 
 OpenH323JNIWavFileChannel::OpenH323JNIWavFileChannel(
-	const PString & fileName, H323Connection & h323Connection
-	) : connection(h323Connection)
+	H323Connection & h323Connection) : connection(h323Connection), 
+	isOpened(true), closeChannel(false)
 {
-	wavFile.Open(fileName, PFile::ReadOnly);
+}
+
+BOOL OpenH323JNIWavFileChannel::OpenWavFile(const PString & wavFileName)
+{
+	if (wavFile.IsOpen())
+	{
+		wavFile.Close();
+	}
+
+	wavFile.Open(wavFileName, PFile::ReadOnly, PFile::Temporary);
 
 	if (!wavFile.IsOpen()) 
     {
-        PError << "Failed to open WAV file " << fileName << endl;
-        connection.ClearCall();
+        PError << "Failed to open WAV file " << wavFileName << endl;
+		return false;
     } 
 	else
 	{
@@ -35,45 +44,111 @@ OpenH323JNIWavFileChannel::OpenH323JNIWavFileChannel(
 			|| wavFile.GetSampleRate() != 8000
 			|| wavFile.GetSampleSize() != 16)
 		{
-			PError << "WAV file " << fileName << " has wrong format." << endl;
+			PError << "WAV file " << wavFileName << " has wrong format." << endl;
 			wavFile.Close();
-			connection.ClearCall();
+			return false;
 		}
 	}
+	return true;
+}
+
+void OpenH323JNIWavFileChannel::AddFileNameToPlay(const PString & fileName)
+{
+	wavFileNames.EnqueueString(new PString(fileName));
+}
+
+void OpenH323JNIWavFileChannel::CloseChannelAfterLastWavFile()
+{
+	closeChannel = true;
 }
 
 BOOL OpenH323JNIWavFileChannel::Close()
 {
-	return wavFile.Close();
+	wavFileNames.Clear();
+	if (wavFile.IsOpen())
+	{
+		return wavFile.Close();
+	}
+	else
+	{
+		return true;
+	}
 }
 
 BOOL OpenH323JNIWavFileChannel::IsOpen() const
 {
-	return wavFile.IsOpen();
+	return isOpened;
+}
+
+void OpenH323JNIWavFileChannel::OpenNextWavFileFromQueue()
+{
+	BOOL successfullOpened = false;
+	PString * wavFileName = NULL;
+	do
+	{
+		wavFileName = wavFileNames.DequeueString();
+		if (NULL != wavFileName)
+		{
+			__try
+			{
+				successfullOpened = OpenWavFile(*wavFileName);
+			}
+			__finally
+			{
+				delete wavFileName;
+			}
+		}
+	}
+	while (!successfullOpened && (NULL != wavFileName));
 }
 
 BOOL OpenH323JNIWavFileChannel::Read(void * buffer, PINDEX length)
 {
+	memset(buffer, 0, length);
+	lastReadCount = length;
+
     if (!connection.IsEstablished()) 
     {
-        memset(buffer, 0, length);
-        lastReadCount = length; 
+		PTRACE(TRACE_INFORMATION, "WAV FILE: Connection not established yet");
 		readDataDelay.Delay(lastReadCount/2/8); 
         return true; 
     } 
     
-	if (!wavFile.Read(buffer, length)) 
-            return false;
+	if (wavFile.IsOpen())
+	{
+		if (!wavFile.Read(buffer, length)) 
+		{
+			PTRACE(TRACE_INFORMATION, "WAV FILE: File fully readed, getting new one");
+			OpenNextWavFileFromQueue();
+		}
+		else
+		{
+			// PTRACE(TRACE_INFORMATION,  "WAV FILE: Read " << wavFile.GetLastReadCount() << " of bytes from WAV file");
+			if (wavFile.GetLastReadCount() < length)
+			{
+				wavFile.Close();
+			}
+		}
+	}
+	else
+	{
+		//PTRACE(TRACE_INFORMATION, "WAV FILE: File is closed. Going to new one");
+		OpenNextWavFileFromQueue();
+	}
             
-    lastReadCount = wavFile.GetLastReadCount(); 
     readDataDelay.Delay(lastReadCount/2/8); 
-    
-	if (lastReadCount < length) 
-    {
-		connection.ClearCall(); 
-    } 
-    
-    return lastReadCount > 0; 
+
+	if (closeChannel && wavFileNames.IsEmpty() && !wavFile.IsOpen())
+	{
+		PTRACE(TRACE_INFORMATION, "WAV FILE: Closing connection");
+		isOpened = false;
+		connection.ClearCall();
+		return false;
+	}
+	else
+	{
+		return true; 
+	}
 }
 
 BOOL OpenH323JNIWavFileChannel::Write(const void * buffer, PINDEX length)

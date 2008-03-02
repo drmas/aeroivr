@@ -338,7 +338,7 @@ public final class AudioOutput
                 freettsVoice.setAudioPlayer(filePlayer);
                 freettsVoice.speak(text);
                 filePlayer.close();
-                session.getTelephonyApplication().playNewAudioFile(
+                session.getTelephonyApplication().playNewAudioFileFromVoiceXml(
                         session.getTelephonyApplicationId(), tempFileName 
                             + ".wav");
             } else {

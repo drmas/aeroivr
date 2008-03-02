@@ -19,13 +19,16 @@
 
 #include <h323.h>
 #include "OpenH323JNIConstants.h"
+#include "OpenH323JNIWavFileChannel.h"
 
 class OpenH323JNIEndPoint : public H323EndPoint
 {
 	PCLASSINFO(OpenH323JNIEndPoint, H323EndPoint);
 
-private
-	PHashTable connectionsHashTable;
+private:
+
+	OpenH323JNIWavFileChannel * GetWavFileChannelByConnection(
+		const PString & connectionToken);
 
 public:
 	OpenH323JNIEndPoint();
@@ -46,6 +49,10 @@ public:
       unsigned rtpTimestamp);
     virtual void OnConnectionCleared(H323Connection & connection, 
 		const PString & token);
+
+	void SetNextWavFile(const PString & connectinToken, 
+		const PString & wavFileName);
+	void CloseConnection(const PString & connectinToken);
 };
 
 #endif; // _OPENH323JNIENDPOINT_H_

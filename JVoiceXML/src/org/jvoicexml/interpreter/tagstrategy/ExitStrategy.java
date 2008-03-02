@@ -29,6 +29,8 @@ package org.jvoicexml.interpreter.tagstrategy;
 import java.util.Collection;
 import java.util.Map;
 
+import org.jvoicexml.CallControl;
+import org.jvoicexml.ImplementationPlatform;
 import org.jvoicexml.event.ErrorEvent;
 import org.jvoicexml.event.JVoiceXMLEvent;
 import org.jvoicexml.event.error.BadFetchError;
@@ -125,6 +127,12 @@ final class ExitStrategy
                         final FormItem item,
                         final VoiceXmlNode node)
             throws JVoiceXMLEvent {
+        
+        final ImplementationPlatform implementation =
+                context.getImplementationPlatform();
+        final CallControl callControl = implementation.getCallControl();
+        callControl.sessionFinished(context.getSession());
+        
         if (expr != null) {
             final ScriptingEngine scripting = context.getScriptingEngine();
             final Object returnValue = scripting.eval(expr);

@@ -88,13 +88,15 @@ public class H323Application implements H323EventsListener,
         Session voiceXmlSession = null;
         try {
             voiceXmlSession = voiceXMLApp.createSession(null);
+            voiceXmlSession.setTelephonyApplication(this);
+            voiceXmlSession.setTelephonyApplicationId(connectionId);
         } catch (ErrorEvent ex) {
             ex.printStackTrace();
         }
         if (null != voiceXmlSession) {
             try {
                 voiceXmlSession.call(new URI("file:///H:/Projects/" +
-                        "AeroIVR/Investigation/VoiceXML/simple.vxml"));
+                        "AeroIVR/Investigation/VoiceXML/dtmf.vxml"));
                 connectionsHash.put(connectionId, voiceXmlSession);
             } catch (ErrorEvent ex) {
                 ex.printStackTrace();
@@ -118,21 +120,26 @@ public class H323Application implements H323EventsListener,
     
     @Override
     public void onDisconnected(final String connectionId) {
-        try {
-            Session voiceXmlSession = (Session) connectionsHash.remove(
-                connectionId);
-            voiceXmlSession.hangup();
-            voiceXmlSession.waitSessionEnd();
-            voiceXmlSession.close();
-        } catch (ErrorEvent ex) {
-            Logger.getLogger(
-                    H323Application.class.getName()).log(
-                    Level.SEVERE, null, ex);
+        
+        if (connectionsHash.containsKey(connectionId)) {
+            try {
+                Session voiceXmlSession = (Session) connectionsHash.remove(
+                    connectionId);
+                if (null != voiceXmlSession) {
+                    voiceXmlSession.hangup();
+                    voiceXmlSession.waitSessionEnd();
+                    voiceXmlSession.close();
+                }
+            } catch (ErrorEvent ex) {
+                Logger.getLogger(
+                        H323Application.class.getName()).log(
+                        Level.SEVERE, null, ex);
+            }
         }
     }
 
     @Override
-    public void playNewAudioFile(final String connectionId, 
+    public void playNewAudioFileFromVoiceXml(final String connectionId, 
             final String fileName) {
 
         openH323.playAudioFile(connectionId, fileName);
@@ -142,5 +149,14 @@ public class H323Application implements H323EventsListener,
             final String connectionId) {
         
             return (Session) connectionsHash.get(connectionId);
+    }
+
+    @Override
+    public void onVoiceXmlSessionFinished(final String connectionId) {
+        
+        if (connectionsHash.containsKey(connectionId)) {
+            connectionsHash.remove(connectionId);
+            openH323.disconnect(connectionId);
+        }
     }
 }

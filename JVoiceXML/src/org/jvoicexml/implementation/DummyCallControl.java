@@ -30,6 +30,7 @@ import java.io.IOException;
 
 import org.jvoicexml.CallControl;
 import org.jvoicexml.RemoteClient;
+import org.jvoicexml.Session;
 import org.jvoicexml.event.error.NoresourceError;
 import org.jvoicexml.logging.Logger;
 import org.jvoicexml.logging.LoggerFactory;
@@ -101,5 +102,11 @@ public final class DummyCallControl
      */
     public void connect(final RemoteClient client)
         throws IOException {
+    }
+
+    @Override
+    public void sessionFinished(Session session) {
+        session.getTelephonyApplication().onVoiceXmlSessionFinished(
+                session.getTelephonyApplicationId());
     }
 }
