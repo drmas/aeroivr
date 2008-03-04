@@ -71,7 +71,7 @@
 		<property name="spokeninput">
 			<list>
 				<bean
-					class="org.jvoicexml.implementation.jsapi10.jvxml.SpokenInputFactory">
+					class="org.aeroivr.jvoicexml.implementation.SpokenInputFactory">
 					<property name="instances" value="1"/>
 				</bean>
 			</list>
