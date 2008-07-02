@@ -1,15 +1,7 @@
-#summary One-sentence summary of this page.
+#summary Software Requirements Specification version 0.2
+#labels Phase-Requirements
 
-= Introduction =
+= Software Requirements Specification =
+== Version 0.2 ==
 
-Add your content here.
-
-
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
-
-http://docs.google.com/View?docID=dgrmtqbq_37wrtdmwdj&revision=_latest
+Full document can be found here [http://docs.google.com/View?docID=dgrmtqbq_37wrtdmwdj&revision=_latest]
