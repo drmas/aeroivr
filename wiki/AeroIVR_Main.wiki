@@ -13,3 +13,6 @@ Following pages are available:
   * [SAS_v_0_1 Software Architecture Specification v 0.1]
   * [CodingGuidelines Coding Guidelines]
   * [Release_v_0_1 Release notes for version 0.1]
+
+We started work on the version 0.2 of the project.
+Software Requirement Specification is available [SRS_v_0_2 here].
