@@ -21,9 +21,9 @@ package org.aeroivr.rsmc.web.controller;
 import org.aeroivr.appserver.admin.AppServerConstants;
 import org.aeroivr.rsmc.common.ServiceLocator;
 import org.aeroivr.rsmc.web.controller.
-        BaseTestForPageController.PageGetTestParameters;
+        AbstractPageControllerTest.PageGetTestParameters;
 import org.aeroivr.rsmc.web.controller.
-        BaseTestForPageController.PagePostTestParameters;
+        AbstractPageControllerTest.PagePostTestParameters;
 import org.aeroivr.rsmc.web.view.LogonView;
 import static org.easymock.classextension.EasyMock.expectLastCall;
 import static org.easymock.classextension.EasyMock.eq;
@@ -33,7 +33,7 @@ import static org.easymock.classextension.EasyMock.and;
 /**
  * @author Andriy Petlyovanyy
  */
-public class LogonPageControllerTest extends BaseTestForPageController {
+public class LogonPageControllerTest extends AbstractPageControllerTest {
 
     public LogonPageControllerTest(final String testName) {
         super(testName);

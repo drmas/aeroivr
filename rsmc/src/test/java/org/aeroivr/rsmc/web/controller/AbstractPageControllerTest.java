@@ -42,11 +42,11 @@ import static org.easymock.classextension.EasyMock.eq;
  *
  * @author Andriy Petlyovanyy
  */
-public class BaseTestForPageController extends TestCase {
+public abstract class AbstractPageControllerTest extends TestCase {
 
     private final ServiceLocator serviceLocator;
 
-    public BaseTestForPageController(final String testName) {
+    public AbstractPageControllerTest(final String testName) {
         super(testName);
         serviceLocator = ServiceLocator.getInstance();
     }
