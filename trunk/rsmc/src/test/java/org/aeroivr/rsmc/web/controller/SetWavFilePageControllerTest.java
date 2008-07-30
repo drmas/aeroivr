@@ -38,9 +38,9 @@ import java.util.ArrayList;
 import java.util.List;
 import org.aeroivr.rsmc.common.ServiceLocator;
 import org.aeroivr.rsmc.web.controller.
-        BaseTestForPageController.PageGetTestParameters;
+        AbstractPageControllerTest.PageGetTestParameters;
 import org.aeroivr.rsmc.web.controller.
-        BaseTestForPageController.PagePostTestParameters;
+        AbstractPageControllerTest.PagePostTestParameters;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import static org.easymock.classextension.EasyMock.expectLastCall;
@@ -53,7 +53,7 @@ import static org.easymock.classextension.EasyMock.and;
  * @author Andriy Petlyovanyy
  */
 public class SetWavFilePageControllerTest
-        extends BaseTestForSecurePageController {
+        extends AbstractSecurePageControllerTest {
 
     public SetWavFilePageControllerTest(final String testName) {
         super(testName);

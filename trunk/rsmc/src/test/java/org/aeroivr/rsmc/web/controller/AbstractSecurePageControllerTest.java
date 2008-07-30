@@ -28,9 +28,9 @@ import static org.easymock.classextension.EasyMock.expectLastCall;
  *
  * @author Andriy Petlyovanyy
  */
-public class BaseTestForSecurePageController extends BaseTestForPageController {
+public abstract class AbstractSecurePageControllerTest extends AbstractPageControllerTest {
 
-    public BaseTestForSecurePageController(final String testName) {
+    public AbstractSecurePageControllerTest(final String testName) {
         super(testName);
     }
 
