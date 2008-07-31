@@ -1,5 +1,5 @@
+#summary Eclipse Setup
 #labels Phase-Implementation
-#sumary Eclipse Setup
 
 = How to setup project under Eclipse =
 
