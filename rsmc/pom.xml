@@ -2,12 +2,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.aeroivr</groupId>
+    <parent>
+        <groupId>org.aeroivr</groupId>
+        <artifactId>all</artifactId>
+        <version>0.2-SNAPSHOT</version>
+        <relativePath>../all</relativePath>
+    </parent>
     <artifactId>rsmc</artifactId>
     <packaging>war</packaging>
-    <version>0.2-SNAPSHOT</version>
     <name>rsmc</name>
-    <url>http://maven.apache.org</url>
+    <url>http://code.google.com/p/aeroivr</url>
     <build>
         <finalName>rsmc</finalName>
         <plugins>
@@ -22,38 +26,8 @@
                 </configuration>
             </plugin>
             <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.0.2</version>
-                <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>cobertura-maven-plugin</artifactId>
-                <configuration>
-                    <check>
-                        <branchRate>0</branchRate>
-                        <haltOnFailure>true</haltOnFailure>
-                        <totalLineRate>80</totalLineRate>
-                    </check>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>clean</goal>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <configuration>
-                    <configLocation>${basedir}/../All/Checkstyle/checks.xml</configLocation>
-                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -85,20 +59,14 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>3.8.1</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.easymock</groupId>
             <artifactId>easymock</artifactId>
-            <version>2.3</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.easymock</groupId>
             <artifactId>easymockclassextension</artifactId>
-            <version>2.2.2</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
     <reporting>
@@ -106,13 +74,6 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>cobertura-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <configuration>
-                    <configLocation>${basedir}/../All/Checkstyle/checks.xml</configLocation>
-                </configuration>
             </plugin>
         </plugins>
     </reporting>
