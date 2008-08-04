@@ -1,46 +1,105 @@
 <html>
-    <head>
-        <title>Remote Server Management Console</title>
-    </head>
-    <body>
-        [showMenu]
-        <table width="100%">
-            <tr>
-                <td>
-                    <a href="{rootDirUrl}/startStopServer.html">
-                        Start\Stop Server
-                    </a>
+  <head>
+    <title>
+      AeroIVR - Remote Server Management Console
+    </title>
+    <link href="css/rsmc.css" rel="stylesheet" type="text/css">
+  </head>
+  <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+     <table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
+       <tr>
+         <td width="398" height="110"><img src="images/header.jpg" height="110"/></td>
+         <td bgcolor=#8BBEED>&nbsp;</td>
+         <td width="390" bgcolor="#8BBEED">
+            <table width="100%" height="100%">
+              <tr>
+                <td height="50" valign="bottom"><span class="projectName">AeroIVR</span></td>
+              <tr>
+              <tr>
+                <td valign="top"><span class="projectDescription">Open Source Framework for IVR applications</span></td>
+              <tr>
+            </table>
+         </td>
+       </tr>
+
+[showMenu]
+
+       <tr>
+         <td width="398" height="20" bgcolor="#8BBEED">&nbsp;</td>
+         <td bgcolor="#8BBEED">
+            <table width="100%" height="100%">
+              <tr> 
+                <td width="10">
+                  &nbsp;
                 </td>
                 <td>
-                    <a href="{rootDirUrl}/changePassword.html">
-                        Change Password
-                    </a>
+                  <span class="menuItem">
+                      <a href="{rootDirUrl}/startStopServer.html">Start\Stop Server</a>
+                  </span>
                 </td>
                 <td>
-                    <a href="{rootDirUrl}/setWavFile.html">
-                        Set WAV file
-                    </a>
+                   <span class="menuItem">
+                      <a href="{rootDirUrl}/changePassword.html">Change Password</a>
+                   </span>
                 </td>
-            </tr>
-        </table>
-        [/showMenu]
-        
-        <h1>
-            {header}
-        </h1>
-        
-        [wereErrors]
-        <br/>
-        <font color="red"> 
-            <b>Errors:</b> 
-            <ul>
-                
-                {errors}
-                
-            </ul>
-        </font>
-        [/wereErrors]
-        
-        {innerContent}
-    </body>
+                <td>
+                   <span class="menuItem">
+                      <a href="{rootDirUrl}/setWavFile.html">Set WAV file</a>
+                   </span>
+                </td>
+              </tr> 
+            </table>
+         </td>
+         <td bgcolor="#8BBEED">&nbsp;</td>
+       </tr>
+
+[/showMenu]
+
+       <tr>
+         <td colspan="3">
+           <table width="100%" height="100%">
+              <tr>
+                <td width="40">&nbsp;</td>
+                <td>
+                   <table width="100%" height="100%">
+                     <tr>
+                        <td height="10">&nbsp;</td>
+                     </tr>
+                     <tr>
+                       <td height="20"><h1>{header}</h1></td>
+                     </tr>
+                     <tr>
+                        <td valign="top">
+                           [wereErrors]
+                           <br/>
+                           <font color="red"> 
+                               <b>Errors:</b> 
+                               <ul>
+                                   {errors}
+                               </ul>
+                           </font>
+                           [/wereErrors]
+ 
+                           {innerContent}
+                        </td>
+                     </tr>
+                     <tr>
+                        <td height="10">&nbsp;</td>
+                     </tr>
+                   </table>
+                </td>
+                <td width="40">&nbsp;</td>
+              </tr>
+           </table>
+         </td>
+       </tr>
+       <tr>
+         <td height="44" bgcolor="#8BBEED" valign="middle"> &nbsp; 
+            <span class="projectCopyright">Remote Server Management Console version 0.2</span> 
+         </td>
+         <td bgcolor="#8BBEED">&nbsp;</td>
+         <td align="right" bgcolor="#8BBEED"><span class="projectCopyright"><a href="http://code.google.com/p/aeroivr">AeroIVR</a></span>&nbsp;</td>
+       </tr>
+     </table>
+  </body>
 </html>
