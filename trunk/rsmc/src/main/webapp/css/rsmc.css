@@ -1,0 +1,48 @@
+h1 {
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+        color: #2271A0;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: bold;
+        font-variant: normal;
+        text-decoration: none;
+}
+p {
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+        font-size: 12px;
+}
+.projectName {
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+        color: #FFFFFF;
+        font-size: 25px;
+        font-style: normal;
+        font-weight: bold;
+        font-variant: normal;
+        text-decoration: none;
+}
+.projectDescription {
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+        color: #FFFFFF;
+        font-size: 16px;
+        font-style: italic;
+        font-variant: normal;
+        text-decoration: none;
+}
+.menuItem {
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+        color: #FFFFFF;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: bold;
+        font-variant: normal;
+        text-decoration: none;
+}
+.projectCopyright {
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+        color: #FFFFFF;
+        font-size: 10px;
+        font-style: normal;
+        font-weight: bold;
+        font-variant: normal;
+        text-decoration: none;
+}
