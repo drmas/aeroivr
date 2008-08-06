@@ -27,7 +27,7 @@ public final class AppServerConstants {
 
     public static final int APP_SERVER_ADMIN_RMI_PORT = 3011;
     public static final String APP_SERVER_ADMIN_RMI_NAME =
-            "AERO_IVR_APP_SERVER";
+        "AERO_IVR_APP_SERVER";
     public static final String ADMIN_USERNAME = "admin";
 
     private AppServerConstants() {

@@ -21,11 +21,13 @@ package org.aeroivr.rsmc.web.view;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import junit.framework.TestCase;
+
 import org.aeroivr.rsmc.common.TestConstants;
 
 /**
- *
+ * 
  * @author Andriy Petlyovanyy
  */
 public class MasterPageViewTest extends TestCase {
@@ -37,18 +39,17 @@ public class MasterPageViewTest extends TestCase {
     public void testSetShowMenu() throws IOException {
 
         final MasterPageView masterPageView = new MasterPageView(
-                TestConstants.VIEWS_FOLDER,
-                TestConstants.SERVLET_CONTEXT_PATH);
+                TestConstants.VIEWS_FOLDER, TestConstants.SERVLET_CONTEXT_PATH);
         masterPageView.setShowMenu(true);
         String content = masterPageView.getContent();
 
         assertNotNull("Content should be present", content);
         assertTrue("Page should contain link on Start\\Stop Server page",
                 content.indexOf("Start\\Stop Server") > -1);
-        assertTrue("Page should contain link on Change Password page",
-                content.indexOf("Change Password") > -1);
-        assertTrue("Page should contain link on Set WAV file page",
-                content.indexOf("Set WAV file") > -1);
+        assertTrue("Page should contain link on Change Password page", content
+                .indexOf("Change Password") > -1);
+        assertTrue("Page should contain link on Set VoiceXML Application page",
+                content.indexOf("Set VoiceXML Application") > -1);
 
         masterPageView.setShowMenu(false);
         content = masterPageView.getContent();
@@ -58,15 +59,15 @@ public class MasterPageViewTest extends TestCase {
                 content.indexOf("Start\\Stop Server") == -1);
         assertTrue("Page should not contain link on Change Password page",
                 content.indexOf("Change Password") == -1);
-        assertTrue("Page should not contain link on Set WAV file page",
-                content.indexOf("Set WAV file") == -1);
+        assertTrue("Page should not contain link on Set VoiceXML "
+                + "Application page", content
+                .indexOf("Set VoiceXML Application") == -1);
     }
 
     public void testSetHeader() throws IOException {
 
         final MasterPageView masterPageView = new MasterPageView(
-                TestConstants.VIEWS_FOLDER,
-                TestConstants.SERVLET_CONTEXT_PATH);
+                TestConstants.VIEWS_FOLDER, TestConstants.SERVLET_CONTEXT_PATH);
         final String testHeader = "Test Header";
 
         masterPageView.setHeader(testHeader);
@@ -79,24 +80,22 @@ public class MasterPageViewTest extends TestCase {
         masterPageView.setHeader("");
         content = masterPageView.getContent();
         assertNotNull("Content should be present", content);
-        assertTrue("Page should not contain header",
-                content.indexOf(testHeader) == -1);
+        assertTrue("Page should not contain header", content
+                .indexOf(testHeader) == -1);
     }
 
     public void testGetHtmlFileName() {
 
         final MasterPageView masterPageView = new MasterPageView(
-                TestConstants.VIEWS_FOLDER,
-                TestConstants.SERVLET_CONTEXT_PATH);
-        assertEquals("File should be equal to masterPage.html",
-                masterPageView.getHtmlFileName(), "masterPage.html");
+                TestConstants.VIEWS_FOLDER, TestConstants.SERVLET_CONTEXT_PATH);
+        assertEquals("File should be equal to masterPage.html", masterPageView
+                .getHtmlFileName(), "masterPage.html");
     }
 
     public void testSetErrors() throws IOException {
 
         final MasterPageView masterPageView = new MasterPageView(
-                TestConstants.VIEWS_FOLDER,
-                TestConstants.SERVLET_CONTEXT_PATH);
+                TestConstants.VIEWS_FOLDER, TestConstants.SERVLET_CONTEXT_PATH);
         final String error1 = "Error One";
         final String error2 = "Error Seconddd";
         final String error3 = "Error Number Three";
@@ -110,38 +109,33 @@ public class MasterPageViewTest extends TestCase {
         String content = masterPageView.getContent();
 
         assertNotNull("Content should be present", content);
-        assertTrue("Should contain error text",
-                -1 < content.indexOf(error1));
-        assertTrue("Should contain error text",
-                -1 < content.indexOf(error2));
-        assertTrue("Should contain error text",
-                -1 < content.indexOf(error3));
+        assertTrue("Should contain error text", -1 < content.indexOf(error1));
+        assertTrue("Should contain error text", -1 < content.indexOf(error2));
+        assertTrue("Should contain error text", -1 < content.indexOf(error3));
 
         masterPageView.setErrors(new ArrayList<String>());
         content = masterPageView.getContent();
 
         assertNotNull("Content should be present", content);
-        assertTrue("Should contain not error text",
-                -1 == content.indexOf(error1));
-        assertTrue("Should contain not error text",
-                -1 == content.indexOf(error2));
-        assertTrue("Should contain not error text",
-                -1 == content.indexOf(error3));
+        assertTrue("Should contain not error text", -1 == content
+                .indexOf(error1));
+        assertTrue("Should contain not error text", -1 == content
+                .indexOf(error2));
+        assertTrue("Should contain not error text", -1 == content
+                .indexOf(error3));
     }
 
     public void testSetInnerContent() throws IOException {
 
         final MasterPageView masterPageView = new MasterPageView(
-                TestConstants.VIEWS_FOLDER,
-                TestConstants.SERVLET_CONTEXT_PATH);
+                TestConstants.VIEWS_FOLDER, TestConstants.SERVLET_CONTEXT_PATH);
         final String testInnerContent = "<b>my test inner content</b>";
         masterPageView.setInnerContent(testInnerContent);
 
         final String content = masterPageView.getContent();
-        assertNotNull("Content should not be null",
-                content);
-        assertTrue("Content should contain inner content",
-                -1 < content.indexOf(testInnerContent));
+        assertNotNull("Content should not be null", content);
+        assertTrue("Content should contain inner content", -1 < content
+                .indexOf(testInnerContent));
     }
 
 }

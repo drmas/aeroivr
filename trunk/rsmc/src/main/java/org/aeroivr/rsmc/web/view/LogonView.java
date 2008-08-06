@@ -55,6 +55,7 @@ public class LogonView extends AbstractView {
         return (String) getValue(PASSWORD);
     }
 
+    @Override
     protected String getHtmlFileName() {
         return "logon.html";
     }

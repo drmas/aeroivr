@@ -20,9 +20,11 @@ package org.aeroivr.rsmc.web.controller;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.aeroivr.rsmc.common.ServiceLocator;
 import org.aeroivr.rsmc.web.security.WebSecurityManager;
 import org.aeroivr.rsmc.web.view.MasterPageView;
@@ -42,11 +44,11 @@ public abstract class BaseSecurePageController extends BasePageController {
 
     @Override
     protected void doGet(final HttpServletRequest request,
-            final HttpServletResponse response)
-            throws ServletException, IOException {
+            final HttpServletResponse response) throws ServletException,
+            IOException {
 
-        WebSecurityManager securityManager = ServiceLocator.getInstance(
-                ).getWebSecurityManager(request.getSession());
+        final WebSecurityManager securityManager = ServiceLocator.getInstance()
+                .getWebSecurityManager(request.getSession());
         if (securityManager.isLoggedIn()) {
             pageGet(request, response);
         } else {
@@ -56,11 +58,11 @@ public abstract class BaseSecurePageController extends BasePageController {
 
     @Override
     protected void doPost(final HttpServletRequest request,
-            final HttpServletResponse response)
-            throws ServletException, IOException {
+            final HttpServletResponse response) throws ServletException,
+            IOException {
 
-        WebSecurityManager securityManager = ServiceLocator.getInstance(
-                ).getWebSecurityManager(request.getSession());
+        final WebSecurityManager securityManager = ServiceLocator.getInstance()
+                .getWebSecurityManager(request.getSession());
         if (securityManager.isLoggedIn()) {
             pagePost(request, response);
         } else {

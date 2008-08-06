@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -38,7 +39,7 @@ import org.aeroivr.rsmc.web.view.MasterPageView;
  */
 public abstract class BasePageController extends HttpServlet {
 
-    private List<String> errors = new ArrayList<String>();
+    private final List<String> errors = new ArrayList<String>();
 
     protected void configureMasterPage(final MasterPageView masterPageView) {
         masterPageView.setShowMenu(false);
@@ -51,23 +52,19 @@ public abstract class BasePageController extends HttpServlet {
         return getServletContext().getRealPath("/");
     }
 
-    protected String getWavFilesFolder() {
-        return getServletContext().getRealPath("/WAV");
-    }
-
     protected void renderView(final HttpServletRequest request,
             final HttpServletResponse response, final AbstractView view)
             throws IOException {
 
-        MasterPageView masterPageView = ServiceLocator.getInstance(
-                ).getMasterPageView(getViewsFolder(), request.getContextPath());
+        final MasterPageView masterPageView = ServiceLocator.getInstance()
+                .getMasterPageView(getViewsFolder(), request.getContextPath());
         configureMasterPage(masterPageView);
         masterPageView.setErrors(errors);
 
-        PageRenderer renderer = ServiceLocator.getInstance().getPageRenderer(
-                masterPageView, view);
+        final PageRenderer renderer = ServiceLocator.getInstance()
+                .getPageRenderer(masterPageView, view);
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
+        final PrintWriter out = response.getWriter();
         out.print(renderer.renderContent());
         out.close();
         clearErrors();
@@ -82,25 +79,25 @@ public abstract class BasePageController extends HttpServlet {
     }
 
     protected abstract void pageGet(final HttpServletRequest request,
-            final HttpServletResponse response)
-            throws ServletException, IOException;
+            final HttpServletResponse response) throws ServletException,
+            IOException;
 
     protected abstract void pagePost(final HttpServletRequest request,
-            final HttpServletResponse response)
-            throws ServletException, IOException;
+            final HttpServletResponse response) throws ServletException,
+            IOException;
 
     @Override
     protected void doGet(final HttpServletRequest request,
-            final HttpServletResponse response)
-            throws ServletException, IOException {
+            final HttpServletResponse response) throws ServletException,
+            IOException {
 
         pageGet(request, response);
     }
 
     @Override
     protected void doPost(final HttpServletRequest request,
-            final HttpServletResponse response)
-            throws ServletException, IOException {
+            final HttpServletResponse response) throws ServletException,
+            IOException {
 
         pagePost(request, response);
     }

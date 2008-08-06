@@ -30,7 +30,7 @@ import java.rmi.RemoteException;
 public interface AppServerInterface extends Remote {
 
     boolean areCredentialsValid(final String username, final String password)
-        throws RemoteException;
+            throws RemoteException;
 
     boolean isAppServerRunning() throws RemoteException;
 
@@ -40,5 +40,6 @@ public interface AppServerInterface extends Remote {
 
     void changeAdminPassword(final String newPassword) throws IOException;
 
-    void setWavFileName(final String fileName) throws IOException;
+    void setVoiceXMLApplication(final String tempWarFileName)
+            throws IOException;
 }

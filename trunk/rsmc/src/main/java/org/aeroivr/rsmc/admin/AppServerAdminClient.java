@@ -22,8 +22,9 @@ import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
-import org.aeroivr.appserver.admin.AppServerInterface;
+
 import org.aeroivr.appserver.admin.AppServerConstants;
+import org.aeroivr.appserver.admin.AppServerInterface;
 import org.aeroivr.rsmc.common.ServiceLocator;
 
 /**
@@ -33,14 +34,14 @@ import org.aeroivr.rsmc.common.ServiceLocator;
  */
 public class AppServerAdminClient {
 
-    private AppServerInterface remoteObject;
+    private final AppServerInterface remoteObject;
 
     public AppServerAdminClient() throws RemoteException, NotBoundException {
 
-        Registry registry = ServiceLocator.getInstance().getRmiRegistry(
+        final Registry registry = ServiceLocator.getInstance().getRmiRegistry(
                 AppServerConstants.APP_SERVER_ADMIN_RMI_PORT);
-        remoteObject = (AppServerInterface) registry.lookup(
-                            AppServerConstants.APP_SERVER_ADMIN_RMI_NAME);
+        remoteObject = (AppServerInterface) registry
+                .lookup(AppServerConstants.APP_SERVER_ADMIN_RMI_NAME);
     }
 
     public boolean areCredentialsValid(final String username,
@@ -63,12 +64,13 @@ public class AppServerAdminClient {
     }
 
     public void changeAdminPassword(final String newPassword)
-        throws IOException {
+            throws IOException {
         remoteObject.changeAdminPassword(newPassword);
     }
 
-    public void setWavFileName(final String fileName)
-        throws IOException {
-        remoteObject.setWavFileName(fileName);
+    public void setVoiceXMLApplication(final String tempWarFileName)
+            throws IOException {
+
+        remoteObject.setVoiceXMLApplication(tempWarFileName);
     }
 }

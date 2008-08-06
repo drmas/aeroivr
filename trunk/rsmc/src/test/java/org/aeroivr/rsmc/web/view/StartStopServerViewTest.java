@@ -20,11 +20,13 @@ package org.aeroivr.rsmc.web.view;
 
 import java.io.IOException;
 import java.util.HashMap;
+
 import junit.framework.TestCase;
+
 import org.aeroivr.rsmc.common.TestConstants;
 
 /**
- *
+ * 
  * @author Andriy Petlyovanyy
  */
 public class StartStopServerViewTest extends TestCase {
@@ -39,21 +41,19 @@ public class StartStopServerViewTest extends TestCase {
 
         view.setServerStarted(true);
         String content = view.getContent();
-        assertNotNull("Content should not be null",
-                content);
-        assertTrue("Should contain started status",
-                -1 < content.indexOf("Started"));
-        assertTrue("Should not contain stopped status",
-                -1 == content.indexOf("Stopped"));
+        assertNotNull("Content should not be null", content);
+        assertTrue("Should contain started status", -1 < content
+                .indexOf("Started"));
+        assertTrue("Should not contain stopped status", -1 == content
+                .indexOf("Stopped"));
 
         view.setServerStarted(false);
         content = view.getContent();
-        assertNotNull("Content should not be null",
-                content);
-        assertTrue("Should contain stopped status",
-                -1 < content.indexOf("Stopped"));
-        assertTrue("Should not contain started status",
-                -1 == content.indexOf("Started"));
+        assertNotNull("Content should not be null", content);
+        assertTrue("Should contain stopped status", -1 < content
+                .indexOf("Stopped"));
+        assertTrue("Should not contain started status", -1 == content
+                .indexOf("Started"));
     }
 
     public void testWasStartButtonPressed() {
@@ -65,14 +65,13 @@ public class StartStopServerViewTest extends TestCase {
         StartStopServerView view = new StartStopServerView(
                 TestConstants.VIEWS_FOLDER, parameters);
 
-        assertTrue("Button should be pressed",
-                view.wasStartButtonPressed());
+        assertTrue("Button should be pressed", view.wasStartButtonPressed());
 
-        view = new StartStopServerView(
-                TestConstants.VIEWS_FOLDER, new HashMap());
+        view = new StartStopServerView(TestConstants.VIEWS_FOLDER,
+                new HashMap());
 
-        assertFalse("Button should not be pressed",
-                view.wasStartButtonPressed());
+        assertFalse("Button should not be pressed", view
+                .wasStartButtonPressed());
     }
 
     public void testWasStopButtonPressed() {
@@ -84,14 +83,12 @@ public class StartStopServerViewTest extends TestCase {
         StartStopServerView view = new StartStopServerView(
                 TestConstants.VIEWS_FOLDER, parameters);
 
-        assertTrue("Button should be pressed",
-                view.wasStopButtonPressed());
+        assertTrue("Button should be pressed", view.wasStopButtonPressed());
 
-        view = new StartStopServerView(
-                TestConstants.VIEWS_FOLDER, new HashMap());
+        view = new StartStopServerView(TestConstants.VIEWS_FOLDER,
+                new HashMap());
 
-        assertFalse("Button should not be pressed",
-                view.wasStopButtonPressed());
+        assertFalse("Button should not be pressed", view.wasStopButtonPressed());
     }
 
     public void testWasRestartButtonPressed() {
@@ -103,14 +100,13 @@ public class StartStopServerViewTest extends TestCase {
         StartStopServerView view = new StartStopServerView(
                 TestConstants.VIEWS_FOLDER, parameters);
 
-        assertTrue("Button should be pressed",
-                view.wasRestartButtonPressed());
+        assertTrue("Button should be pressed", view.wasRestartButtonPressed());
 
-        view = new StartStopServerView(
-                TestConstants.VIEWS_FOLDER, new HashMap());
+        view = new StartStopServerView(TestConstants.VIEWS_FOLDER,
+                new HashMap());
 
-        assertFalse("Button should not be pressed",
-                view.wasRestartButtonPressed());
+        assertFalse("Button should not be pressed", view
+                .wasRestartButtonPressed());
     }
 
 }

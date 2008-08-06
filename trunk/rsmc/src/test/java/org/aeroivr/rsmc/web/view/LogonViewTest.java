@@ -21,11 +21,13 @@ package org.aeroivr.rsmc.web.view;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
 import junit.framework.TestCase;
+
 import org.aeroivr.rsmc.common.TestConstants;
 
 /**
- *
+ * 
  * @author Andriy Petlyovanyy
  */
 public class LogonViewTest extends TestCase {
@@ -46,11 +48,10 @@ public class LogonViewTest extends TestCase {
                 testUsername2);
 
         final String content = logonView.getContent();
-        assertNotNull("Content should not be null",
-                content);
+        assertNotNull("Content should not be null", content);
 
-        assertTrue("Username should be pressent in HTML",
-                -1 < content.indexOf(testUsername2));
+        assertTrue("Username should be pressent in HTML", -1 < content
+                .indexOf(testUsername2));
     }
 
     public void testWasLogonButtonPressed() {
@@ -62,8 +63,7 @@ public class LogonViewTest extends TestCase {
         assertTrue("Button was pressed", logonView.wasLogonButtonPressed());
 
         logonView = new LogonView(TestConstants.VIEWS_FOLDER, new HashMap());
-        assertTrue("Button wasn\'t pressed",
-                !logonView.wasLogonButtonPressed());
+        assertTrue("Button wasn\'t pressed", !logonView.wasLogonButtonPressed());
     }
 
     public void testGetUsername() {

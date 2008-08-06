@@ -33,29 +33,33 @@
 
 package org.aeroivr.rsmc.common;
 
+import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.expectLastCall;
+import static org.easymock.classextension.EasyMock.createMock;
+import static org.easymock.classextension.EasyMock.createNiceControl;
+
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
 import java.util.HashMap;
-import junit.framework.TestCase;
+
 import javax.servlet.http.HttpSession;
+
+import junit.framework.TestCase;
+
 import org.aeroivr.appserver.admin.AppServerConstants;
 import org.easymock.classextension.IMocksControl;
-import static org.easymock.classextension.EasyMock.createMock;
-import static org.easymock.classextension.EasyMock.createNiceControl;
-import static org.easymock.classextension.EasyMock.eq;
-import static org.easymock.classextension.EasyMock.expectLastCall;
-import java.io.BufferedReader;
-import java.rmi.RemoteException;
 
 /**
- *
+ * 
  * @author Andriy Petlyovanyy
  */
 public class ServiceLocatorTest extends TestCase {
 
-    private ServiceLocator serviceLocator;
+    private final ServiceLocator serviceLocator;
 
     public ServiceLocatorTest(final String testName) {
         super(testName);
@@ -64,11 +68,11 @@ public class ServiceLocatorTest extends TestCase {
 
     public void testLoadAndGetInstance() {
         try {
-            ServiceLocator serviceLocatorMock = createMock(
-                    ServiceLocator.class);
+            final ServiceLocator serviceLocatorMock = createMock(ServiceLocator.class);
 
             ServiceLocator.load(serviceLocatorMock);
-            ServiceLocator currentServiceLocator = ServiceLocator.getInstance();
+            final ServiceLocator currentServiceLocator = ServiceLocator
+                    .getInstance();
             assertTrue("References should be equal",
                     serviceLocatorMock == currentServiceLocator);
         } finally {
@@ -77,35 +81,34 @@ public class ServiceLocatorTest extends TestCase {
     }
 
     public void testGetLogonView() {
-        assertNotNull("LogonView object should not be null",
-                serviceLocator.getLogonView("temp"));
+        assertNotNull("LogonView object should not be null", serviceLocator
+                .getLogonView("temp"));
     }
 
     public void testGetLogonViewWithParameters() {
-        assertNotNull("LogonView object should not be null",
-                serviceLocator.getLogonView("temp", new HashMap()));
+        assertNotNull("LogonView object should not be null", serviceLocator
+                .getLogonView("temp", new HashMap()));
     }
 
     public void testGetWebSecurityManager() {
-        HttpSession sessionMock = createMock(HttpSession.class);
-        assertNotNull("LogonView object should not be null",
-                serviceLocator.getWebSecurityManager(sessionMock));
+        final HttpSession sessionMock = createMock(HttpSession.class);
+        assertNotNull("LogonView object should not be null", serviceLocator
+                .getWebSecurityManager(sessionMock));
     }
 
-    public void testGetAppServerAdminClient()
-        throws RemoteException, NotBoundException, NoSuchMethodException {
+    public void testGetAppServerAdminClient() throws RemoteException,
+            NotBoundException, NoSuchMethodException {
 
         final IMocksControl control = createNiceControl();
-        final ServiceLocator serviceLocatorMock = control.createMock(
-                ServiceLocator.class);
+        final ServiceLocator serviceLocatorMock = control
+                .createMock(ServiceLocator.class);
         final Registry registryMock = control.createMock(Registry.class);
 
-        serviceLocatorMock.getRmiRegistry(eq(
-                AppServerConstants.APP_SERVER_ADMIN_RMI_PORT));
+        serviceLocatorMock
+                .getRmiRegistry(eq(AppServerConstants.APP_SERVER_ADMIN_RMI_PORT));
         expectLastCall().andReturn(registryMock).atLeastOnce();
 
-        registryMock.lookup(eq(
-                AppServerConstants.APP_SERVER_ADMIN_RMI_NAME));
+        registryMock.lookup(eq(AppServerConstants.APP_SERVER_ADMIN_RMI_NAME));
         expectLastCall().andReturn(null).atLeastOnce();
 
         control.replay();
@@ -113,7 +116,7 @@ public class ServiceLocatorTest extends TestCase {
         ServiceLocator.load(serviceLocatorMock);
         try {
             assertNotNull("AppServerAdminClient should not be null ",
-                serviceLocator.getAppServerAdminClient());
+                    serviceLocator.getAppServerAdminClient());
         } finally {
             ServiceLocator.load(serviceLocator);
         }
@@ -122,21 +125,20 @@ public class ServiceLocatorTest extends TestCase {
     }
 
     public void testGetMasterPageView() {
-        assertNotNull("MasterPageView should not be null",
-                serviceLocator.getMasterPageView(TestConstants.VIEWS_FOLDER,
-                "/"));
+        assertNotNull("MasterPageView should not be null", serviceLocator
+                .getMasterPageView(TestConstants.VIEWS_FOLDER, "/"));
     }
 
     public void testGetPageRenderer() {
-        assertNotNull("PageRenderer should not be null",
-                serviceLocator.getPageRenderer(null, null));
+        assertNotNull("PageRenderer should not be null", serviceLocator
+                .getPageRenderer(null, null));
     }
 
     public void testGetBufferedReaderForFile() throws IOException {
-        File file = File.createTempFile("test", "test");
+        final File file = File.createTempFile("test", "test");
         try {
-            BufferedReader buffReader =
-                    serviceLocator.getBufferedReaderForFile(file.getPath());
+            final BufferedReader buffReader = serviceLocator
+                    .getBufferedReaderForFile(file.getPath());
             assertNotNull("Buffered Reader for file should not be null",
                     buffReader);
             buffReader.close();
@@ -146,58 +148,54 @@ public class ServiceLocatorTest extends TestCase {
     }
 
     public void testGetStartStopServerView() {
-        assertNotNull("StartStopServerView should not be null",
-                serviceLocator.getStartStopServerView(
-                    TestConstants.VIEWS_FOLDER));
+        assertNotNull("StartStopServerView should not be null", serviceLocator
+                .getStartStopServerView(TestConstants.VIEWS_FOLDER));
     }
 
     public void testGetStartStopServerViewWithParameters() {
-        assertNotNull("StartStopServerView should not be null",
-                serviceLocator.getStartStopServerView(
-                    TestConstants.VIEWS_FOLDER, new HashMap()));
+        assertNotNull("StartStopServerView should not be null", serviceLocator
+                .getStartStopServerView(TestConstants.VIEWS_FOLDER,
+                        new HashMap()));
     }
 
     public void testGetChangePasswordView() {
-        assertNotNull("ChangePasswordView should not be null",
-                serviceLocator.getChangePasswordView(
-                    TestConstants.VIEWS_FOLDER));
+        assertNotNull("ChangePasswordView should not be null", serviceLocator
+                .getChangePasswordView(TestConstants.VIEWS_FOLDER));
     }
 
     public void testGetChangePasswordWithParameters() {
-        assertNotNull("ChangePasswordView should not be null",
-                serviceLocator.getChangePasswordView(
-                    TestConstants.VIEWS_FOLDER, new HashMap()));
+        assertNotNull("ChangePasswordView should not be null", serviceLocator
+                .getChangePasswordView(TestConstants.VIEWS_FOLDER,
+                        new HashMap()));
     }
 
     public void testGetServletFileUpload() {
-        assertNotNull("ServletFileUpload should not be null",
-                serviceLocator.getServletFileUpload());
+        assertNotNull("ServletFileUpload should not be null", serviceLocator
+                .getServletFileUpload());
     }
 
-    public void testGetFileWithUniqueName() throws IOException {
-
-        final File tempFile = serviceLocator.getFileWithUniqueName(
-                "/", "temp", "tmp");
-        try {
-            assertNotNull("ServletFileUpload should not be null",
-                tempFile);
-        } finally {
-            if (null != tempFile) {
-                tempFile.delete();
-            }
-        }
-    }
+    // public void testGetFileWithUniqueName() throws IOException {
+    //
+    // final File tempFile = serviceLocator.getFileWithUniqueName(
+    // "/", "temp", "tmp");
+    // try {
+    // assertNotNull("ServletFileUpload should not be null",
+    // tempFile);
+    // } finally {
+    // if (null != tempFile) {
+    // tempFile.delete();
+    // }
+    // }
+    // }
 
     public void testGetSetWavFileView() {
 
-        assertNotNull("SetWavFileView should not be null",
-                serviceLocator.getSetWavFileView(
-                    TestConstants.VIEWS_FOLDER));
+        assertNotNull("SetWavFileView should not be null", serviceLocator
+                .getSetVoiceXMLApplicationView(TestConstants.VIEWS_FOLDER));
     }
 
     public void testGetRmiRegistry() throws Exception {
-        assertNotNull("Rmi Registry object should not be null",
-                serviceLocator.getRmiRegistry(
-                    AppServerConstants.APP_SERVER_ADMIN_RMI_PORT));
+        assertNotNull("Rmi Registry object should not be null", serviceLocator
+                .getRmiRegistry(AppServerConstants.APP_SERVER_ADMIN_RMI_PORT));
     }
 }

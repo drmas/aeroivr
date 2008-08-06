@@ -18,6 +18,11 @@
 
 package org.aeroivr.appserver.common;
 
+import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.expectLastCall;
+import static org.easymock.classextension.EasyMock.createStrictControl;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -26,15 +31,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.util.Properties;
+
 import junit.framework.TestCase;
+
 import org.easymock.classextension.IMocksControl;
-import static org.easymock.classextension.EasyMock.createStrictControl;
-import static org.easymock.classextension.EasyMock.expect;
-import static org.easymock.classextension.EasyMock.expectLastCall;
-import static org.easymock.classextension.EasyMock.eq;
 
 /**
- *
+ * 
  * @author Andriy Petlyovanyy
  */
 public class SettingsTest extends TestCase {
@@ -49,22 +52,26 @@ public class SettingsTest extends TestCase {
         super(testName);
     }
 
+    @Override
     protected void setUp() throws NoSuchMethodException {
         control = createStrictControl();
         propertiesMock = control.createMock(Properties.class);
         fileMock = control.createMock(File.class);
 
         settingsMock = control.createMock(Settings.class,
-                new Method[] {Settings.class.getDeclaredMethod(
-                        "getSettingsFileName")});
-        serviceLocatorMock = control.createMock(
-                ServiceLocator.class, new Method[] {
-                    ServiceLocator.class.getMethod("getFileAsInputStream",
-                            String.class),
-                    ServiceLocator.class.getMethod("getFileAsOutputStream",
-                            String.class),
-                    ServiceLocator.class.getMethod("getProperties"),
-                    ServiceLocator.class.getMethod("getFile", String.class)});
+                new Method[] { Settings.class
+                        .getDeclaredMethod("getSettingsFileName") });
+        serviceLocatorMock = control
+                .createMock(
+                        ServiceLocator.class,
+                        new Method[] {
+                                ServiceLocator.class.getMethod(
+                                        "getFileAsInputStream", String.class),
+                                ServiceLocator.class.getMethod(
+                                        "getFileAsOutputStream", String.class),
+                                ServiceLocator.class.getMethod("getProperties"),
+                                ServiceLocator.class.getMethod("getFile",
+                                        String.class) });
     }
 
     private void loadSequence() throws IOException {
@@ -89,8 +96,8 @@ public class SettingsTest extends TestCase {
         settingsMock.getSettingsFileName();
         expectLastCall().andReturn(fileName).once();
 
-        expect(serviceLocatorMock.getFileAsInputStream(eq(fileName))
-            ).andReturn(inputStream).once();
+        expect(serviceLocatorMock.getFileAsInputStream(eq(fileName)))
+                .andReturn(inputStream).once();
 
         control.checkOrder(true);
 
@@ -131,8 +138,8 @@ public class SettingsTest extends TestCase {
         settingsMock.getSettingsFileName();
         expectLastCall().andReturn(fileName).once();
 
-        expect(serviceLocatorMock.getFileAsOutputStream(eq(fileName))
-            ).andReturn(outputStream).once();
+        expect(serviceLocatorMock.getFileAsOutputStream(eq(fileName)))
+                .andReturn(outputStream).once();
 
         propertiesMock.store(eq(outputStream), eq(""));
         expectLastCall().once();
@@ -147,63 +154,62 @@ public class SettingsTest extends TestCase {
     }
 
     public void testGetInstance() {
-        assertTrue("Settings object should not be null",
-                null != Settings.getInstance());
+        assertTrue("Settings object should not be null", null != Settings
+                .getInstance());
     }
 
-    public void testGetWavFileName() throws IOException {
-        final String wavFileName = "test.wav";
-
-        loadSequence();
-
-        expect(propertiesMock.getProperty(eq(settingsMock.WAV_FILE_NAME),
-                eq(""))).andReturn(wavFileName).once();
-
-        control.replay();
-
-        ServiceLocator.load(serviceLocatorMock);
-        settingsMock.loadSettings();
-
-        assertEquals("Wav filename ", settingsMock.getWavFileName(),
-                wavFileName);
-
-        control.verify();
-    }
-
-    public void testSetWavFileName() throws IOException {
-        final String wavFileName = "tempWAVFILE.wav";
-
-        loadSequence();
-
-        expect(propertiesMock.setProperty(eq(settingsMock.WAV_FILE_NAME),
-                eq(wavFileName))).andReturn(wavFileName).once();
-
-        control.replay();
-
-        ServiceLocator.load(serviceLocatorMock);
-        settingsMock.loadSettings();
-
-        settingsMock.setWavFileName(wavFileName);
-
-        control.verify();
-    }
+    // public void testGetWavFileName() throws IOException {
+    // final String wavFileName = "test.wav";
+    //
+    // loadSequence();
+    //
+    // expect(propertiesMock.getProperty(eq(settingsMock.WAV_FILE_NAME),
+    // eq(""))).andReturn(wavFileName).once();
+    //
+    // control.replay();
+    //
+    // ServiceLocator.load(serviceLocatorMock);
+    // settingsMock.loadSettings();
+    //
+    // assertEquals("Wav filename ", settingsMock.getWavFileName(),
+    // wavFileName);
+    //
+    // control.verify();
+    // }
+    //
+    // public void testSetWavFileName() throws IOException {
+    // final String wavFileName = "tempWAVFILE.wav";
+    //
+    // loadSequence();
+    //
+    // expect(propertiesMock.setProperty(eq(settingsMock.WAV_FILE_NAME),
+    // eq(wavFileName))).andReturn(wavFileName).once();
+    //
+    // control.replay();
+    //
+    // ServiceLocator.load(serviceLocatorMock);
+    // settingsMock.loadSettings();
+    //
+    // settingsMock.setWavFileName(wavFileName);
+    //
+    // control.verify();
+    // }
 
     public void testGetAdminPassword() throws IOException {
         final String adminPassword = "admPWD";
 
         loadSequence();
 
-        expect(propertiesMock.getProperty(eq(settingsMock.ADMIN_PASSWORD),
-                eq(""))).andReturn(adminPassword).once();
+        expect(propertiesMock.getProperty(eq(Settings.ADMIN_PASSWORD), eq("")))
+                .andReturn(adminPassword).once();
 
         control.replay();
 
         ServiceLocator.load(serviceLocatorMock);
         settingsMock.loadSettings();
 
-        assertEquals("Password should be equal ",
-                settingsMock.getAdminPassword(),
-                adminPassword);
+        assertEquals("Password should be equal ", settingsMock
+                .getAdminPassword(), adminPassword);
 
         control.verify();
     }
@@ -213,8 +219,9 @@ public class SettingsTest extends TestCase {
 
         loadSequence();
 
-        expect(propertiesMock.setProperty(eq(settingsMock.ADMIN_PASSWORD),
-                eq(adminPassword))).andReturn(null).once();
+        expect(
+                propertiesMock.setProperty(eq(Settings.ADMIN_PASSWORD),
+                        eq(adminPassword))).andReturn(null).once();
 
         control.replay();
 

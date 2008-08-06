@@ -18,52 +18,49 @@
 
 package org.aeroivr.rsmc.web.controller;
 
+import static org.easymock.EasyMock.and;
+import static org.easymock.EasyMock.contains;
+import static org.easymock.EasyMock.expectLastCall;
+
 import java.lang.reflect.Method;
+
 import org.aeroivr.rsmc.admin.AppServerAdminClient;
 import org.aeroivr.rsmc.common.ServiceLocator;
-import org.aeroivr.rsmc.web.controller.
-        AbstractPageControllerTest.PageGetTestParameters;
-import org.aeroivr.rsmc.web.controller.
-        AbstractPageControllerTest.PagePostTestParameters;
 import org.aeroivr.rsmc.web.view.StartStopServerView;
-import static org.easymock.classextension.EasyMock.expectLastCall;
-import static org.easymock.classextension.EasyMock.contains;
-import static org.easymock.classextension.EasyMock.and;
 
 /**
- *
+ * 
  * @author Andriy Petlyovanyy
  */
-public class StartStopServerPageControllerTest
-        extends AbstractSecurePageControllerTest {
+public class StartStopServerPageControllerTest extends
+        AbstractSecurePageControllerTest {
 
     public StartStopServerPageControllerTest(final String testName) {
         super(testName);
     }
 
     public void testGetHeader() {
-        StartStopServerPageController pageController =
-                new StartStopServerPageController();
-        assertEquals("Header should contain this text",
-                pageController.getHeader(), "Manage application server");
+        final StartStopServerPageController pageController = new StartStopServerPageController();
+        assertEquals("Header should contain this text", pageController
+                .getHeader(), "Manage application server");
     }
 
     private void pageGetTestWithServerState(final boolean running,
             final String shouldContainOne, final String shouldContainTwo)
-                throws Exception {
+            throws Exception {
 
-        PageGetTestParameters<StartStopServerPageController> testParams =
-                new PageGetTestParameters<StartStopServerPageController>();
+        final PageGetTestParameters<StartStopServerPageController> testParams = new PageGetTestParameters<StartStopServerPageController>();
 
         pageGetInitTest(StartStopServerPageController.class, testParams);
 
-        ServiceLocator serviceLocatorMock =
-                testParams.getControl().createMock(ServiceLocator.class,
-                    new Method[] {ServiceLocator.class.getMethod(
-                            "getAppServerAdminClient")});
+        final ServiceLocator serviceLocatorMock = testParams.getControl()
+                .createMock(
+                        ServiceLocator.class,
+                        new Method[] { ServiceLocator.class
+                                .getMethod("getAppServerAdminClient") });
 
-        AppServerAdminClient appServerClientMock =
-                testParams.getControl().createMock(AppServerAdminClient.class);
+        final AppServerAdminClient appServerClientMock = testParams
+                .getControl().createMock(AppServerAdminClient.class);
 
         serviceLocatorMock.getAppServerAdminClient();
         expectLastCall().andReturn(appServerClientMock).once();
@@ -71,8 +68,8 @@ public class StartStopServerPageControllerTest
         appServerClientMock.isAppServerRunning();
         expectLastCall().andReturn(running).once();
 
-        testParams.getPrintWriterMock().print(and(contains(shouldContainOne),
-                contains(shouldContainTwo)));
+        testParams.getPrintWriterMock().print(
+                and(contains(shouldContainOne), contains(shouldContainTwo)));
         expectLastCall().once();
 
         testParams.getControl().replay();
@@ -94,8 +91,7 @@ public class StartStopServerPageControllerTest
 
     public void testPagePostWithStartServerCommand() throws Exception {
 
-        PagePostTestParameters<StartStopServerPageController> testParams =
-                new PagePostTestParameters<StartStopServerPageController>();
+        final PagePostTestParameters<StartStopServerPageController> testParams = new PagePostTestParameters<StartStopServerPageController>();
         pagePostInitTest(StartStopServerPageController.class, testParams);
 
         testParams.getResponseMock().getWriter();
@@ -118,8 +114,7 @@ public class StartStopServerPageControllerTest
 
     public void testPagePostWithStopServerCommand() throws Exception {
 
-        PagePostTestParameters<StartStopServerPageController> testParams =
-                new PagePostTestParameters<StartStopServerPageController>();
+        final PagePostTestParameters<StartStopServerPageController> testParams = new PagePostTestParameters<StartStopServerPageController>();
         pagePostInitTest(StartStopServerPageController.class, testParams);
 
         testParams.getResponseMock().getWriter();
@@ -142,8 +137,7 @@ public class StartStopServerPageControllerTest
 
     public void testPagePostWithRestartServerCommand() throws Exception {
 
-        PagePostTestParameters<StartStopServerPageController> testParams =
-                new PagePostTestParameters<StartStopServerPageController>();
+        final PagePostTestParameters<StartStopServerPageController> testParams = new PagePostTestParameters<StartStopServerPageController>();
         pagePostInitTest(StartStopServerPageController.class, testParams);
 
         testParams.getResponseMock().getWriter();

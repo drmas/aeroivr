@@ -20,7 +20,7 @@ package org.aeroivr.appserver.admin;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
-import org.aeroivr.appserver.admin.AppServerConstants;
+
 import org.aeroivr.appserver.common.ServiceLocator;
 
 /**
@@ -34,17 +34,15 @@ public final class ApplicationServer {
     public static void main(final String[] args) throws RemoteException {
         final Registry registry = ServiceLocator.getInstance().getRmiRegistry(
                 AppServerConstants.APP_SERVER_ADMIN_RMI_PORT);
-        final ServerAdmin serverAdmin =
-                ServiceLocator.getInstance().getServerAdmin();
+        final ServerAdmin serverAdmin = ServiceLocator.getInstance()
+                .getServerAdmin();
         registry.rebind(AppServerConstants.APP_SERVER_ADMIN_RMI_NAME,
                 serverAdmin);
         serverAdmin.startAppServer();
 
-        final Runtime runtime = ServiceLocator.getInstance(
-                ).getRuntime();
-        final AppServerShutdownThread appShutdownThread =
-                ServiceLocator.getInstance().getAppServerShutdownThread(
-                serverAdmin);
+        final Runtime runtime = ServiceLocator.getInstance().getRuntime();
+        final AppServerShutdownThread appShutdownThread = ServiceLocator
+                .getInstance().getAppServerShutdownThread(serverAdmin);
         runtime.addShutdownHook(appShutdownThread);
     }
 }

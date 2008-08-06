@@ -21,8 +21,9 @@ package org.aeroivr.rsmc.web.view;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import org.aeroivr.utils.FileUtils;
+
 import org.aeroivr.rsmc.web.render.ViewRenderer;
+import org.aeroivr.utils.FileUtils;
 
 /**
  * Base class for all views.
@@ -31,8 +32,8 @@ import org.aeroivr.rsmc.web.render.ViewRenderer;
  */
 public abstract class AbstractView {
 
-    private HashMap pageParameters = new HashMap();
-    private String viewsFolder;
+    private final HashMap pageParameters = new HashMap();
+    private final String viewsFolder;
 
     public AbstractView(final String vwsFolder) {
         this.viewsFolder = vwsFolder;
@@ -43,9 +44,9 @@ public abstract class AbstractView {
 
         this.viewsFolder = vwsFolder;
 
-        for (String paramName : paramNames) {
+        for (final String paramName : paramNames) {
             if (parameters.containsKey(paramName)) {
-                Object value = parameters.get(paramName);
+                final Object value = parameters.get(paramName);
                 if (value instanceof String[]) {
                     pageParameters.put(paramName, ((String[]) value)[0]);
                 } else {
@@ -71,7 +72,7 @@ public abstract class AbstractView {
 
     public String getContent() throws IOException {
 
-        ViewRenderer renderer = new ViewRenderer(pageParameters,
+        final ViewRenderer renderer = new ViewRenderer(pageParameters,
                 FileUtils.concatenatePath(viewsFolder, getHtmlFileName()));
         return renderer.renderContent();
     }

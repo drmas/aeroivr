@@ -40,7 +40,7 @@
                <configuration>
                    <check>
                        <branchRate>0</branchRate>
-                       <haltOnFailure>true</haltOnFailure>
+                       <haltOnFailure>false</haltOnFailure>
                        <totalLineRate>80</totalLineRate>
                    </check>
                </configuration>

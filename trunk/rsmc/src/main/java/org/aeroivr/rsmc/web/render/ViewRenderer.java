@@ -22,6 +22,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
+
 import org.aeroivr.rsmc.common.ServiceLocator;
 
 /**
@@ -31,8 +32,8 @@ import org.aeroivr.rsmc.common.ServiceLocator;
  */
 public class ViewRenderer {
 
-    private Map pageParameters;
-    private String htmlFileName;
+    private final Map pageParameters;
+    private final String htmlFileName;
 
     public ViewRenderer(final Map parameters, final String htmlFile) {
         pageParameters = parameters;
@@ -40,10 +41,10 @@ public class ViewRenderer {
     }
 
     public String renderContent() throws IOException {
-        StringBuilder content = new StringBuilder();
+        final StringBuilder content = new StringBuilder();
         readHtmlFromFile(content);
 
-        for (String key : (Set<String>) pageParameters.keySet()) {
+        for (final String key : (Set<String>) pageParameters.keySet()) {
             processTextLabels(key, content);
             if (!processConditionalBlock(key, content)) {
                 break;
@@ -57,25 +58,22 @@ public class ViewRenderer {
             final StringBuilder content) {
 
         if (pageParameters.get(key) instanceof Boolean) {
-            String startConditionalBlockTag = "[" + key + "]";
-            String endConditionalBlockTag = "[/" + key + "]";
+            final String startConditionalBlockTag = "[" + key + "]";
+            final String endConditionalBlockTag = "[/" + key + "]";
 
             int startTagIndex, endTagIndex;
 
             for (startTagIndex = content.indexOf(startConditionalBlockTag),
                     endTagIndex = content.indexOf(endConditionalBlockTag);
                     (startTagIndex > -1) && (endTagIndex > -1)
-                        && (endTagIndex > startTagIndex);
-                    startTagIndex =
-                    content.indexOf(startConditionalBlockTag),
+                    && (endTagIndex > startTagIndex);
+                    startTagIndex = content.indexOf(startConditionalBlockTag),
                     endTagIndex = content.indexOf(endConditionalBlockTag)) {
 
                 if (((Boolean) pageParameters.get(key)).booleanValue()) {
-                    content.delete(endTagIndex,
-                            endTagIndex
+                    content.delete(endTagIndex, endTagIndex
                             + endConditionalBlockTag.length());
-                    content.delete(startTagIndex,
-                            startTagIndex
+                    content.delete(startTagIndex, startTagIndex
                             + startConditionalBlockTag.length());
                 } else {
                     content.delete(startTagIndex, endTagIndex
@@ -94,7 +92,7 @@ public class ViewRenderer {
     private void processTextLabels(final String key,
             final StringBuilder content) {
 
-        String insertTag = "{" + key + "}";
+        final String insertTag = "{" + key + "}";
 
         for (int tagIndex = content.indexOf(insertTag); tagIndex > -1;
             tagIndex = content.indexOf(insertTag)) {
@@ -105,12 +103,12 @@ public class ViewRenderer {
     }
 
     private void readHtmlFromFile(final StringBuilder content)
-        throws IOException {
+            throws IOException {
 
-        BufferedReader htmlFile = ServiceLocator.getInstance(
-                ).getBufferedReaderForFile(htmlFileName);
-        for (String line = htmlFile.readLine(); null != line;
-            line = htmlFile.readLine()) {
+        final BufferedReader htmlFile = ServiceLocator.getInstance()
+                .getBufferedReaderForFile(htmlFileName);
+        for (String line = htmlFile.readLine(); null != line; line = htmlFile
+                .readLine()) {
 
             content.append(line);
         }
@@ -122,19 +120,17 @@ public class ViewRenderer {
             final StringBuilder content) {
 
         if ((startTagIndex == -1) && (endTagIndex != -1)) {
-             addTemplateParsingError(content, "There is closing tag "
-                     + endConditionalBlockTag + " without opening ");
+            addTemplateParsingError(content, "There is closing tag "
+                    + endConditionalBlockTag + " without opening ");
             return false;
-        }  else {
+        } else {
             if ((startTagIndex != -1) && (endTagIndex == -1)) {
-                addTemplateParsingError(content,
-                        "There is opening tag "
+                addTemplateParsingError(content, "There is opening tag "
                         + startConditionalBlockTag + " without closing ");
                 return false;
-            }  else {
+            } else {
                 if (startTagIndex > endTagIndex) {
-                    addTemplateParsingError(content,
-                            "The closing opening tag "
+                    addTemplateParsingError(content, "The closing opening tag "
                             + endConditionalBlockTag
                             + " is before opening tag ");
                     return false;

@@ -43,7 +43,9 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Map;
+
 import javax.servlet.http.HttpSession;
+
 import org.aeroivr.rsmc.admin.AppServerAdminClient;
 import org.aeroivr.rsmc.web.render.PageRenderer;
 import org.aeroivr.rsmc.web.security.WebSecurityManager;
@@ -51,7 +53,7 @@ import org.aeroivr.rsmc.web.view.AbstractView;
 import org.aeroivr.rsmc.web.view.ChangePasswordView;
 import org.aeroivr.rsmc.web.view.LogonView;
 import org.aeroivr.rsmc.web.view.MasterPageView;
-import org.aeroivr.rsmc.web.view.SetWavFileView;
+import org.aeroivr.rsmc.web.view.SetVoiceXMLApplicationView;
 import org.aeroivr.rsmc.web.view.StartStopServerView;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -63,8 +65,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
  */
 public class ServiceLocator {
 
-    private static volatile ServiceLocator instance =
-            new ServiceLocator();
+    private static volatile ServiceLocator instance = new ServiceLocator();
 
     private ServiceLocator() {
     }
@@ -81,12 +82,13 @@ public class ServiceLocator {
         return new LogonView(viewsFolder);
     }
 
-    public WebSecurityManager getWebSecurityManager(final HttpSession session) {
+    public WebSecurityManager getWebSecurityManager(
+            final HttpSession session) {
         return new WebSecurityManager(session);
     }
 
     public AppServerAdminClient getAppServerAdminClient()
-        throws RemoteException, NotBoundException {
+            throws RemoteException, NotBoundException {
         return new AppServerAdminClient();
     }
 
@@ -96,15 +98,14 @@ public class ServiceLocator {
         return new MasterPageView(viewsFolder, rootDirUrl);
     }
 
-    public PageRenderer getPageRenderer(
-            final MasterPageView masterPageView,
+    public PageRenderer getPageRenderer(final MasterPageView masterPageView,
             final AbstractView view) {
 
         return new PageRenderer(masterPageView, view);
     }
 
     public BufferedReader getBufferedReaderForFile(final String fileName)
-        throws FileNotFoundException {
+            throws FileNotFoundException {
 
         return new BufferedReader(new FileReader(fileName));
     }
@@ -143,16 +144,16 @@ public class ServiceLocator {
         return new ServletFileUpload(new DiskFileItemFactory());
     }
 
-    public File getFileWithUniqueName(final String folder,
-            final String prefix, final String suffix) throws IOException {
+    public File getTempFileWithUniqueName(final String prefix,
+            final String suffix) throws IOException {
 
-        final File directory = new File(folder);
-        return File.createTempFile(prefix, suffix, directory);
+        return File.createTempFile(prefix, suffix);
     }
 
-    public SetWavFileView getSetWavFileView(final String viewsFolder) {
+    public SetVoiceXMLApplicationView getSetVoiceXMLApplicationView(
+            final String viewsFolder) {
 
-        return new SetWavFileView(viewsFolder);
+        return new SetVoiceXMLApplicationView(viewsFolder);
     }
 
     public Registry getRmiRegistry(final int port) throws RemoteException {
