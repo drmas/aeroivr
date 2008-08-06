@@ -19,6 +19,7 @@
 package org.aeroivr.rsmc.web.controller;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,8 +39,8 @@ public class LogonPageController extends BasePageController {
 
     @Override
     protected void pageGet(final HttpServletRequest request,
-            final HttpServletResponse response)
-            throws ServletException, IOException {
+            final HttpServletResponse response) throws ServletException,
+            IOException {
 
         final LogonView view = ServiceLocator.getInstance().getLogonView(
                 getViewsFolder());
@@ -49,17 +50,17 @@ public class LogonPageController extends BasePageController {
 
     @Override
     protected void pagePost(final HttpServletRequest request,
-            final HttpServletResponse response)
-            throws ServletException, IOException {
+            final HttpServletResponse response) throws ServletException,
+            IOException {
 
         final LogonView logonView = ServiceLocator.getInstance().getLogonView(
                 getViewsFolder(), request.getParameterMap());
         boolean areCredentialsValid = false;
         AppServerAdminClient appServerClient;
         try {
-            appServerClient = ServiceLocator.getInstance(
-                    ).getAppServerAdminClient();
-        } catch (Exception ex) {
+            appServerClient = ServiceLocator.getInstance()
+                    .getAppServerAdminClient();
+        } catch (final Exception ex) {
             throw new ServletException("Error occured durring connection to "
                     + "AppServer admin", ex);
         }
@@ -69,8 +70,9 @@ public class LogonPageController extends BasePageController {
                     logonView.getPassword())) {
 
                 areCredentialsValid = true;
-                WebSecurityManager webSecurity = ServiceLocator.getInstance(
-                        ).getWebSecurityManager(request.getSession());
+                final WebSecurityManager webSecurity = ServiceLocator
+                        .getInstance().getWebSecurityManager(
+                                request.getSession());
                 webSecurity.setLoggedInUsername(logonView.getUsername());
 
                 response.sendRedirect("startStopServer.html");

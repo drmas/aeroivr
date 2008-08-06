@@ -48,6 +48,7 @@ public class StartStopServerView extends AbstractView {
         setValue(SERVER_STOPPED, !value);
     }
 
+    @Override
     protected String getHtmlFileName() {
         return "startStopServer.html";
     }

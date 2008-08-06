@@ -18,19 +18,22 @@
 
 package org.aeroivr.rsmc.web.render;
 
+import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.expectLastCall;
+import static org.easymock.classextension.EasyMock.createStrictControl;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+
 import junit.framework.TestCase;
+
 import org.aeroivr.rsmc.common.ServiceLocator;
-import static org.easymock.classextension.EasyMock.createStrictControl;
-import static org.easymock.classextension.EasyMock.expectLastCall;
-import static org.easymock.classextension.EasyMock.eq;
 import org.easymock.classextension.IMocksControl;
 
 /**
- *
+ * 
  * @author Andriy Petlyovanyy
  */
 public class ViewRendererTest extends TestCase {
@@ -45,58 +48,54 @@ public class ViewRendererTest extends TestCase {
 
         final IMocksControl control = createStrictControl();
         final ServiceLocator serviceLocatorMock = control.createMock(
-                ServiceLocator.class,
-                new Method[] {
-                    ServiceLocator.class.getMethod(
-                            "getBufferedReaderForFile", String.class)});
-        final BufferedReader bufferedReaderMock = control.createMock(
-                BufferedReader.class);
+                ServiceLocator.class, new Method[] { ServiceLocator.class
+                        .getMethod("getBufferedReaderForFile", String.class) });
+        final BufferedReader bufferedReaderMock = control
+                .createMock(BufferedReader.class);
         final String htmlFileName = "dummy.html";
 
         serviceLocatorMock.getBufferedReaderForFile(eq(htmlFileName));
         expectLastCall().andReturn(bufferedReaderMock).atLeastOnce();
 
         bufferedReaderMock.readLine();
-        expectLastCall().andReturn(htmlDocument).once()
-            .andReturn(null).atLeastOnce();
+        expectLastCall().andReturn(htmlDocument).once().andReturn(null)
+                .atLeastOnce();
 
         control.replay();
 
-        ServiceLocator savedServiceLocator = ServiceLocator.getInstance();
+        final ServiceLocator savedServiceLocator = ServiceLocator.getInstance();
         ServiceLocator.load(serviceLocatorMock);
         try {
-            ViewRenderer renderer = new ViewRenderer(parameters,
-                htmlFileName);
+            final ViewRenderer renderer = new ViewRenderer(parameters,
+                    htmlFileName);
             final String content = renderer.renderContent();
 
             assertNotNull("Content should be provided", content);
-            assertEquals("Html document should be equal",
-                    content, resultingHtmlDocument);
+            assertEquals("Html document should be equal", content,
+                    resultingHtmlDocument);
         } finally {
             ServiceLocator.load(savedServiceLocator);
         }
 
     }
 
-    public void testRenderContentSenteces()
-        throws NoSuchMethodException, IOException {
+    public void testRenderContentSenteces() throws NoSuchMethodException,
+            IOException {
 
         final HashMap parameters = new HashMap();
         parameters.put("sentence", "test");
 
         final String htmlDocument = "<html> {sentence} hello  "
-                + "{sentence} World  "
-                + "{sentence} from test </html>";
+                + "{sentence} World  " + "{sentence} from test </html>";
 
         final String resultingHtmlDocument = "<html> test hello  "
-                + "test World  "
-                + "test from test </html>";
+                + "test World  " + "test from test </html>";
 
         checkHtmlDocument(htmlDocument, parameters, resultingHtmlDocument);
     }
 
     public void testRenderContentSenteceTrueFalseConditions()
-        throws NoSuchMethodException, IOException {
+            throws NoSuchMethodException, IOException {
 
         final HashMap parameters = new HashMap();
         parameters.put("sentence", "myTestSentence");
@@ -109,14 +108,13 @@ public class ViewRendererTest extends TestCase {
                 + "[/falseCondition] </html>";
 
         final String resultingHtmlDocument = "<html> myTestSentence  "
-                + "trueCondition is here  "
-                + " </html>";
+                + "trueCondition is here  " + " </html>";
 
         checkHtmlDocument(htmlDocument, parameters, resultingHtmlDocument);
     }
 
     public void testRenderContentInnerAndOuterConditions()
-        throws NoSuchMethodException, IOException {
+            throws NoSuchMethodException, IOException {
 
         final HashMap parameters = new HashMap();
         parameters.put("sentence", "myTestSentence");
@@ -127,14 +125,12 @@ public class ViewRendererTest extends TestCase {
                 + "[innerCondition] {sentence} [/innerCondition] "
                 + " [/outerCondition] </html>";
 
-        final String resultingHtmlDocument = "<html>   "
-                + " "
-                + "  </html>";
+        final String resultingHtmlDocument = "<html>   " + " " + "  </html>";
         checkHtmlDocument(htmlDocument, parameters, resultingHtmlDocument);
     }
 
     public void testRenderContentWithOnlyClosingTag()
-        throws NoSuchMethodException, IOException {
+            throws NoSuchMethodException, IOException {
 
         final HashMap parameters = new HashMap();
         parameters.put("condition", true);

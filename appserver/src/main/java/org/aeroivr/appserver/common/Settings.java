@@ -24,9 +24,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
 
+import org.aeroivr.utils.FileUtils;
+
 /**
- * Class provides persistense and access to system wide settings from
- * the settings file.
+ * Class provides persistense and access to system wide settings from the
+ * settings file.
  *
  * @author Andriy Petlyovanyy
  */
@@ -36,17 +38,17 @@ public class Settings {
 
     private static Settings instance = new Settings();
     protected static final String SETTINGS_FILE_NAME = "settings.properties";
-    protected static final String WAV_FILE_NAME = "WavFileName";
-    protected static final String ADMIN_PASSWORD = "AdminPassword";
+    protected static final String WEB_APP_FOLDER = "web.app.folder";
+    protected static final String ADMIN_PASSWORD = "admin.password";
+    protected static final String VOICEXML_APP_NAME = "VoiceXmlApp.war";
 
     protected Settings() {
         try {
             this.loadSettings();
-        } catch (IOException ex) {
+        } catch (final IOException ex) {
             ex.printStackTrace();
         }
     }
-
 
     public static Settings getInstance() {
         return instance;
@@ -58,41 +60,45 @@ public class Settings {
 
     protected void loadSettings() throws IOException {
         properties = ServiceLocator.getInstance().getProperties();
-        File settingsFile = ServiceLocator.getInstance().getFile(
+        final File settingsFile = ServiceLocator.getInstance().getFile(
                 getSettingsFileName());
         if (settingsFile.exists()) {
-            InputStream fileStream = ServiceLocator.getInstance(
-                    ).getFileAsInputStream(getSettingsFileName());
+            final InputStream fileStream = ServiceLocator.getInstance()
+                    .getFileAsInputStream(getSettingsFileName());
             properties.load(fileStream);
         }
     }
 
     public void saveSettings() throws IOException {
-        File settingsFile = ServiceLocator.getInstance().getFile(
+        final File settingsFile = ServiceLocator.getInstance().getFile(
                 getSettingsFileName());
         if (!settingsFile.exists()) {
             settingsFile.createNewFile();
         }
-        OutputStream outputFile = ServiceLocator.getInstance(
-                ).getFileAsOutputStream(getSettingsFileName());
+        final OutputStream outputFile = ServiceLocator.getInstance()
+                .getFileAsOutputStream(getSettingsFileName());
         if (null != properties) {
             properties.store(outputFile, "");
         }
     }
 
-    public String getWavFileName() {
-        return properties.getProperty(WAV_FILE_NAME, "");
+    public String getWebAppFolder() {
+        return properties.getProperty(WEB_APP_FOLDER, "");
     }
 
-    public void setWavFileName(final String fileName) {
-        properties.setProperty(WAV_FILE_NAME, fileName);
+    public void setWebAppFolder(final String folderName) {
+        properties.setProperty(WEB_APP_FOLDER, folderName);
+    }
+
+    public String getVoiceXmlApplicationFileName() {
+        return FileUtils.concatenatePath(getWebAppFolder(), VOICEXML_APP_NAME);
     }
 
     public String getAdminPassword() {
         return properties.getProperty(ADMIN_PASSWORD, "");
     }
 
-    public void setAdminPassword(final String  newPassword) {
+    public void setAdminPassword(final String newPassword) {
         properties.setProperty(ADMIN_PASSWORD, newPassword);
     }
 }

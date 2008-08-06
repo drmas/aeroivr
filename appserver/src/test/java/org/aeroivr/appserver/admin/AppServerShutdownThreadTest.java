@@ -18,14 +18,17 @@
 
 package org.aeroivr.appserver.admin;
 
-import java.rmi.RemoteException;
-import junit.framework.TestCase;
-import org.easymock.IMocksControl;
+import static org.easymock.EasyMock.expectLastCall;
 import static org.easymock.classextension.EasyMock.createStrictControl;
-import static org.easymock.classextension.EasyMock.expectLastCall;
+
+import java.rmi.RemoteException;
+
+import junit.framework.TestCase;
+
+import org.easymock.IMocksControl;
 
 /**
- *
+ * 
  * @author Andriy Petlyovanyy
  */
 public class AppServerShutdownThreadTest extends TestCase {
@@ -35,8 +38,9 @@ public class AppServerShutdownThreadTest extends TestCase {
     }
 
     public void testRun() throws InterruptedException, RemoteException {
-        IMocksControl control = createStrictControl();
-        ServerAdmin serverAdminMock = control.createMock(ServerAdmin.class);
+        final IMocksControl control = createStrictControl();
+        final ServerAdmin serverAdminMock = control
+                .createMock(ServerAdmin.class);
 
         serverAdminMock.stopAppServer();
         expectLastCall().once();
@@ -46,8 +50,8 @@ public class AppServerShutdownThreadTest extends TestCase {
 
         control.replay();
 
-        AppServerShutdownThread appServerShutdownThread =
-                new AppServerShutdownThread(serverAdminMock);
+        AppServerShutdownThread appServerShutdownThread = new AppServerShutdownThread(
+                serverAdminMock);
         appServerShutdownThread.start();
         appServerShutdownThread.join();
 
@@ -58,7 +62,7 @@ public class AppServerShutdownThreadTest extends TestCase {
         appServerShutdownThread = new AppServerShutdownThread(serverAdminMock);
         try {
             appServerShutdownThread.run();
-        } catch (Throwable ex) {
+        } catch (final Throwable ex) {
             fail("Method should not throw exception");
         }
 

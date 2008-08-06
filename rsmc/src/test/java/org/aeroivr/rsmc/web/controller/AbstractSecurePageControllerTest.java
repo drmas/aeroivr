@@ -18,17 +18,20 @@
 
 package org.aeroivr.rsmc.web.controller;
 
+import static org.easymock.EasyMock.expectLastCall;
+
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+
 import org.aeroivr.appserver.admin.AppServerConstants;
 import org.aeroivr.rsmc.web.security.WebSecurityManager;
-import static org.easymock.classextension.EasyMock.expectLastCall;
 
 /**
- *
+ * 
  * @author Andriy Petlyovanyy
  */
-public abstract class AbstractSecurePageControllerTest extends AbstractPageControllerTest {
+public abstract class AbstractSecurePageControllerTest extends
+        AbstractPageControllerTest {
 
     public AbstractSecurePageControllerTest(final String testName) {
         super(testName);
@@ -37,8 +40,7 @@ public abstract class AbstractSecurePageControllerTest extends AbstractPageContr
     @Override
     public <T extends BasePageController> void pageGetInitTest(
             final Class<T> controllerClass,
-            final PageGetTestParameters<T> testParams)
-                throws Exception {
+            final PageGetTestParameters<T> testParams) throws Exception {
 
         pageGetInitTestParams(controllerClass, testParams);
 
@@ -46,8 +48,8 @@ public abstract class AbstractSecurePageControllerTest extends AbstractPageContr
         expectLastCall().andReturn(testParams.getSessionMock()).anyTimes();
 
         testParams.getSessionMock().getAttribute(WebSecurityManager.USERNAME);
-        expectLastCall().andReturn(AppServerConstants.ADMIN_USERNAME
-                ).anyTimes();
+        expectLastCall().andReturn(AppServerConstants.ADMIN_USERNAME)
+                .anyTimes();
 
         pageGetInitCalls(testParams);
     }
@@ -56,14 +58,13 @@ public abstract class AbstractSecurePageControllerTest extends AbstractPageContr
     public <T extends BasePageController> void pagePostInitTest(
             final Class<T> controllerClass,
             final PagePostTestParameters<T> testParams)
-                throws NoSuchMethodException, RemoteException,
-                    NotBoundException {
+            throws NoSuchMethodException, RemoteException, NotBoundException {
 
         pagePostInitTestParams(controllerClass, testParams);
 
         testParams.getSessionMock().getAttribute(WebSecurityManager.USERNAME);
-        expectLastCall().andReturn(AppServerConstants.ADMIN_USERNAME
-                ).anyTimes();
+        expectLastCall().andReturn(AppServerConstants.ADMIN_USERNAME)
+                .anyTimes();
 
         pagePostInitCalls(testParams);
     }

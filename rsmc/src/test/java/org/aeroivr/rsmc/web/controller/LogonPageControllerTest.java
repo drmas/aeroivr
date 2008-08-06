@@ -18,17 +18,14 @@
 
 package org.aeroivr.rsmc.web.controller;
 
+import static org.easymock.EasyMock.and;
+import static org.easymock.EasyMock.contains;
+import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.expectLastCall;
+
 import org.aeroivr.appserver.admin.AppServerConstants;
 import org.aeroivr.rsmc.common.ServiceLocator;
-import org.aeroivr.rsmc.web.controller.
-        AbstractPageControllerTest.PageGetTestParameters;
-import org.aeroivr.rsmc.web.controller.
-        AbstractPageControllerTest.PagePostTestParameters;
 import org.aeroivr.rsmc.web.view.LogonView;
-import static org.easymock.classextension.EasyMock.expectLastCall;
-import static org.easymock.classextension.EasyMock.eq;
-import static org.easymock.classextension.EasyMock.contains;
-import static org.easymock.classextension.EasyMock.and;
 
 /**
  * @author Andriy Petlyovanyy
@@ -41,13 +38,13 @@ public class LogonPageControllerTest extends AbstractPageControllerTest {
 
     public void testPageGet() throws Exception {
 
-        PageGetTestParameters<LogonPageController> testParams =
-                new PageGetTestParameters<LogonPageController>();
+        final PageGetTestParameters<LogonPageController> testParams = new PageGetTestParameters<LogonPageController>();
         pageGetInitTest(LogonPageController.class, testParams);
 
-        testParams.getPrintWriterMock().print(and(and(and(contains("username"),
-                contains("password")), and(contains("<form"),
-                contains("<input"))), contains("Please provide credentials")));
+        testParams.getPrintWriterMock().print(
+                and(and(and(contains("username"), contains("password")), and(
+                        contains("<form"), contains("<input"))),
+                        contains("Please provide credentials")));
         expectLastCall().once();
 
         testParams.getControl().replay();
@@ -79,8 +76,7 @@ public class LogonPageControllerTest extends AbstractPageControllerTest {
 
     public void testPagePostWithSuccessfulLogon() throws Exception {
 
-        PagePostTestParameters<LogonPageController> testParams =
-                new PagePostTestParameters<LogonPageController>();
+        final PagePostTestParameters<LogonPageController> testParams = new PagePostTestParameters<LogonPageController>();
         checkPagePost(testParams, true);
 
         testParams.getResponseMock().sendRedirect(eq("startStopServer.html"));
@@ -97,20 +93,19 @@ public class LogonPageControllerTest extends AbstractPageControllerTest {
 
     public void testPagePostWithUnsuccessfulLogon() throws Exception {
 
-        PagePostTestParameters<LogonPageController> testParams =
-                new PagePostTestParameters<LogonPageController>();
+        final PagePostTestParameters<LogonPageController> testParams = new PagePostTestParameters<LogonPageController>();
         checkPagePost(testParams, false);
 
-        testParams.getControllerMock().setError(eq(
-                "Invalid credentials supplied"));
+        testParams.getControllerMock().setError(
+                eq("Invalid credentials supplied"));
         expectLastCall().once();
 
         testParams.getResponseMock().getWriter();
         expectLastCall().andReturn(testParams.getPrintWriterMock()).once();
 
-        testParams.getPrintWriterMock().print(and(and(contains("username"),
-                contains("password")), and(contains("<form"),
-                contains("<input"))));
+        testParams.getPrintWriterMock().print(
+                and(and(contains("username"), contains("password")), and(
+                        contains("<form"), contains("<input"))));
         expectLastCall().once();
 
         testParams.getControl().replay();

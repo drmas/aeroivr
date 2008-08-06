@@ -27,7 +27,7 @@ import javax.servlet.http.HttpSession;
  */
 public class WebSecurityManager {
 
-    private HttpSession httpSession;
+    private final HttpSession httpSession;
 
     public static final String USERNAME = "username";
 

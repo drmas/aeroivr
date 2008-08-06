@@ -18,19 +18,22 @@
 
 package org.aeroivr.appserver.admin;
 
+import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.expectLastCall;
+import static org.easymock.classextension.EasyMock.createStrictControl;
+
+import java.lang.reflect.Method;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
-import org.aeroivr.appserver.common.ServiceLocator;
+
 import junit.framework.TestCase;
-import static org.easymock.classextension.EasyMock.expect;
-import static org.easymock.classextension.EasyMock.expectLastCall;
-import static org.easymock.classextension.EasyMock.createStrictControl;
-import static org.easymock.classextension.EasyMock.eq;
-import java.lang.reflect.Method;
+
+import org.aeroivr.appserver.common.ServiceLocator;
 import org.easymock.classextension.IMocksControl;
 
 /**
- *
+ * 
  * @author Andriy Petlyovanyy
  */
 public class ApplicationServerTest extends TestCase {
@@ -41,29 +44,32 @@ public class ApplicationServerTest extends TestCase {
 
     public void testMain() throws NoSuchMethodException, RemoteException {
 
-        IMocksControl control = createStrictControl();
-        ServerAdmin serverAdminMock = control.createMock(ServerAdmin.class);
-        Registry rmiRegistryMock = control.createMock(Registry.class);
-        Runtime runtimeMock = control.createMock(Runtime.class);
-        AppServerShutdownThread appServerShutdownMock =
-                control.createMock(AppServerShutdownThread.class);
-        ServiceLocator serviceLocatorMock = control.createMock(
-                ServiceLocator.class, new Method[]{
-                ServiceLocator.class.getMethod("getServerAdmin"),
-                ServiceLocator.class.getMethod("getRmiRegistry",
-                        Integer.TYPE),
-                ServiceLocator.class.getMethod("getRuntime"),
-                ServiceLocator.class.getMethod(
-                        "getAppServerShutdownThread", ServerAdmin.class)});
+        final IMocksControl control = createStrictControl();
+        final ServerAdmin serverAdminMock = control
+                .createMock(ServerAdmin.class);
+        final Registry rmiRegistryMock = control.createMock(Registry.class);
+        final Runtime runtimeMock = control.createMock(Runtime.class);
+        final AppServerShutdownThread appServerShutdownMock = control
+                .createMock(AppServerShutdownThread.class);
+        final ServiceLocator serviceLocatorMock = control.createMock(
+                ServiceLocator.class, new Method[] {
+                        ServiceLocator.class.getMethod("getServerAdmin"),
+                        ServiceLocator.class.getMethod("getRmiRegistry",
+                                Integer.TYPE),
+                        ServiceLocator.class.getMethod("getRuntime"),
+                        ServiceLocator.class
+                                .getMethod("getAppServerShutdownThread",
+                                        ServerAdmin.class) });
 
         control.checkOrder(false);
 
         serviceLocatorMock.getServerAdmin();
         expectLastCall().andReturn(serverAdminMock).once();
 
-        expect(serviceLocatorMock.getRmiRegistry(eq(
-                AppServerConstants.APP_SERVER_ADMIN_RMI_PORT))).andReturn(
-                    rmiRegistryMock).once();
+        expect(
+                serviceLocatorMock
+                        .getRmiRegistry(eq(AppServerConstants.APP_SERVER_ADMIN_RMI_PORT)))
+                .andReturn(rmiRegistryMock).once();
 
         control.checkOrder(true);
 

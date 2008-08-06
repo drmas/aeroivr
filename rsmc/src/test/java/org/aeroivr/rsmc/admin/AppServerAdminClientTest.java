@@ -18,32 +18,34 @@
 
 package org.aeroivr.rsmc.admin;
 
-import java.rmi.Remote;
-import junit.framework.TestCase;
+import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.expectLastCall;
+import static org.easymock.classextension.EasyMock.createNiceControl;
+
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
-import org.aeroivr.appserver.admin.AppServerInterface;
+
+import junit.framework.TestCase;
+
 import org.aeroivr.appserver.admin.AppServerConstants;
+import org.aeroivr.appserver.admin.AppServerInterface;
 import org.aeroivr.rsmc.common.ServiceLocator;
-import static org.easymock.classextension.EasyMock.createNiceControl;
-import static org.easymock.classextension.EasyMock.eq;
-import static org.easymock.classextension.EasyMock.expectLastCall;
 import org.easymock.classextension.IMocksControl;
 
 /**
- *
+ * 
  * @author Andriy Petlyovanyy
  */
 public class AppServerAdminClientTest extends TestCase {
 
-    private ServiceLocator serviceLocator = ServiceLocator.getInstance();
-    private IMocksControl control = createNiceControl();
-    private ServiceLocator serviceLocatorMock = control.createMock(
-                ServiceLocator.class);
-    private Registry registryMock = control.createMock(Registry.class);
-    private AppServerInterface appServerInterfaceMock =
-                control.createMock(AppServerInterface.class);
+    private final ServiceLocator serviceLocator = ServiceLocator.getInstance();
+    private final IMocksControl control = createNiceControl();
+    private final ServiceLocator serviceLocatorMock = control
+            .createMock(ServiceLocator.class);
+    private final Registry registryMock = control.createMock(Registry.class);
+    private final AppServerInterface appServerInterfaceMock = control
+            .createMock(AppServerInterface.class);
 
     public AppServerAdminClientTest(final String testName) {
         super(testName);
@@ -51,31 +53,28 @@ public class AppServerAdminClientTest extends TestCase {
 
     @Override
     protected void setUp() throws Exception {
-        serviceLocatorMock.getRmiRegistry(eq(
-                AppServerConstants.APP_SERVER_ADMIN_RMI_PORT));
+        serviceLocatorMock
+                .getRmiRegistry(eq(AppServerConstants.APP_SERVER_ADMIN_RMI_PORT));
         expectLastCall().andReturn(registryMock).atLeastOnce();
 
-        registryMock.lookup(eq(
-                AppServerConstants.APP_SERVER_ADMIN_RMI_NAME));
-        expectLastCall().andReturn((Remote) appServerInterfaceMock
-                ).atLeastOnce();
+        registryMock.lookup(eq(AppServerConstants.APP_SERVER_ADMIN_RMI_NAME));
+        expectLastCall().andReturn(appServerInterfaceMock).atLeastOnce();
     }
 
-    public void testAreCredentialsValid()
-        throws RemoteException, NotBoundException {
+    public void testAreCredentialsValid() throws RemoteException,
+            NotBoundException {
 
         final String username = "UsrNM";
         final String password = "pwD";
 
-        appServerInterfaceMock.areCredentialsValid(eq(username),
-                eq(password));
+        appServerInterfaceMock.areCredentialsValid(eq(username), eq(password));
         expectLastCall().andReturn(true).atLeastOnce();
 
         control.replay();
 
         ServiceLocator.load(serviceLocatorMock);
         try {
-            AppServerAdminClient client = new AppServerAdminClient();
+            final AppServerAdminClient client = new AppServerAdminClient();
             client.areCredentialsValid(username, password);
         } finally {
             ServiceLocator.load(serviceLocator);
@@ -84,8 +83,8 @@ public class AppServerAdminClientTest extends TestCase {
         control.verify();
     }
 
-    public void testIsAppServerRunning()
-        throws RemoteException, NotBoundException {
+    public void testIsAppServerRunning() throws RemoteException,
+            NotBoundException {
 
         appServerInterfaceMock.isAppServerRunning();
         expectLastCall().andReturn(true).atLeastOnce();
@@ -94,7 +93,7 @@ public class AppServerAdminClientTest extends TestCase {
 
         ServiceLocator.load(serviceLocatorMock);
         try {
-            AppServerAdminClient client = new AppServerAdminClient();
+            final AppServerAdminClient client = new AppServerAdminClient();
             client.isAppServerRunning();
         } finally {
             ServiceLocator.load(serviceLocator);
@@ -103,8 +102,7 @@ public class AppServerAdminClientTest extends TestCase {
         control.verify();
     }
 
-    public void testStartAppServer()
-        throws RemoteException, NotBoundException {
+    public void testStartAppServer() throws RemoteException, NotBoundException {
 
         appServerInterfaceMock.startAppServer();
 
@@ -112,7 +110,7 @@ public class AppServerAdminClientTest extends TestCase {
 
         ServiceLocator.load(serviceLocatorMock);
         try {
-            AppServerAdminClient client = new AppServerAdminClient();
+            final AppServerAdminClient client = new AppServerAdminClient();
             client.startAppServer();
         } finally {
             ServiceLocator.load(serviceLocator);
@@ -121,8 +119,7 @@ public class AppServerAdminClientTest extends TestCase {
         control.verify();
     }
 
-    public void testStopAppServer()
-        throws RemoteException, NotBoundException {
+    public void testStopAppServer() throws RemoteException, NotBoundException {
 
         appServerInterfaceMock.stopAppServer();
 
@@ -130,7 +127,7 @@ public class AppServerAdminClientTest extends TestCase {
 
         ServiceLocator.load(serviceLocatorMock);
         try {
-            AppServerAdminClient client = new AppServerAdminClient();
+            final AppServerAdminClient client = new AppServerAdminClient();
             client.stopAppServer();
         } finally {
             ServiceLocator.load(serviceLocator);
@@ -149,7 +146,7 @@ public class AppServerAdminClientTest extends TestCase {
 
         ServiceLocator.load(serviceLocatorMock);
         try {
-            AppServerAdminClient client = new AppServerAdminClient();
+            final AppServerAdminClient client = new AppServerAdminClient();
             client.changeAdminPassword(newAdminPassword);
         } finally {
             ServiceLocator.load(serviceLocator);
@@ -158,21 +155,21 @@ public class AppServerAdminClientTest extends TestCase {
         control.verify();
     }
 
-    public void testSetWavFileName() throws Exception {
-
-        final String wavFileName = "tteemp.wav";
-        appServerInterfaceMock.setWavFileName(eq(wavFileName));
-
-        control.replay();
-
-        ServiceLocator.load(serviceLocatorMock);
-        try {
-            AppServerAdminClient client = new AppServerAdminClient();
-            client.setWavFileName(wavFileName);
-        } finally {
-            ServiceLocator.load(serviceLocator);
-        }
-
-        control.verify();
-    }
+    // public void testSetVoiceXMLApplication() throws Exception {
+    //
+    // final byte[] warFileContent = new byte[] {10, 25};
+    // appServerInterfaceMock.setVoiceXMLApplication(warFileContent);
+    //
+    // control.replay();
+    //
+    // ServiceLocator.load(serviceLocatorMock);
+    // try {
+    // AppServerAdminClient client = new AppServerAdminClient();
+    // client.setVoiceXMLApplication(warFileContent);
+    // } finally {
+    // ServiceLocator.load(serviceLocator);
+    // }
+    //
+    // control.verify();
+    // }
 }

@@ -1,5 +1,5 @@
 /*
- * SetWavFilePageController.java
+ * SetVoiceXMLApplicationPageController.java
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -36,53 +36,55 @@ package org.aeroivr.rsmc.web.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.aeroivr.rsmc.admin.AppServerAdminClient;
 import org.aeroivr.rsmc.common.ServiceLocator;
-import org.aeroivr.rsmc.web.view.SetWavFileView;
+import org.aeroivr.rsmc.web.view.SetVoiceXMLApplicationView;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 /**
- * Page controller for upload WAV file page.
+ * Page controller for upload WAR file with VoiceXML page.
  *
  * @author Andriy Petlyovanyy
  */
-public class SetWavFilePageController extends BaseSecurePageController {
+public class SetVoiceXMLApplicationPageController extends
+        BaseSecurePageController {
 
     @Override
     protected String getHeader() {
-        return "Please select appropriate wav file";
+        return "Please select appropriate WAR file";
     }
 
     @Override
     protected void pageGet(final HttpServletRequest request,
-            final HttpServletResponse response)
-            throws ServletException, IOException {
+            final HttpServletResponse response) throws ServletException,
+            IOException {
 
-        SetWavFileView view = ServiceLocator.getInstance(
-                ).getSetWavFileView(getViewsFolder());
+        final SetVoiceXMLApplicationView view = ServiceLocator.getInstance()
+                .getSetVoiceXMLApplicationView(getViewsFolder());
         renderView(request, response, view);
     }
 
     @Override
     protected void pagePost(final HttpServletRequest request,
-            final HttpServletResponse response)
-            throws ServletException, IOException {
+            final HttpServletResponse response) throws ServletException,
+            IOException {
 
-        SetWavFileView view = ServiceLocator.getInstance().getSetWavFileView(
-                getViewsFolder());
+        final SetVoiceXMLApplicationView view = ServiceLocator.getInstance()
+                .getSetVoiceXMLApplicationView(getViewsFolder());
 
         try {
-            ServletFileUpload upload = ServiceLocator.getInstance(
-                    ).getServletFileUpload();
-            List<FileItem> items = upload.parseRequest(request);
+            final ServletFileUpload upload = ServiceLocator.getInstance()
+                    .getServletFileUpload();
+            final List<FileItem> items = upload.parseRequest(request);
             FileItem fileItem = null;
-            for (FileItem item : items) {
+            for (final FileItem item : items) {
                 if (!item.isFormField()) {
                     fileItem = item;
                     break;
@@ -90,21 +92,22 @@ public class SetWavFilePageController extends BaseSecurePageController {
             }
 
             if (null == fileItem) {
-                setError("Wav file should be uploaded");
+                setError("WAR file should be uploaded");
             } else {
-                if (0 == fileItem.getContentType().compareTo("audio/wav")) {
+                if (0 == fileItem.getContentType().compareTo(
+                        "application/x-zip-compressed")) {
                     try {
                         processUploadedFile(fileItem);
-                    } catch (Exception ex) {
+                    } catch (final Exception ex) {
                         throw new ServletException("Error occured during "
                                 + "file upload", ex);
                     }
                 } else {
-                    setError("You should upload WAV type of file");
+                    setError("You should upload WAR type of file");
                 }
             }
 
-        } catch (FileUploadException ex) {
+        } catch (final FileUploadException ex) {
             setError("File upload error: " + ex.getMessage());
         }
         renderView(request, response, view);
@@ -112,11 +115,12 @@ public class SetWavFilePageController extends BaseSecurePageController {
 
     private void processUploadedFile(final FileItem item) throws Exception {
 
-        File wavFile = ServiceLocator.getInstance().getFileWithUniqueName(
-                getWavFilesFolder(), "play_", ".wav");
-        item.write(wavFile);
-        AppServerAdminClient client = ServiceLocator.getInstance(
-                ).getAppServerAdminClient();
-        client.setWavFileName(wavFile.getPath());
+        final File warFile = ServiceLocator.getInstance()
+                .getTempFileWithUniqueName("temp_", ".war");
+        item.write(warFile);
+        item.delete();
+        final AppServerAdminClient client = ServiceLocator.getInstance()
+                .getAppServerAdminClient();
+        client.setVoiceXMLApplication(warFile.getPath());
     }
 }

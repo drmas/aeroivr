@@ -28,8 +28,10 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Properties;
+
 import org.aeroivr.appserver.admin.AppServerShutdownThread;
 import org.aeroivr.appserver.admin.ServerAdmin;
+
 //import org.aeroivr.appserver.h323.H323Application;
 //import org.aeroivr.appserver.h323.OpenH323;
 
@@ -39,8 +41,8 @@ import org.aeroivr.appserver.admin.ServerAdmin;
  */
 public class ServiceLocator {
 
-    private static volatile ServiceLocator serviceLocator =
-            new ServiceLocator();
+    private static volatile ServiceLocator serviceLocator
+        = new ServiceLocator();
 
     private ServiceLocator() {
     }
@@ -62,29 +64,29 @@ public class ServiceLocator {
         return LocateRegistry.getRegistry(port);
     }
 
-//    public H323Application getH323Application() {
-//        return new H323Application();
-//    }
+    // public H323Application getH323Application() {
+    // return new H323Application();
+    // }
 
     public Runtime getRuntime() {
         return Runtime.getRuntime();
     }
 
     public AppServerShutdownThread getAppServerShutdownThread(
-            final ServerAdmin serverAdmin) {
+    final ServerAdmin serverAdmin) {
         return new AppServerShutdownThread(serverAdmin);
     }
 
-//    public OpenH323 getOpenH323() {
-//        return new OpenH323();
-//    }
+    // public OpenH323 getOpenH323() {
+    // return new OpenH323();
+    // }
 
     public Settings getSettings() {
         return Settings.getInstance();
     }
 
     public InputStream getFileAsInputStream(final String fileName)
-        throws FileNotFoundException {
+    throws FileNotFoundException {
 
         return new FileInputStream(fileName);
     }
@@ -94,7 +96,7 @@ public class ServiceLocator {
     }
 
     public OutputStream getFileAsOutputStream(final String fileName)
-        throws FileNotFoundException {
+    throws FileNotFoundException {
 
         return new FileOutputStream(fileName);
     }

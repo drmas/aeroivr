@@ -60,15 +60,16 @@ public class MasterPageView extends AbstractView {
         setValue(SHOW_MENU, value);
     }
 
+    @Override
     protected String getHtmlFileName() {
         return "masterPage.html";
     }
 
     public void setErrors(final List<String> errors) {
-        StringBuilder html = new StringBuilder();
+        final StringBuilder html = new StringBuilder();
         if ((null != errors) && (0 < errors.size())) {
             setValue(WERE_ERRORS, true);
-            for (String error : errors) {
+            for (final String error : errors) {
                 html.append("<li/> " + error);
             }
             setValue(ERRORS, html.toString());

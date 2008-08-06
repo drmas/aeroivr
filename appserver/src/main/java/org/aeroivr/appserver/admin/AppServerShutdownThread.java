@@ -28,17 +28,18 @@ import java.rmi.RemoteException;
  */
 public class AppServerShutdownThread extends Thread {
 
-    private ServerAdmin serverAdmin;
+    private final ServerAdmin serverAdmin;
 
     public AppServerShutdownThread(final ServerAdmin srvAdmin) {
         this.serverAdmin = srvAdmin;
     }
 
+    @Override
     public void run() {
         if (null != serverAdmin) {
             try {
                 serverAdmin.stopAppServer();
-            } catch (RemoteException ex) {
+            } catch (final RemoteException ex) {
                 ex.printStackTrace();
             }
         }

@@ -18,15 +18,18 @@
 
 package org.aeroivr.rsmc.web.security;
 
-import junit.framework.TestCase;
-import javax.servlet.http.HttpSession;
-import org.easymock.IMocksControl;
+import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.expectLastCall;
 import static org.easymock.classextension.EasyMock.createNiceControl;
-import static org.easymock.classextension.EasyMock.expectLastCall;
-import static org.easymock.classextension.EasyMock.eq;
+
+import javax.servlet.http.HttpSession;
+
+import junit.framework.TestCase;
+
+import org.easymock.IMocksControl;
 
 /**
- *
+ * 
  * @author Andriy Petlyovanyy
  */
 public class WebSecurityManagerTest extends TestCase {
@@ -43,7 +46,7 @@ public class WebSecurityManagerTest extends TestCase {
         sessionMock.setAttribute(eq(WebSecurityManager.USERNAME), eq(username));
         control.replay();
 
-        WebSecurityManager securityManager = new WebSecurityManager(
+        final WebSecurityManager securityManager = new WebSecurityManager(
                 sessionMock);
         securityManager.setLoggedInUsername(username);
 
@@ -56,17 +59,15 @@ public class WebSecurityManagerTest extends TestCase {
         final String username = "testUserName";
 
         sessionMock.getAttribute(eq(WebSecurityManager.USERNAME));
-        expectLastCall().andReturn(username).once()
-            .andReturn(null).once();
+        expectLastCall().andReturn(username).once().andReturn(null).once();
 
         control.replay();
 
-        WebSecurityManager securityManager = new WebSecurityManager(
+        final WebSecurityManager securityManager = new WebSecurityManager(
                 sessionMock);
-        assertTrue("User should be logged in",
-                securityManager.isLoggedIn());
-        assertFalse("User should not be logged in",
-                securityManager.isLoggedIn());
+        assertTrue("User should be logged in", securityManager.isLoggedIn());
+        assertFalse("User should not be logged in", securityManager
+                .isLoggedIn());
 
         control.verify();
     }
@@ -80,11 +81,10 @@ public class WebSecurityManagerTest extends TestCase {
         expectLastCall().andReturn(username).atLeastOnce();
         control.replay();
 
-        WebSecurityManager securityManager = new WebSecurityManager(
+        final WebSecurityManager securityManager = new WebSecurityManager(
                 sessionMock);
-        assertEquals("Username should be equal",
-                securityManager.getLoggedInUsername(),
-                username);
+        assertEquals("Username should be equal", securityManager
+                .getLoggedInUsername(), username);
 
         control.verify();
     }

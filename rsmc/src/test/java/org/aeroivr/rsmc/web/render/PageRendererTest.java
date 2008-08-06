@@ -18,17 +18,20 @@
 
 package org.aeroivr.rsmc.web.render;
 
+import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.expectLastCall;
+import static org.easymock.classextension.EasyMock.createNiceControl;
+
 import java.io.IOException;
+
 import junit.framework.TestCase;
+
 import org.aeroivr.rsmc.web.view.AbstractView;
 import org.aeroivr.rsmc.web.view.MasterPageView;
-import static org.easymock.classextension.EasyMock.createNiceControl;
-import static org.easymock.classextension.EasyMock.expectLastCall;
-import static org.easymock.classextension.EasyMock.eq;
 import org.easymock.classextension.IMocksControl;
 
 /**
- *
+ * 
  * @author Andriy Petlyovanyy
  */
 public class PageRendererTest extends TestCase {
@@ -40,8 +43,8 @@ public class PageRendererTest extends TestCase {
     public void testRenderContent() throws IOException {
 
         final IMocksControl control = createNiceControl();
-        final MasterPageView masterPageViewMock = control.createMock(
-                MasterPageView.class);
+        final MasterPageView masterPageViewMock = control
+                .createMock(MasterPageView.class);
         final AbstractView viewMock = control.createMock(AbstractView.class);
         final String innerContent = "test inner content";
         final String content = "out " + innerContent;
@@ -62,8 +65,7 @@ public class PageRendererTest extends TestCase {
         final PageRenderer pageRenderer = new PageRenderer(masterPageViewMock,
                 viewMock);
         final String renderResult = pageRenderer.renderContent();
-        assertEquals("Rendering result should be equal",
-                renderResult, content);
+        assertEquals("Rendering result should be equal", renderResult, content);
 
         control.verify();
     }

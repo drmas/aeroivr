@@ -20,11 +20,13 @@ package org.aeroivr.rsmc.web.view;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import junit.framework.TestCase;
+
 import org.aeroivr.rsmc.common.TestConstants;
 
 /**
- *
+ * 
  * @author Andriy Petlyovanyy
  */
 public class ChangePasswordViewTest extends TestCase {
@@ -38,15 +40,12 @@ public class ChangePasswordViewTest extends TestCase {
         parameters.put(ChangePasswordView.CHANGE_BUTTON,
                 ChangePasswordView.CHANGE_BUTTON);
         ChangePasswordView view = new ChangePasswordView(
-                TestConstants.VIEWS_FOLDER,
-                parameters);
+                TestConstants.VIEWS_FOLDER, parameters);
 
         assertTrue("Button was pressed", view.wasChangeButtonPressed());
 
-        view = new ChangePasswordView(TestConstants.VIEWS_FOLDER,
-                new HashMap());
-        assertTrue("Button wasn\'t pressed",
-                !view.wasChangeButtonPressed());
+        view = new ChangePasswordView(TestConstants.VIEWS_FOLDER, new HashMap());
+        assertTrue("Button wasn\'t pressed", !view.wasChangeButtonPressed());
     }
 
     public void testGetNewPassword() {
@@ -56,13 +55,11 @@ public class ChangePasswordViewTest extends TestCase {
         parameters.put(ChangePasswordView.NEW_PASSWORD, testPassword);
 
         ChangePasswordView view = new ChangePasswordView(
-                TestConstants.VIEWS_FOLDER,
-                parameters);
+                TestConstants.VIEWS_FOLDER, parameters);
         assertEquals("Password should be set", view.getNewPassword(),
                 testPassword);
 
-        view = new ChangePasswordView(TestConstants.VIEWS_FOLDER,
-                new HashMap());
+        view = new ChangePasswordView(TestConstants.VIEWS_FOLDER, new HashMap());
         assertNull("Password should be null", view.getNewPassword());
     }
 
@@ -73,13 +70,11 @@ public class ChangePasswordViewTest extends TestCase {
         parameters.put(ChangePasswordView.CONFIRM_PASSWORD, testPassword);
 
         ChangePasswordView view = new ChangePasswordView(
-                TestConstants.VIEWS_FOLDER,
-                parameters);
+                TestConstants.VIEWS_FOLDER, parameters);
         assertEquals("Password should be set", view.getConfirmPassword(),
                 testPassword);
 
-        view = new ChangePasswordView(TestConstants.VIEWS_FOLDER,
-                new HashMap());
+        view = new ChangePasswordView(TestConstants.VIEWS_FOLDER, new HashMap());
         assertNull("Password should be null", view.getConfirmPassword());
     }
 
@@ -90,13 +85,11 @@ public class ChangePasswordViewTest extends TestCase {
         parameters.put(ChangePasswordView.OLD_PASSWORD, testPassword);
 
         ChangePasswordView view = new ChangePasswordView(
-                TestConstants.VIEWS_FOLDER,
-                parameters);
+                TestConstants.VIEWS_FOLDER, parameters);
         assertEquals("Password should be set", view.getOldPassword(),
                 testPassword);
 
-        view = new ChangePasswordView(TestConstants.VIEWS_FOLDER,
-                new HashMap());
+        view = new ChangePasswordView(TestConstants.VIEWS_FOLDER, new HashMap());
         assertNull("Password should be null", view.getOldPassword());
     }
 

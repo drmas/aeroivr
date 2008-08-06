@@ -18,24 +18,21 @@
 
 package org.aeroivr.rsmc.web.controller;
 
+import static org.easymock.EasyMock.and;
+import static org.easymock.EasyMock.contains;
+import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.expectLastCall;
+
 import org.aeroivr.appserver.admin.AppServerConstants;
 import org.aeroivr.rsmc.common.ServiceLocator;
-import org.aeroivr.rsmc.web.controller.
-        AbstractPageControllerTest.PageGetTestParameters;
-import org.aeroivr.rsmc.web.controller.
-        AbstractPageControllerTest.PagePostTestParameters;
 import org.aeroivr.rsmc.web.view.ChangePasswordView;
-import static org.easymock.classextension.EasyMock.expectLastCall;
-import static org.easymock.classextension.EasyMock.eq;
-import static org.easymock.classextension.EasyMock.contains;
-import static org.easymock.classextension.EasyMock.and;
 
 /**
- *
+ * 
  * @author Andriy Petlyovanyy
  */
-public class ChangePasswordPageControllerTest
-        extends AbstractSecurePageControllerTest {
+public class ChangePasswordPageControllerTest extends
+        AbstractSecurePageControllerTest {
 
     public ChangePasswordPageControllerTest(final String testName) {
         super(testName);
@@ -43,22 +40,21 @@ public class ChangePasswordPageControllerTest
 
     public void testGetHeader() {
 
-        ChangePasswordPageController pageController =
-                new ChangePasswordPageController();
+        final ChangePasswordPageController pageController = new ChangePasswordPageController();
 
-        assertEquals("Header should contain appropriate text",
-                pageController.getHeader(), "Change administrator's password");
+        assertEquals("Header should contain appropriate text", pageController
+                .getHeader(), "Change administrator's password");
     }
 
     public void testPageGet() throws Exception {
 
-        PageGetTestParameters<ChangePasswordPageController> testParams =
-                new PageGetTestParameters<ChangePasswordPageController>();
+        final PageGetTestParameters<ChangePasswordPageController> testParams = new PageGetTestParameters<ChangePasswordPageController>();
 
         pageGetInitTest(ChangePasswordPageController.class, testParams);
 
-        testParams.getPrintWriterMock().print(and(and(contains("oldPassword"),
-                contains("newPassword")), contains("confirmPassword")));
+        testParams.getPrintWriterMock().print(
+                and(and(contains("oldPassword"), contains("newPassword")),
+                        contains("confirmPassword")));
         expectLastCall().once();
 
         testParams.getControl().replay();
@@ -71,8 +67,7 @@ public class ChangePasswordPageControllerTest
 
     public void testPagePostWithCorrectInputData() throws Exception {
 
-        PagePostTestParameters<ChangePasswordPageController> testParams =
-                new PagePostTestParameters<ChangePasswordPageController>();
+        final PagePostTestParameters<ChangePasswordPageController> testParams = new PagePostTestParameters<ChangePasswordPageController>();
         pagePostInitTest(ChangePasswordPageController.class, testParams);
 
         testParams.getResponseMock().getWriter();
@@ -108,8 +103,7 @@ public class ChangePasswordPageControllerTest
 
     public void testPagePostWithNotMatchingConfirmPassord() throws Exception {
 
-        PagePostTestParameters<ChangePasswordPageController> testParams =
-                new PagePostTestParameters<ChangePasswordPageController>();
+        final PagePostTestParameters<ChangePasswordPageController> testParams = new PagePostTestParameters<ChangePasswordPageController>();
         pagePostInitTest(ChangePasswordPageController.class, testParams);
 
         testParams.getResponseMock().getWriter();
@@ -127,8 +121,8 @@ public class ChangePasswordPageControllerTest
         testParams.getParameters().put(ChangePasswordView.CHANGE_BUTTON,
                 ChangePasswordView.CHANGE_BUTTON);
 
-        testParams.getControllerMock().setError(eq("Confirm password should "
-                + "match new password"));
+        testParams.getControllerMock().setError(
+                eq("Confirm password should " + "match new password"));
         expectLastCall().once();
 
         testParams.getControl().replay();

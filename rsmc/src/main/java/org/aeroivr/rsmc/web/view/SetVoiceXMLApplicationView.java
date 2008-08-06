@@ -1,5 +1,5 @@
 /*
- * SetWavFileView.java
+ * SetVoiceXMLApplicationView.java
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -23,13 +23,14 @@ package org.aeroivr.rsmc.web.view;
  *
  * @author Andriy Petlyovanyy
  */
-public class SetWavFileView extends AbstractView {
+public class SetVoiceXMLApplicationView extends AbstractView {
 
-    public SetWavFileView(final String viewsFolder) {
+    public SetVoiceXMLApplicationView(final String viewsFolder) {
         super(viewsFolder);
     }
 
+    @Override
     protected String getHtmlFileName() {
-        return "setWavFile.html";
+        return "setVoiceXMLApplication.html";
     }
 }

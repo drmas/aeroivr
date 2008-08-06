@@ -21,7 +21,7 @@ package org.aeroivr.rsmc.web.view;
 import java.util.Map;
 
 /**
- *  View for change password page.
+ * View for change password page.
  *
  * @author Andriy Petlyovanyy
  */
@@ -41,6 +41,7 @@ public class ChangePasswordView extends AbstractView {
                 CONFIRM_PASSWORD, CHANGE_BUTTON);
     }
 
+    @Override
     protected String getHtmlFileName() {
         return "changePassword.html";
     }
@@ -57,7 +58,7 @@ public class ChangePasswordView extends AbstractView {
         return (String) getValue(NEW_PASSWORD);
     }
 
-   public String getConfirmPassword() {
-       return (String) getValue(CONFIRM_PASSWORD);
-   }
+    public String getConfirmPassword() {
+        return (String) getValue(CONFIRM_PASSWORD);
+    }
 }

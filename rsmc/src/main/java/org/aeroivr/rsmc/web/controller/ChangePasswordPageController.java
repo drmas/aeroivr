@@ -19,6 +19,7 @@
 package org.aeroivr.rsmc.web.controller;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,42 +43,41 @@ public class ChangePasswordPageController extends BaseSecurePageController {
 
     @Override
     protected void pageGet(final HttpServletRequest request,
-            final HttpServletResponse response)
-            throws ServletException, IOException {
+            final HttpServletResponse response) throws ServletException,
+            IOException {
 
-        final ChangePasswordView view = ServiceLocator.getInstance(
-                ).getChangePasswordView(getViewsFolder());
+        final ChangePasswordView view = ServiceLocator.getInstance()
+                .getChangePasswordView(getViewsFolder());
         renderView(request, response, view);
     }
 
     @Override
     protected void pagePost(final HttpServletRequest request,
-            final HttpServletResponse response)
-            throws ServletException, IOException {
+            final HttpServletResponse response) throws ServletException,
+            IOException {
 
-        final ChangePasswordView view = ServiceLocator.getInstance(
-                ).getChangePasswordView(getViewsFolder(),
-                request.getParameterMap());
+        final ChangePasswordView view = ServiceLocator.getInstance()
+                .getChangePasswordView(getViewsFolder(),
+                        request.getParameterMap());
         if (view.wasChangeButtonPressed()) {
-            WebSecurityManager securityManager = ServiceLocator.getInstance(
-                    ).getWebSecurityManager(request.getSession());
+            final WebSecurityManager securityManager = ServiceLocator
+                    .getInstance().getWebSecurityManager(request.getSession());
             AppServerAdminClient client;
             try {
                 client = ServiceLocator.getInstance().getAppServerAdminClient();
-            } catch (Exception ex) {
+            } catch (final Exception ex) {
                 throw new ServletException("Error during connection to "
                         + "AppServer admin", ex);
             }
 
-            if (((null == view.getNewPassword())
-                    && (null == view.getConfirmPassword()))
-                    || ((null != view.getNewPassword())
-                    && (0 == view.getNewPassword().compareTo(
-                            view.getConfirmPassword())))) {
+            if (((null == view.getNewPassword()) && (null == view
+                    .getConfirmPassword()))
+                    || ((null != view.getNewPassword()) && (0 == view
+                            .getNewPassword().compareTo(
+                                    view.getConfirmPassword())))) {
 
-                if (client.areCredentialsValid(
-                        securityManager.getLoggedInUsername(),
-                        view.getOldPassword())) {
+                if (client.areCredentialsValid(securityManager
+                        .getLoggedInUsername(), view.getOldPassword())) {
                     client.changeAdminPassword(view.getNewPassword());
 
                 } else {

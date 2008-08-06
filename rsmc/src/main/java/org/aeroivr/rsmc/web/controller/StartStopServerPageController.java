@@ -19,9 +19,11 @@
 package org.aeroivr.rsmc.web.controller;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.aeroivr.rsmc.admin.AppServerAdminClient;
 import org.aeroivr.rsmc.common.ServiceLocator;
 import org.aeroivr.rsmc.web.view.StartStopServerView;
@@ -43,15 +45,15 @@ public class StartStopServerPageController extends BaseSecurePageController {
 
     @Override
     protected void pageGet(final HttpServletRequest request,
-            final HttpServletResponse response)
-            throws ServletException, IOException {
+            final HttpServletResponse response) throws ServletException,
+            IOException {
 
-        StartStopServerView view = ServiceLocator.getInstance(
-                ).getStartStopServerView(getViewsFolder());
+        final StartStopServerView view = ServiceLocator.getInstance()
+                .getStartStopServerView(getViewsFolder());
         AppServerAdminClient client;
         try {
             client = ServiceLocator.getInstance().getAppServerAdminClient();
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             throw new ServletException("Error during connection to "
                     + "AppServer admin", ex);
         }
@@ -61,16 +63,16 @@ public class StartStopServerPageController extends BaseSecurePageController {
 
     @Override
     protected void pagePost(final HttpServletRequest request,
-            final HttpServletResponse response)
-            throws ServletException, IOException {
+            final HttpServletResponse response) throws ServletException,
+            IOException {
 
-        StartStopServerView view = ServiceLocator.getInstance(
-                ).getStartStopServerView(getViewsFolder(),
-                request.getParameterMap());
+        final StartStopServerView view = ServiceLocator.getInstance()
+                .getStartStopServerView(getViewsFolder(),
+                        request.getParameterMap());
         AppServerAdminClient client;
         try {
             client = ServiceLocator.getInstance().getAppServerAdminClient();
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             throw new ServletException("Error during connection to "
                     + "AppServer admin", ex);
         }

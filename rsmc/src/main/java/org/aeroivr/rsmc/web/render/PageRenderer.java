@@ -19,6 +19,7 @@
 package org.aeroivr.rsmc.web.render;
 
 import java.io.IOException;
+
 import org.aeroivr.rsmc.web.view.AbstractView;
 import org.aeroivr.rsmc.web.view.MasterPageView;
 
@@ -29,8 +30,8 @@ import org.aeroivr.rsmc.web.view.MasterPageView;
  */
 public class PageRenderer {
 
-    private MasterPageView masterPageView;
-    private AbstractView innerView;
+    private final MasterPageView masterPageView;
+    private final AbstractView innerView;
 
     public PageRenderer(final MasterPageView mstrPageView,
             final AbstractView innrView) {
