@@ -22,20 +22,13 @@ import java.io.File;
 
 /**
  * Constans for tests.
- * 
+ *
  * @author Andriy Petlyovanyy
  */
 public final class TestConstants {
 
-    /*
-     * Value of the constant is tried to read from system property (to support
-     * build from Ant tasks where paths are a bit different) if there is no such
-     * system property then we are in IDE and get Web folder path. CHANGE THIS
-     * DUE TO MAVEN USAGE !!!
-     */
-    public static final String VIEWS_FOLDER = System
-            .getProperty("aeroivr.web.folder", new File("src/main/webapp")
-                    .getAbsolutePath());
+    public static final String VIEWS_FOLDER = new File("src/main/webapp")
+            .getAbsolutePath();
     public static final String SERVLET_CONTEXT_PATH = "/RSMC/";
 
     protected TestConstants() {

@@ -89,11 +89,12 @@ public class ServerAdmin extends UnicastRemoteObject implements
     }
 
     @Override
-    public void setVoiceXMLApplication(final String tempWarFileName)
-            throws IOException {
+    public void setVoiceXMLApplication(final String webAppFolderPath,
+            final String tempWarFileName) throws IOException {
 
-        final Settings settings = ServiceLocator.getInstance().getSettings();
-        FileUtils.moveFile(tempWarFileName, settings
-                .getVoiceXmlApplicationFileName(), true);
+        final String voiceXmlAppWarFile = FileUtils.concatenatePath(
+                webAppFolderPath, AppServerConstants.VOICEXML_APP_NAME
+                + ".war");
+        FileUtils.moveFile(tempWarFileName, voiceXmlAppWarFile, true);
     }
 }

@@ -119,8 +119,11 @@ public class SetVoiceXMLApplicationPageController extends
                 .getTempFileWithUniqueName("temp_", ".war");
         item.write(warFile);
         item.delete();
+        final File rsmcServletFolder = ServiceLocator.getInstance().getFile(
+                getServletContext().getRealPath("/"));
         final AppServerAdminClient client = ServiceLocator.getInstance()
                 .getAppServerAdminClient();
-        client.setVoiceXMLApplication(warFile.getPath());
+        client.setVoiceXMLApplication(rsmcServletFolder.getParent(),
+                warFile.getPath());
     }
 }

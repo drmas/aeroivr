@@ -24,8 +24,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
 
-import org.aeroivr.utils.FileUtils;
-
 /**
  * Class provides persistense and access to system wide settings from the
  * settings file.
@@ -40,7 +38,6 @@ public class Settings {
     protected static final String SETTINGS_FILE_NAME = "settings.properties";
     protected static final String WEB_APP_FOLDER = "web.app.folder";
     protected static final String ADMIN_PASSWORD = "admin.password";
-    protected static final String VOICEXML_APP_NAME = "VoiceXmlApp.war";
 
     protected Settings() {
         try {
@@ -80,18 +77,6 @@ public class Settings {
         if (null != properties) {
             properties.store(outputFile, "");
         }
-    }
-
-    public String getWebAppFolder() {
-        return properties.getProperty(WEB_APP_FOLDER, "");
-    }
-
-    public void setWebAppFolder(final String folderName) {
-        properties.setProperty(WEB_APP_FOLDER, folderName);
-    }
-
-    public String getVoiceXmlApplicationFileName() {
-        return FileUtils.concatenatePath(getWebAppFolder(), VOICEXML_APP_NAME);
     }
 
     public String getAdminPassword() {

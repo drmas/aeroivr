@@ -23,7 +23,7 @@ import junit.framework.TestCase;
 /**
  * Base test class which will be able to restore service locator after each
  * test.
- * 
+ *
  * @author Andriy Petlyovanyy
  */
 public abstract class AbstractServiceLocatorTest extends TestCase {
