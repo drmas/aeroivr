@@ -27,16 +27,15 @@ import java.lang.reflect.Method;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
 
-import junit.framework.TestCase;
-
+import org.aeroivr.appserver.common.AbstractServiceLocatorTest;
 import org.aeroivr.appserver.common.ServiceLocator;
 import org.easymock.classextension.IMocksControl;
 
 /**
- * 
+ *
  * @author Andriy Petlyovanyy
  */
-public class ApplicationServerTest extends TestCase {
+public class ApplicationServerTest extends AbstractServiceLocatorTest {
 
     public ApplicationServerTest(final String testName) {
         super(testName);
