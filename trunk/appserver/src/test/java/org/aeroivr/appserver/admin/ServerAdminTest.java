@@ -27,39 +27,33 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.rmi.RemoteException;
 
-import junit.framework.TestCase;
-
+import org.aeroivr.appserver.common.AbstractServiceLocatorTest;
 import org.aeroivr.appserver.common.ServiceLocator;
 import org.aeroivr.appserver.common.Settings;
 import org.easymock.classextension.IMocksControl;
 
 /**
- * 
+ *
  * @author Andriy Petlyovanyy
  */
-public class ServerAdminTest extends TestCase {
+public class ServerAdminTest extends AbstractServiceLocatorTest {
 
     // private IMocksControl control;
     // private H323Application h323AppMock;
     // private ServiceLocator serviceLocator;
     // private ServiceLocator serviceLocatorMock;
     //
-    // public ServerAdminTest(final String testName) {
-    // super(testName);
-    // serviceLocator = ServiceLocator.getInstance();
-    // }
-    //
+
+     public ServerAdminTest(final String testName) {
+         super(testName);
+     }
+
     // protected void setUp() throws Exception {
     // control = createStrictControl();
     // h323AppMock = control.createMock(H323Application.class);
     // serviceLocatorMock = control.createMock(
     // ServiceLocator.class, new Method[] {
     // ServiceLocator.class.getMethod("getH323Application")});
-    // }
-    //
-    // protected void tearDown() throws Exception {
-    //
-    // ServiceLocator.load(serviceLocator);
     // }
     //
     // private void startApplicationServerSequence() {

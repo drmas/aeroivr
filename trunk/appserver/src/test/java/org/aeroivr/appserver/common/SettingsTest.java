@@ -32,15 +32,13 @@ import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.util.Properties;
 
-import junit.framework.TestCase;
-
 import org.easymock.classextension.IMocksControl;
 
 /**
- * 
+ *
  * @author Andriy Petlyovanyy
  */
-public class SettingsTest extends TestCase {
+public class SettingsTest extends AbstractServiceLocatorTest {
 
     private IMocksControl control;
     private Properties propertiesMock;

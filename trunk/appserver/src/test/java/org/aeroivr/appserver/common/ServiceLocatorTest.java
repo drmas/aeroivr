@@ -20,6 +20,8 @@ package org.aeroivr.appserver.common;
 
 import static org.easymock.classextension.EasyMock.createMock;
 
+import java.io.File;
+import java.io.IOException;
 import java.rmi.RemoteException;
 
 import junit.framework.TestCase;
@@ -28,7 +30,7 @@ import org.aeroivr.appserver.admin.AppServerConstants;
 import org.aeroivr.appserver.admin.ServerAdmin;
 
 /**
- * 
+ *
  * @author Andriy Petlyovanyy
  */
 public class ServiceLocatorTest extends TestCase {
@@ -42,7 +44,8 @@ public class ServiceLocatorTest extends TestCase {
 
     public void testLoadAndGetInstance() {
         try {
-            final ServiceLocator serviceLocatorMock = createMock(ServiceLocator.class);
+            final ServiceLocator serviceLocatorMock = createMock(
+                    ServiceLocator.class);
 
             ServiceLocator.load(serviceLocatorMock);
             final ServiceLocator currentServiceLocator = ServiceLocator
@@ -64,11 +67,6 @@ public class ServiceLocatorTest extends TestCase {
                 .getRmiRegistry(AppServerConstants.APP_SERVER_ADMIN_RMI_PORT));
     }
 
-    // public void testGetH323Application() {
-    // assertNotNull("H323 Application object should not be null",
-    // serviceLocator.getH323Application());
-    // }
-
     public void testGetRuntime() {
         assertNotNull("Runtime object should not be null", serviceLocator
                 .getRuntime());
@@ -80,39 +78,43 @@ public class ServiceLocatorTest extends TestCase {
                 serviceLocator.getAppServerShutdownThread(serverAdminMock));
     }
 
-    // public void testGetOpenH323() {
-    // assertNotNull("OpenH323 should not be null",
-    // serviceLocator.getOpenH323());
-    // }
-
     public void testGetSettings() {
         assertNotNull("Settings should not be null", serviceLocator
                 .getSettings());
     }
 
-    /*
-     * Imvestigate why these tests are broken under maven
-     * 
-     * public void testGetFileAsInputStream() throws IOException { File tempFile
-     * = File.createTempFile("tmp", ".tmp"); try {
-     * assertNotNull("FileStream should be created",
-     * serviceLocator.getFileAsInputStream( tempFile.getAbsolutePath())); }
-     * finally { tempFile.delete(); } }
-     * 
-     * public void testGetProperties() {
-     * assertNotNull("Properties object could not be null",
-     * serviceLocator.getProperties()); }
-     * 
-     * public void testGetFileAsOutputStream() throws IOException { File
-     * tempFile = File.createTempFile("tmp", ".tmp"); try {
-     * assertNotNull("FileStream should be created",
-     * serviceLocator.getFileAsOutputStream( tempFile.getAbsolutePath())); }
-     * finally { tempFile.delete(); } }
-     * 
-     * public void testGetFile() throws IOException { File tempFile =
-     * File.createTempFile("tmp", ".tmp"); try {
-     * assertNotNull("FileStream should be created",
-     * serviceLocator.getFile(tempFile.getAbsolutePath())); } finally {
-     * tempFile.delete(); } }
-     */
+      public void testGetFileAsInputStream() throws IOException {
+        File tempFile = File.createTempFile("tmp", ".tmp");
+        try {
+            assertNotNull("FileStream should be created", serviceLocator
+                    .getFileAsInputStream(tempFile.getAbsolutePath()));
+        } finally {
+            tempFile.delete();
+        }
+    }
+
+    public void testGetProperties() {
+        assertNotNull("Properties object could not be null", serviceLocator
+                .getProperties());
+    }
+
+    public void testGetFileAsOutputStream() throws IOException {
+        File tempFile = File.createTempFile("tmp", ".tmp");
+        try {
+            assertNotNull("FileStream should be created", serviceLocator
+                    .getFileAsOutputStream(tempFile.getAbsolutePath()));
+        } finally {
+            tempFile.delete();
+        }
+    }
+
+    public void testGetFile() throws IOException {
+        File tempFile = File.createTempFile("tmp", ".tmp");
+        try {
+            assertNotNull("FileStream should be created", serviceLocator
+                    .getFile(tempFile.getAbsolutePath()));
+        } finally {
+            tempFile.delete();
+        }
+    }
 }
