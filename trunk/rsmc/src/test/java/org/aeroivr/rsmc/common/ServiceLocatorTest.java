@@ -174,28 +174,40 @@ public class ServiceLocatorTest extends TestCase {
                 .getServletFileUpload());
     }
 
-    // public void testGetFileWithUniqueName() throws IOException {
-    //
-    // final File tempFile = serviceLocator.getFileWithUniqueName(
-    // "/", "temp", "tmp");
-    // try {
-    // assertNotNull("ServletFileUpload should not be null",
-    // tempFile);
-    // } finally {
-    // if (null != tempFile) {
-    // tempFile.delete();
-    // }
-    // }
-    // }
+    public void testGetFileWithUniqueName() throws IOException {
 
-    public void testGetSetWavFileView() {
+        final File tempFile = serviceLocator.getTempFileWithUniqueName(
+                "temp", "tmp");
+        try {
+            assertNotNull("Temp file should not be null",
+                    tempFile);
+        } finally {
+            if ((null != tempFile) && (tempFile.exists())) {
+                tempFile.delete();
+            }
+        }
+    }
 
-        assertNotNull("SetWavFileView should not be null", serviceLocator
-                .getSetVoiceXMLApplicationView(TestConstants.VIEWS_FOLDER));
+    public void testSetVoiceXMLApplicationView() {
+
+        assertNotNull("SetVoiceXMLApplicationView should not be null", 
+                serviceLocator.getSetVoiceXMLApplicationView(
+                    TestConstants.VIEWS_FOLDER));
     }
 
     public void testGetRmiRegistry() throws Exception {
         assertNotNull("Rmi Registry object should not be null", serviceLocator
                 .getRmiRegistry(AppServerConstants.APP_SERVER_ADMIN_RMI_PORT));
+    }
+    
+
+    public void testGetFile() throws IOException {
+        File tempFile = File.createTempFile("tmp", ".tmp");
+        try {
+            assertNotNull("FileStream should be created", serviceLocator
+                    .getFile(tempFile.getAbsolutePath()));
+        } finally {
+            tempFile.delete();
+        }
     }
 }

@@ -33,7 +33,9 @@
 
 package org.aeroivr.rsmc.web.controller;
 
+import java.io.File;
 import static org.easymock.EasyMock.and;
+import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.contains;
 import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expectLastCall;
@@ -46,7 +48,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 /**
- * 
+ *
  * @author Andriy Petlyovanyy
  */
 public class SetVoiceXMLApplicationPageControllerTest extends
@@ -81,56 +83,63 @@ public class SetVoiceXMLApplicationPageControllerTest extends
         testParams.getControl().verify();
     }
 
-    // public void testPagePostWithFile() throws Exception {
-    //
-    // PagePostTestParameters<SetVoiceXMLApplicationPageController> testParams =
-    // new PagePostTestParameters<SetVoiceXMLApplicationPageController>();
-    // pagePostInitTest(SetVoiceXMLApplicationPageController.class, testParams);
-    //
-    // testParams.getResponseMock().getWriter();
-    // expectLastCall().andReturn(testParams.getPrintWriterMock()).once();
-    //
-    // final ServletFileUpload servletFileUploadMock =
-    // testParams.getControl().createMock(ServletFileUpload.class);
-    //
-    // final List<FileItem> fileItems = new ArrayList<FileItem>();
-    // FileItem fileItemMock = testParams.getControl(
-    // ).createMock(FileItem.class);
-    //
-    // final File fileMock = testParams.getControl().createMock(File.class);
-    //
-    // fileItems.add(fileItemMock);
-    //
-    // testParams.getServiceLocatorMock().getServletFileUpload();
-    // expectLastCall().andReturn(servletFileUploadMock).once();
-    //
-    // servletFileUploadMock.parseRequest(testParams.getRequestMock());
-    // expectLastCall().andReturn(fileItems).once();
-    //
-    // fileItemMock.isFormField();
-    // expectLastCall().andReturn(false).once();
-    //
-    // fileItemMock.getContentType();
-    // expectLastCall().andReturn("audio/wav").once();
-    //
-    // testParams.getControllerMock().getServletContext();
-    // expectLastCall().andReturn(testParams.getServletContextMock()).once();
-    //
-    // testParams.getServletContextMock().getRealPath(eq("/WAV"));
-    // expectLastCall().andReturn(null).atLeastOnce();
-    //
-    // testParams.getServiceLocatorMock().getTempFileWithUniqueName(null,
-    // "play_", ".wav");
-    // expectLastCall().andReturn(fileMock).once();
-    //
-    // testParams.getControl().replay();
-    //
-    // ServiceLocator.load(testParams.getServiceLocatorMock());
-    // testParams.getControllerMock().doPost(testParams.getRequestMock(),
-    // testParams.getResponseMock());
-    //
-    // testParams.getControl().verify();
-    // }
+    public void testPagePostWithFile() throws Exception {
+
+        PagePostTestParameters<SetVoiceXMLApplicationPageController> testParams =
+                new PagePostTestParameters<SetVoiceXMLApplicationPageController>();
+        pagePostInitTest(SetVoiceXMLApplicationPageController.class, testParams);
+
+        testParams.getResponseMock().getWriter();
+        expectLastCall().andReturn(testParams.getPrintWriterMock()).once();
+
+        final ServletFileUpload servletFileUploadMock =
+                testParams.getControl().createMock(ServletFileUpload.class);
+
+        final List<FileItem> fileItems = new ArrayList<FileItem>();
+        FileItem fileItemMock = testParams.getControl().createMock(FileItem.class);
+
+        final File fileMock = testParams.getControl().createMock(File.class);
+        final File webAppFolderMock = testParams.getControl().createMock(
+                File.class);
+
+        fileItems.add(fileItemMock);
+
+        testParams.getServiceLocatorMock().getServletFileUpload();
+        expectLastCall().andReturn(servletFileUploadMock).once();
+
+        servletFileUploadMock.parseRequest(testParams.getRequestMock());
+        expectLastCall().andReturn(fileItems).once();
+
+        fileItemMock.isFormField();
+        expectLastCall().andReturn(false).once();
+
+        fileItemMock.getContentType();
+        expectLastCall().andReturn("application/x-zip-compressed").once();
+
+        testParams.getControllerMock().getServletContext();
+        expectLastCall().andReturn(testParams.getServletContextMock()).once();
+
+        testParams.getServletContextMock().getRealPath(eq("/"));
+        expectLastCall().andReturn(null).atLeastOnce();
+
+        testParams.getServiceLocatorMock().getTempFileWithUniqueName(
+                "temp_", ".war");
+        expectLastCall().andReturn(fileMock).once();
+
+        testParams.getServiceLocatorMock().getFile(null);
+        expectLastCall().andReturn(webAppFolderMock).once();
+
+        webAppFolderMock.getParent();
+        expectLastCall().andReturn("/").once();
+
+        testParams.getControl().replay();
+
+        ServiceLocator.load(testParams.getServiceLocatorMock());
+        testParams.getControllerMock().doPost(testParams.getRequestMock(),
+                testParams.getResponseMock());
+
+        testParams.getControl().verify();
+    }
 
     public void testPagePostWithIncompleteData() throws Exception {
 

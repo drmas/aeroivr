@@ -34,7 +34,7 @@ import org.aeroivr.rsmc.common.ServiceLocator;
 import org.easymock.classextension.IMocksControl;
 
 /**
- * 
+ *
  * @author Andriy Petlyovanyy
  */
 public class AppServerAdminClientTest extends TestCase {
@@ -155,21 +155,23 @@ public class AppServerAdminClientTest extends TestCase {
         control.verify();
     }
 
-    // public void testSetVoiceXMLApplication() throws Exception {
-    //
-    // final byte[] warFileContent = new byte[] {10, 25};
-    // appServerInterfaceMock.setVoiceXMLApplication(warFileContent);
-    //
-    // control.replay();
-    //
-    // ServiceLocator.load(serviceLocatorMock);
-    // try {
-    // AppServerAdminClient client = new AppServerAdminClient();
-    // client.setVoiceXMLApplication(warFileContent);
-    // } finally {
-    // ServiceLocator.load(serviceLocator);
-    // }
-    //
-    // control.verify();
-    // }
+    public void testSetVoiceXMLApplication() throws Exception {
+
+        final String warFilePath = "test.tmp";
+        final String webAppFolder = "/temp/tmp";
+        appServerInterfaceMock.setVoiceXMLApplication(webAppFolder,
+                warFilePath);
+
+        control.replay();
+
+        ServiceLocator.load(serviceLocatorMock);
+        try {
+            AppServerAdminClient client = new AppServerAdminClient();
+            client.setVoiceXMLApplication(webAppFolder, warFilePath);
+        } finally {
+            ServiceLocator.load(serviceLocator);
+        }
+
+        control.verify();
+    }
 }

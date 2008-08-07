@@ -68,9 +68,9 @@ public class AppServerAdminClient {
         remoteObject.changeAdminPassword(newPassword);
     }
 
-    public void setVoiceXMLApplication(final String tempWarFileName)
-            throws IOException {
+    public void setVoiceXMLApplication(final String webAppFolderPath,
+            final String tempWarFileName) throws IOException {
 
-        remoteObject.setVoiceXMLApplication(tempWarFileName);
+        remoteObject.setVoiceXMLApplication(webAppFolderPath, tempWarFileName);
     }
 }

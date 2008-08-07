@@ -159,4 +159,8 @@ public class ServiceLocator {
     public Registry getRmiRegistry(final int port) throws RemoteException {
         return LocateRegistry.getRegistry(port);
     }
+
+    public File getFile(final String fileName) {
+        return new File(fileName);
+    }
 }

@@ -43,7 +43,7 @@ import org.aeroivr.rsmc.common.TestConstants;
 import org.easymock.classextension.IMocksControl;
 
 /**
- * 
+ *
  * @author Andriy Petlyovanyy
  */
 public abstract class AbstractPageControllerTest extends TestCase {
@@ -334,7 +334,12 @@ public abstract class AbstractPageControllerTest extends TestCase {
                                 ServiceLocator.class
                                         .getMethod("getAppServerAdminClient"),
                                 ServiceLocator.class
-                                        .getMethod("getServletFileUpload") }));
+                                        .getMethod("getServletFileUpload"),
+                                ServiceLocator.class
+                                        .getMethod("getTempFileWithUniqueName",
+                                        String.class, String.class),
+                                ServiceLocator.class
+                                        .getMethod("getFile", String.class)}));
         testParams.setAppServerClientAdminMock(testParams.getControl()
                 .createMock(AppServerAdminClient.class));
     }

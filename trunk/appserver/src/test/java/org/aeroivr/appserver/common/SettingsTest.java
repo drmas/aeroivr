@@ -156,43 +156,6 @@ public class SettingsTest extends AbstractServiceLocatorTest {
                 .getInstance());
     }
 
-    // public void testGetWavFileName() throws IOException {
-    // final String wavFileName = "test.wav";
-    //
-    // loadSequence();
-    //
-    // expect(propertiesMock.getProperty(eq(settingsMock.WAV_FILE_NAME),
-    // eq(""))).andReturn(wavFileName).once();
-    //
-    // control.replay();
-    //
-    // ServiceLocator.load(serviceLocatorMock);
-    // settingsMock.loadSettings();
-    //
-    // assertEquals("Wav filename ", settingsMock.getWavFileName(),
-    // wavFileName);
-    //
-    // control.verify();
-    // }
-    //
-    // public void testSetWavFileName() throws IOException {
-    // final String wavFileName = "tempWAVFILE.wav";
-    //
-    // loadSequence();
-    //
-    // expect(propertiesMock.setProperty(eq(settingsMock.WAV_FILE_NAME),
-    // eq(wavFileName))).andReturn(wavFileName).once();
-    //
-    // control.replay();
-    //
-    // ServiceLocator.load(serviceLocatorMock);
-    // settingsMock.loadSettings();
-    //
-    // settingsMock.setWavFileName(wavFileName);
-    //
-    // control.verify();
-    // }
-
     public void testGetAdminPassword() throws IOException {
         final String adminPassword = "admPWD";
 

@@ -28,7 +28,7 @@ import junit.framework.TestCase;
 import org.easymock.IMocksControl;
 
 /**
- * 
+ *
  * @author Andriy Petlyovanyy
  */
 public class AppServerShutdownThreadTest extends TestCase {

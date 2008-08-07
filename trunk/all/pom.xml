@@ -28,6 +28,7 @@
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-checkstyle-plugin</artifactId>
               <configuration>
+                  <failsOnError>false</failsOnError>
                   <configLocation>${basedir}/../All/Checkstyle/checks.xml</configLocation>
               </configuration>
           </plugin>

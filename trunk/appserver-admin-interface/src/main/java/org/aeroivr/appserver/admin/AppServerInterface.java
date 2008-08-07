@@ -40,6 +40,6 @@ public interface AppServerInterface extends Remote {
 
     void changeAdminPassword(final String newPassword) throws IOException;
 
-    void setVoiceXMLApplication(final String tempWarFileName)
-            throws IOException;
+    void setVoiceXMLApplication(final String webAppFolderPath,
+            final String tempWarFileName) throws IOException;
 }

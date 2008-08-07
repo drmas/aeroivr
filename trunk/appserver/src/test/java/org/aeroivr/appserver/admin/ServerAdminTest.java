@@ -210,30 +210,19 @@ public class ServerAdminTest extends AbstractServiceLocatorTest {
         niceControl.verify();
     }
 
-    public void testVoiceXMLApplication() throws NoSuchMethodException,
+    public void testSetVoiceXMLApplication() throws NoSuchMethodException,
             IOException {
 
-        final IMocksControl niceControl = createNiceControl();
-        final ServiceLocator srvLocatorMock = niceControl.createMock(
-                ServiceLocator.class, new Method[] { ServiceLocator.class
-                        .getMethod("getSettings") });
-        final Settings settingsMock = niceControl.createMock(Settings.class);
         final File tempWarFile = File.createTempFile("test", "test");
-        final File destWarFile = File.createTempFile("test", "test");
+        final File destWarFile = new File(System.getProperty("java.io.tmpdir"),
+                AppServerConstants.VOICEXML_APP_NAME + ".war");
+        if (destWarFile.exists()) {
+            destWarFile.delete();
+        }
 
-        srvLocatorMock.getSettings();
-        expectLastCall().andReturn(settingsMock).atLeastOnce();
-
-        settingsMock.getVoiceXmlApplicationFileName();
-        expectLastCall().andReturn(destWarFile.getPath()).atLeastOnce();
-
-        niceControl.replay();
-
-        ServiceLocator.load(srvLocatorMock);
         final ServerAdmin serverAdmin = new ServerAdmin();
-        serverAdmin.setVoiceXMLApplication(tempWarFile.getPath());
-
-        niceControl.verify();
+        serverAdmin.setVoiceXMLApplication(destWarFile.getParent(),
+                tempWarFile.getPath());
 
         assertFalse(tempWarFile.exists());
         assertTrue(destWarFile.exists());

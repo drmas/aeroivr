@@ -29,6 +29,7 @@ public final class AppServerConstants {
     public static final String APP_SERVER_ADMIN_RMI_NAME =
         "AERO_IVR_APP_SERVER";
     public static final String ADMIN_USERNAME = "admin";
+    public static final String VOICEXML_APP_NAME = "VoiceXmlApp";
 
     private AppServerConstants() {
     }
