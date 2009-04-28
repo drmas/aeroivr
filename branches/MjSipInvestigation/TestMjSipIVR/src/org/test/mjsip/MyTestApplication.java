@@ -25,30 +25,6 @@ public class MyTestApplication {
 		// SipStack.debug_level = SipStack.LOG_LEVEL_UA;
 		SipStack.debug_level = 8;
 		SipProvider sipProvider = new SipProvider("127.0.0.1", 4242);
-		sipProvider.addSipProviderListener(new SipProviderListener() {
-
-			@Override
-			public void onReceivedMessage(SipProvider sip_provider,
-					Message message) {
-
-				System.out.println("onReceivedMessage ... message "
-						+ message.getMethodId().toString());
-			}
-		});
-		sipProvider.addSipProviderPromisqueListener(new SipProviderListener() {
-
-			@Override
-			public void onReceivedMessage(SipProvider sip_provider,
-					Message message) {
-
-				if (message.isInfo()) {
-					System.out
-							.println("Promisque onReceivedMessage ... message "
-									+ message.getMethodId().toString()
-									+ "\n body = " + message.getBody());
-				}
-			}
-		});
 
 		UserAgentProfile profile = new UserAgentProfile();
 		profile.audio = true;
@@ -60,7 +36,7 @@ public class MyTestApplication {
 		profile.bin_vic = "vic";
 		// profile.use_rat = true;
 		// profile.send_tone = true;
-		UserAgent userAgent = new UserAgent(sipProvider, profile,
+		final ExtendedUserAgent userAgent = new ExtendedUserAgent(sipProvider, profile,
 				new UserAgentListener() {
 
 					@Override
@@ -110,6 +86,39 @@ public class MyTestApplication {
 						System.out.println("onUaCallTrasferred ...");
 					}
 				});
+
+		sipProvider.addSipProviderListener(new SipProviderListener() {
+
+			@Override
+			public void onReceivedMessage(SipProvider sip_provider,
+					Message message) {
+
+				System.out.println("onReceivedMessage ... message "
+						+ message.getMethodId().toString());
+			}
+		});
+		sipProvider.addSipProviderPromisqueListener(new SipProviderListener() {
+
+			@Override
+			public void onReceivedMessage(SipProvider sip_provider,
+					Message message) {
+
+				if (message.isInfo()) {
+					System.out
+							.println("Promisque onReceivedMessage ... message "
+									+ message.getMethodId().toString()
+									+ "\n body = " + message.getBody());
+
+					if (message.getBody().indexOf("Signal=1") >= 0) {
+						userAgent.playAudioFile("H:/Projects/AeroIVR/Archive/Investigation/WAV/play.wav");
+					}
+					else {
+//						userAgent.playAudioFile("H:/Projects/AeroIVR/Archive/Investigation/WAV/sample.wav");
+					}
+				}
+			}
+		});
+
 		userAgent.listen();
 		System.out.println("Application ended ...");
 	}

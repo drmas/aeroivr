@@ -22,9 +22,9 @@ import local.ua.UserAgentProfile;
 import local.ua.VICLauncher;
 
 public class ExtendedUserAgent extends UserAgent {
-	
+
 	Log log;
-	
+
 
 	public ExtendedUserAgent(SipProvider sip_provider,
 			UserAgentProfile user_profile, UserAgentListener listener) {
@@ -109,7 +109,7 @@ public class ExtendedUserAgent extends UserAgent {
 				// JAudioLauncher(local_audio_port,remote_media_address
 				// ,remote_audio_port,dir,log);
 				audio_app = new FileAudioLauncher(local_audio_port,
-						remote_media_address, remote_audio_port, dir, 
+						remote_media_address, remote_audio_port, dir,
 						user_profile.audio_sample_rate,
 						user_profile.audio_sample_size,
 						user_profile.audio_frame_size, log);
@@ -151,6 +151,13 @@ public class ExtendedUserAgent extends UserAgent {
 				return;
 			}
 			video_app.startMedia();
+		}
+	}
+
+	public void playAudioFile(final String file_name) {
+		if ((null != audio_app) && (audio_app instanceof FileAudioLauncher)) {
+			FileAudioLauncher fileAudioLauncher = (FileAudioLauncher)audio_app;
+			fileAudioLauncher.addFileToPlay(file_name);
 		}
 	}
 
